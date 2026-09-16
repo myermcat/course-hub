@@ -6,7 +6,7 @@
 <title>GNG2101 Hub</title>
 <meta name="description" content="Course hub for GNG2101, Engineering Design, University of Ottawa. Deliverables, lab dates and the Adjustable Bed Canvas Holder project.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%235B3E8E'/%3E%3Cpath%20d='M20%2051%20L32%2018%20L44%2051'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Ccircle%20cx='32'%20cy='16'%20r='5'%20fill='%23fff'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../shared/hub.css">
 <style>
   :root{--accent:#5B3E8E;--lead:#4A3374}
@@ -51,24 +51,24 @@
   </section>
 
   <section>
-    <h2 id="deliverables">Deliverables</h2>
+    <div class="head-row"><h2 id="deliverables">Deliverables</h2><span class="meter" data-progress="#del-rows"></span></div>
     <p>One team member submits, as a PDF to Brightspace unless stated otherwise, and the whole team gets that mark. Each deliverable can be resubmitted once after feedback from the teaching assistant or project manager, inside a set window.</p>
 
     <div class="scroll">
       <table>
         <caption>Ten deliverables against the milestone that carries them</caption>
         <thead>
-          <tr><th>PD</th><th>Milestone</th><th>When</th><th>Weight</th></tr>
+          <tr><th class="tick"><span class="sr-only">Done</span></th><th>PD</th><th>Milestone</th><th>When</th><th>Weight</th></tr>
         </thead>
-        <tbody>
-          <tr><td class="pd">A</td><td>Project plan, and the team's own dates for everything below</td><td class="when"><b>Fri 18 Sept</b><br>Client meeting 1, lab 2</td><td class="wt">5</td></tr>
-          <tr><td class="pd">B and C</td><td>Client meeting 2</td><td class="when">Lab 4</td><td class="wt">10 and 5</td></tr>
-          <tr><td class="pd">D</td><td>Design review in class</td><td class="when">Lecture 10 or 11</td><td class="wt">13</td></tr>
-          <tr><td class="pd">E</td><td>Project progress presentation</td><td class="when">Lab 6</td><td class="wt">5</td></tr>
-          <tr><td class="pd">F</td><td>Client meeting 3</td><td class="when">Lab 7</td><td class="wt">10</td></tr>
-          <tr><td class="pd">G</td><td>Project work in class</td><td class="when">Lecture 19</td><td class="wt">7</td></tr>
-          <tr><td class="pd">H</td><td>Design day and client meeting 4</td><td class="when">Around lab 11</td><td class="wt">15</td></tr>
-          <tr><td class="pd">I and J</td><td>End of course</td><td class="when">End of course</td><td class="wt">5 and 10</td></tr>
+        <tbody id="del-rows">
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-a"></span></td><td class="pd">A</td><td>Project plan, and the team's own dates for everything below</td><td class="when"><b>Fri 18 Sept</b><br>Client meeting 1, lab 2</td><td class="wt">5</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-bc"></span></td><td class="pd">B and C</td><td>Client meeting 2</td><td class="when">Lab 4</td><td class="wt">10 and 5</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-d"></span></td><td class="pd">D</td><td>Design review in class</td><td class="when">Lecture 10 or 11</td><td class="wt">13</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-e"></span></td><td class="pd">E</td><td>Project progress presentation</td><td class="when">Lab 6</td><td class="wt">5</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-f"></span></td><td class="pd">F</td><td>Client meeting 3</td><td class="when">Lab 7</td><td class="wt">10</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-g"></span></td><td class="pd">G</td><td>Project work in class</td><td class="when">Lecture 19</td><td class="wt">7</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-h"></span></td><td class="pd">H</td><td>Design day and client meeting 4</td><td class="when">Around lab 11</td><td class="wt">15</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-ij"></span></td><td class="pd">I and J</td><td>End of course</td><td class="when">End of course</td><td class="wt">5 and 10</td></tr>
         </tbody>
       </table>
     </div>
@@ -82,27 +82,27 @@
   </section>
 
   <section>
-    <h2 id="labs">The B4 Saturday labs</h2>
+    <div class="head-row"><h2 id="labs">The B4 Saturday labs</h2><span class="meter" data-progress="#lab-rows"></span></div>
     <p>Attendance is graded. Five labs have work due at 14:30 on the Saturday, before the lab starts.</p>
 
     <div class="scroll">
       <table>
         <caption>Section B4, Saturdays 14:30 to 17:20, STM 119</caption>
         <thead>
-          <tr><th>Date</th><th>Lab</th><th>Due at 14:30 that day</th></tr>
+          <tr><th class="tick"><span class="sr-only">Done</span></th><th>Date</th><th>Lab</th><th>Due at 14:30 that day</th></tr>
         </thead>
-        <tbody>
-          <tr><td class="when">Sat 19 Sept</td><td>Lab 1, introduction and circuits</td><td class="wt">&mdash;</td></tr>
-          <tr><td class="when">Sat 26 Sept</td><td>Client meeting 1</td><td>Circuits</td></tr>
-          <tr><td class="when">Sat 3 Oct</td><td>Mill and lathe</td><td>Shop fundamentals pre-lab</td></tr>
-          <tr><td class="when">Sat 10 Oct</td><td>Client meeting 2</td><td>Mill and lathe</td></tr>
-          <tr><td class="when">Sat 17 Oct</td><td>Arduino and bill of materials</td><td class="wt">&mdash;</td></tr>
-          <tr><td class="when">Sat 24 Oct</td><td>Progress presentations</td><td>Arduino and bill of materials</td></tr>
-          <tr><td class="when">Sat 7 Nov</td><td>Soldering</td><td class="wt">&mdash;</td></tr>
-          <tr><td class="when">Sat 14 Nov</td><td>Client meeting 3</td><td>Soldering</td></tr>
-          <tr><td class="when">Sat 21 Nov</td><td>Project work</td><td class="wt">&mdash;</td></tr>
-          <tr><td class="when">Sat 28 Nov</td><td>Project work</td><td class="wt">&mdash;</td></tr>
-          <tr><td class="when">Sat 5 Dec</td><td>Project work, Design Day week</td><td class="wt">&mdash;</td></tr>
+        <tbody id="lab-rows">
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-09-19"></span></td><td class="when">Sat 19 Sept</td><td>Lab 1, introduction and circuits</td><td class="wt">&mdash;</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-09-26"></span></td><td class="when">Sat 26 Sept</td><td>Client meeting 1</td><td>Circuits</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-10-03"></span></td><td class="when">Sat 3 Oct</td><td>Mill and lathe</td><td>Shop fundamentals pre-lab</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-10-10"></span></td><td class="when">Sat 10 Oct</td><td>Client meeting 2</td><td>Mill and lathe</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-10-17"></span></td><td class="when">Sat 17 Oct</td><td>Arduino and bill of materials</td><td class="wt">&mdash;</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-10-24"></span></td><td class="when">Sat 24 Oct</td><td>Progress presentations</td><td>Arduino and bill of materials</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-11-07"></span></td><td class="when">Sat 7 Nov</td><td>Soldering</td><td class="wt">&mdash;</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-11-14"></span></td><td class="when">Sat 14 Nov</td><td>Client meeting 3</td><td>Soldering</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-11-21"></span></td><td class="when">Sat 21 Nov</td><td>Project work</td><td class="wt">&mdash;</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-11-28"></span></td><td class="when">Sat 28 Nov</td><td>Project work</td><td class="wt">&mdash;</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2026-12-05"></span></td><td class="when">Sat 5 Dec</td><td>Project work, Design Day week</td><td class="wt">&mdash;</td></tr>
         </tbody>
       </table>
     </div>

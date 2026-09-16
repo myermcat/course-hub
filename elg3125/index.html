@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELG3125 Hub</title>
+<meta name="description" content="Assignments, solutions and working backlog for ELG3125, Signal and System Analysis, University of Ottawa.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%231C5D93'/%3E%3Cpath%20d='M9%2032%20Q19%209%2029%2032%20T49%2032'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../shared/hub.css">
+<style>
+  :root{--accent:#1C5D93;--lead:#2A5273}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#6BB4E8;--lead:#95BFDC}}
+  :root[data-theme="dark"]{--accent:#6BB4E8;--lead:#95BFDC}
+</style>
+</head>
+<body data-store="elg3125">
+<div class="wrap">
+
+  <header>
+    <a class="uplink" href="../">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8H2M7 3L2 8l5 5"/></svg>
+      All four courses
+    </a>
+    <div class="eyebrow">ELG 3125 A00 &middot; uOttawa &middot; Fall 2026</div>
+    <h1>Signal and System Analysis</h1>
+    <p class="standfirst">The nine practice assignment sets, what each one covers, where its posted solution is, and what is worth doing next.</p>
+  </header>
+
+  <section>
+    <h2>The term at a glance</h2>
+    <div class="facts">
+      <div class="fact"><div class="k">Instructor</div><div class="v">Prof. Jianping Yao<br>Section A00</div></div>
+      <div class="fact"><div class="k">Lectures</div><div class="v">Tue 11:30 to 12:50, UCU AUD<br>Fri 13:00 to 14:20, CRX C240</div></div>
+      <div class="fact"><div class="k">Tutorial A04</div><div class="v">Fri 17:30 to 18:50, STE H0104<br>TA Yiran Guan</div></div>
+      <div class="fact"><div class="k">Midterm</div><div class="v"><b>Wed 21 Oct 2026</b><br>14:30 to 15:50, STE H0104</div></div>
+      <div class="fact"><div class="k">Textbook</div><div class="v">Oppenheim and Willsky, <i>Signals and Systems</i>, 2nd ed.</div></div>
+      <div class="fact"><div class="k">Marks</div><div class="v">Final 50 &middot; Midterm 25<br>Labs 15 &middot; Quizzes 10</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="head-row">
+      <h2 id="assignments">Assignments</h2>
+      <span class="meter" data-progress="#assignment-sets"></span>
+    </div>
+    <p>Chapter numbers and problem numbers refer to Oppenheim and Willsky. Every set now has its own problems page carrying the questions in full, so the textbook is needed for nothing on this table. Tick a row once its set is worked.</p>
+
+    <div class="scroll">
+      <table>
+        <caption>Nine sets, ten files, ordered as the course covers them</caption>
+        <thead>
+          <tr><th class="tick"><span class="sr-only">Done</span></th><th>Set</th><th>Problems</th><th>Ch</th><th>Topic</th><th>Questions</th><th>Solution</th></tr>
+        </thead>
+        <tbody id="assignment-sets">
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-1"></span></td>
+            <td class="num">1</td>
+            <td class="prob">1.21 (c)(d)(e)<br>1.22 (b)(d)(e)<br>1.23 (b) &middot; 1.24 (c)<br>1.25 (a)(c)(e)</td>
+            <td class="ch">1</td>
+            <td class="topic">Transformations of the independent variable: shifting and scaling</td>
+            <td class="src"><a href="pages/assignment-1.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_1.pdf">Solution 1</a></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-2"></span></td>
+            <td class="num">2</td>
+            <td class="prob">1.10 &middot; 1.11 &middot; 1.12<br>1.19 &middot; 1.25<br>1.26 &middot; 1.28</td>
+            <td class="ch">1</td>
+            <td class="topic">Periodicity, even and odd parts, energy and power, system properties</td>
+            <td class="src"><a href="pages/assignment-2.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_2.pdf">Solution 2</a><br><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_2.1.pdf">Solution 2.1</a></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-3"></span></td>
+            <td class="num">3</td>
+            <td class="prob">2.3 &middot; 2.6 &middot; 2.22<br>2.29 &middot; 2.33</td>
+            <td class="ch">2</td>
+            <td class="topic">Convolution and linear time-invariant systems</td>
+            <td class="src"><a href="pages/assignment-3.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution-ELG-3120-Assignment3.pdf">Solution 3</a></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-4"></span></td>
+            <td class="num">4</td>
+            <td class="prob">2.19<br>2.28 (b)(e)<br>2.29 (d)(f)<br>2.31 &middot; 2.32</td>
+            <td class="ch">2</td>
+            <td class="topic">Systems described by differential and difference equations</td>
+            <td class="src"><a href="pages/assignment-4.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution-ELG-3120-Assignment4.pdf">Solution 4</a></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-5"></span></td>
+            <td class="num">5</td>
+            <td class="prob">3.4 &middot; 3.5 &middot; 3.6<br>3.22 (b) &middot; 3.26<br>3.30 &middot; 3.31</td>
+            <td class="ch">3</td>
+            <td class="topic">Fourier series for periodic signals</td>
+            <td class="src"><a href="pages/assignment-5.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_5.pdf">Solution 5</a></td>
+          </tr>
+
+          <tr class="gate">
+            <td colspan="7">
+              <div class="g">
+                <span class="lbl">Midterm &middot; 25%</span>
+                <span class="det">Wednesday 21 October 2026, 14:30 to 15:50, STE H0104. Covers chapters 1 to 3, which is everything above this line.</span>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-6-1"></span></td>
+            <td class="num">6 (1)</td>
+            <td class="prob">4.1 &middot; 4.6 (a)(b)<br>4.19 &middot; 4.23 (b)(c)<br>4.26 (a)(i)(iii) &middot; 4.33</td>
+            <td class="ch">4</td>
+            <td class="topic">Continuous-time Fourier transform</td>
+            <td class="src"><a href="pages/assignment-6-1.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_6.pdf">Solution 6</a></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-6-2"></span></td>
+            <td class="num">6 (2)</td>
+            <td class="prob">5.1 &middot; 5.6 (a)(b)<br>5.13 &middot; 5.29 (a)<br>5.33 (a)(b)(c)</td>
+            <td class="ch">5</td>
+            <td class="topic">Discrete-time Fourier transform</td>
+            <td class="src"><a href="pages/assignment-6-2.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_6_2.pdf">Solution 6 (2)</a></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-7"></span></td>
+            <td class="num">7</td>
+            <td class="prob">3.19 &middot; 3.20<br>6.10 (b) &middot; 6.11 (a)<br>6.15 (a)(b)(c)</td>
+            <td class="ch">3, 6</td>
+            <td class="topic">Frequency response and filtering. The two chapter 3 problems ask for the Fourier transform method</td>
+            <td class="src"><a href="pages/assignment-7.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_7.pdf">Solution 7</a></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-8"></span></td>
+            <td class="num">8</td>
+            <td class="prob">7.3 &middot; 7.4 (c)(d)<br>7.6 &middot; 7.22 &middot; 7.30</td>
+            <td class="ch">7</td>
+            <td class="topic">Sampling and the sampling theorem</td>
+            <td class="src"><a href="pages/assignment-8.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_8.pdf">Solution 8</a></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assign-9"></span></td>
+            <td class="num">9</td>
+            <td class="prob">9.21 (b)(d)<br>9.22 (a)(b)(c)(d)(g)<br>9.28 &middot; 9.31 &middot; 9.35</td>
+            <td class="ch">9</td>
+            <td class="topic">Laplace transform and its properties</td>
+            <td class="src"><a href="pages/assignment-9.html">Problems</a></td>
+            <td class="src"><a href="https://www.site.uottawa.ca/~jpyao/courses/ELG3120_files/Solution_9.pdf">Solution 9</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <p><b>Sets 1 to 5 are the whole midterm syllabus.</b> The midterm covers chapters 1 to 3, and those five sets are every posted problem from those chapters. Problems 3.19 and 3.20 appear in set 7 and belong to chapter 3, so they are fair game for the midterm even though the set is scheduled later.</p>
+    </div>
+
+    <div class="note">
+      <p><b>None of this is handed in and none of it is worth marks.</b> Three things confirm it. The marking scheme already adds to 100 percent without them. Every set has its full solution posted beside it, which no graded work would. No due date appears anywhere on the course page.</p>
+      <p><b>The marks come from the Friday tutorial quiz.</b> Eleven quizzes run at the start of tutorial, the best ten count, and together they are worth 10 percent. Working the matching assignment set beforehand is the preparation for that quiz.</p>
+    </div>
+
+    <div class="note">
+      <p><b>A tick is written to the browser it was made in.</b> It survives a reload and a restart of that browser, it travels to no other computer and is sent nowhere, and clearing site data for this address removes it.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="course-backlog">Course backlog</h2>
+    <p>Coursework, ordered by what falls first.</p>
+    <div class="stack">
+      <div class="task now">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="work-assignment-1"></div>
+        <div class="b">
+          <div class="h">Work Assignment 1</div>
+          <div class="d">Problems 1.21 to 1.25 on shifting and scaling. Lecture 2 opened with the same exercise, so this is the material of the week. The questions are on its own page, reached from the table above.</div>
+          <span class="tag">Ready now</span>
+        </div>
+      </div>
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="work-assignment-2"></div>
+        <div class="b">
+          <div class="h">Work Assignment 2</div>
+          <div class="d">Periodicity, even and odd parts, energy and power, and the properties of systems. Covers the rest of chapter 1. Its questions are on the page linked beside it, so it starts the moment Assignment 1 is finished.</div>
+          <span class="tag">Ready now</span>
+        </div>
+      </div>
+      </div>
+  </section>
+
+  <section>
+    <h2 id="technical-backlog">Technical backlog</h2>
+    <p>Work on the files and the tooling, which serves the list above.</p>
+    <div class="stack">
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="get-oppenheim-and-willsky-2nd-edition"></div>
+        <div class="b">
+          <div class="h">Get Oppenheim and Willsky, 2nd edition</div>
+          <div class="d">In the course folder, second edition, ISBN 9780136511755. The problem index is built and verified: problem 1.21 is on printed page 59, which matches the pages scanned for Assignment 1. Printed page plus 22 gives the page in the file.</div>
+          <span class="tag">Done</span>
+          <details class="spec"><summary>What the search turned up</summary><div class="in">
+            <p>uOttawa Omni returns six results for the author and title. One is the book that matters: <b>Signals &amp; systems</b>, Oppenheim, Willsky and Nawab, 1997, on Reserve at Morisset plus other locations. A 1983 first edition with Young as third author is in the General Collection at QA 402 .O63 1983, and its problem numbering does not match what the assignments ask for.</p>
+            <p><b>There is no electronic copy through the library.</b> The only results offering online access are a 1985 journal review of the book and two unrelated book chapters. A 2015 printing shows as not available locally.</p>
+            <p>The route taken was a Reserve loan, with the problem pages for chapters 1 to 3 photographed first because those carry the midterm.</p>
+          </div></details>
+        </div>
+      </div>
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="build-a-problem-index-from-the-textbook"></div>
+        <div class="b">
+          <div class="h">Build a problem index from the textbook</div>
+          <div class="d">A script scanned the book for problem markers and recorded which page each numbered problem starts on, writing a small index file. Nothing from the book was read into a conversation during that step, so the index cost almost nothing to build and makes every later lookup a single page.</div>
+          <span class="tag">Done</span>
+          <details class="spec"><summary>How the index is built</summary><div class="in">
+            <p><b>The book is never read into a conversation.</b> A script walks the pages and writes a small table; the conversation only ever sees the handful of pages a given assignment needs.</p>
+            <ol>
+              <li>Extract text page by page with PyMuPDF. If the source is photographs, run optical character recognition first with <code>ocrmypdf</code>, which adds a searchable text layer without changing how the pages look.</li>
+              <li>Match problem markers at the start of a line, in the shape <code>^(\d+)\.(\d+)\.</code>, and record chapter, problem and page.</li>
+              <li>Write <code>Working files/problem-index.json</code> as a map from problem number to page.</li>
+              <li>Check the index against the five problem numbers already known from Assignment 1, which are on Oppenheim pages 59 to 61. If those come out right, the rest are trustworthy.</li>
+            </ol>
+            <p>A whole textbook is far too large to read directly. The index makes the cost independent of the size of the book.</p>
+          </div></details>
+        </div>
+      </div>
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="add-the-problem-text-to-the-assignments-table"></div>
+        <div class="b">
+          <div class="h">Add the problem text to the assignments table</div>
+          <div class="d">Every row in the table has a page of its own, ten in all, reached from the Questions column: the problem typed out, the figure it refers to, and the source page with the assigned parts ringed. The pages live in <code>pages/</code> beside the hub.</div>
+          <span class="tag">Done</span>
+          <details class="spec"><summary>Page format, and how problems get marked</summary><div class="in">
+            <p><b>Each problem appears twice, as typed text and as a picture, because neither alone is enough.</b> Typed text renders the mathematics properly, can be searched, and costs almost nothing to revisit. Many problems refer to a figure, such as Figure P1.21 in the first assignment, and a figure has to be an image.</p>
+            <ul>
+              <li><b>Typed statement.</b> The problem written out in the page, with the mathematics set properly. This is what reads first.</li>
+              <li><b>The figure</b> where one is referenced, cropped from the page and placed beside the statement.</li>
+              <li><b>The full source page</b> inside a closed toggle, with the assigned parts ringed, for checking against the original.</li>
+            </ul>
+            <p><b>Drawing the rings.</b> PyMuPDF searches a page for the problem label, for example <code>1.21</code>, which returns the rectangle holding it. Widening that rectangle to the column and adding <code>page.add_rect_annot</code> in the accent colour draws a ring around the problem. Rendering afterwards bakes the ring into the image. Only the assigned parts are ringed: for Assignment 1 that means 1.21 (c)(d)(e), 1.22 (b)(d)(e), 1.23 (b), 1.24 (c) and 1.25 (a)(c)(e), leaving the unassigned parts plain.</p>
+            <p><b>The marking was built and checked on the Assignment 1 scan first</b>, because those three pages were downloaded while the rest of the book was still being sourced.</p>
+          </div></details>
+        </div>
+      </div>
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="extract-transcripts-for-the-lecture-decks"></div>
+        <div class="b">
+          <div class="h">Extract transcripts for the lecture decks</div>
+          <div class="d">A plain text version of each deck is kept in <code>Working files</code> in the course folder and makes searching free. Rendered page images stay in reserve for the slides that carry equations, which is where extracted text goes wrong.</div>
+          <span class="tag">Per lecture</span>
+        </div>
+      </div>
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="build-one-course-hub-covering-all-four-courses"></div>
+        <div class="b">
+          <div class="h">Build one course hub covering all four courses</div>
+          <div class="d">One front page lists GNG2101, CEG3155, ELG3125 and PHI2394, in the card style the philosophy hub uses for its weeks. The design system moved into <code>shared/hub.css</code>, which every page in the repository imports, so no hub is built twice.</div>
+          <span class="tag">Done</span>
+          <details class="spec"><summary>Repository shape, shared design system, favicon</summary><div class="in">
+            <p><b>A new repository was built, leaving the philosophy one alone.</b> The repository <code>phi-reading-hub</code> already serves published pages at a URL that has been shared, its week 1 guide is a 285 KB page carrying saved highlights, and its browser storage keys are tied to that origin. Renaming it breaks the published address and every stored highlight. A new umbrella repository costs nothing, and philosophy is reached from it by a link.</p>
+            <p><b>The shape of the new repository, <code>course-hub</code>:</b></p>
+            <ul>
+              <li><code>index.html</code>, the front page, one card per course</li>
+              <li><code>shared/hub.css</code>, the design system every hub imports: colour tokens for light and dark, type scale, the card, the table, the task list, the footer</li>
+              <li><code>elg3125/</code>, <code>ceg3155/</code>, <code>gng2101/</code>, each its own hub page</li>
+              <li>The philosophy card links out to <code>myermcat.github.io/phi-reading-hub</code></li>
+              <li><code>.nojekyll</code>, so GitHub Pages serves the files untouched</li>
+            </ul>
+            <p><b>Extracting the shared stylesheet is the part that stops work being redone.</b> This page carried its own copy of the tokens and the components until it moved here, and the philosophy hub in its separate repository still carries one. A single file, imported by every page here, means a change to the card or the dark palette happens once. Each hub keeps only its own accent colour.</p>
+            <p><b>Everything on the repository that goes stale, to change in the same pass:</b> the repository description, the topics and tags, the README, the Pages source branch and folder, the social preview image, the About section website field, and any link in the course READMEs pointing at the old address.</p>
+            <p><b>Favicon.</b> One mark for the umbrella, then a per-course variant in that course's accent colour, so tabs stay tellable apart. Drawn as inline SVG in a data URI, which needs no file and no network request, the way this page already does it. The philosophy lightbulb does not carry over to four courses and gets replaced.</p>
+          </div></details>
+        </div>
+      </div>
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="decide-how-the-hub-skill-is-split"></div>
+        <div class="b">
+          <div class="h">Decide how the hub skill is split</div>
+          <div class="d">The original skill was written for reading philosophy. Separating what every hub shares from what belongs to one kind of course kept the useful parts, and an engineering course is no longer pushed through a method built for narrating arguments.</div>
+          <span class="tag">Done</span>
+          <details class="spec"><summary>The recommendation and the reasoning</summary><div class="in">
+            <p><b>Three pieces.</b> The shared parts were pulled out into their own reference, and both course skills point at it.</p>
+            <ol>
+              <li><b>A shared reference</b> holding what travels: the design system, the prose rules and the linter, the interaction rules, browser storage and its export, the accessibility and dark mode requirements, the folder convention, and the publishing steps.</li>
+              <li><b><code>course-readings</code>, kept as it is.</b> Its heart is narrating an argument for someone who will not read the source, and that method suits philosophy and suits nothing in this course. It keeps the guide specification, the explanation standard and the optical character recognition pipeline for scans.</li>
+              <li><b>A new problem-set skill</b> for the engineering courses: the assignment table, the problem index, marking up source pages, worked solutions, and preparing for a weekly quiz.</li>
+            </ol>
+            <p><b>Why one general skill was rejected.</b> The explanation standard in the philosophy skill exists to stop summaries that teach nothing about an argument. A problem set has no argument to narrate, and folding the two together would either bury that standard or apply it where it does not belong. The parts genuinely shared are the interface and the prose, which is what the shared reference holds.</p>
+          </div></details>
+        </div>
+      </div>
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="pull-the-past-midterm-and-final-papers"></div>
+        <div class="b">
+          <div class="h">Pull the past midterm and final papers</div>
+          <div class="d">Yao's course page hosts a midterm and a final from earlier years, both with worked solutions. They are the closest thing available to a practice paper for 21 October.</div>
+          <span class="tag">Before the midterm</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="about">Where this comes from</h2>
+    <div class="note">
+      <p><b>Brightspace holds the lecture notes and nothing else for this course.</b> There is no gradebook, no dropbox and no outline there. The assignments, the solutions and the schedule all live on Prof. Yao's own page at <a href="https://site.uottawa.ca/~jpyao/courses/E3125_Fall_2026.html">site.uottawa.ca/~jpyao</a>, which is the source to check.</p>
+      <p>The files are served from a folder named for the old course code, ELG3120, and the page footer reads 2021. Both are stale labels on current material: the teaching assistants, rooms and midterm date all match this year.</p>
+    </div>
+    <div class="note">
+      <p><b>The Solution column points at Prof. Yao's own copies on site.uottawa.ca.</b> Opening one needs an internet connection, and the PDFs are not kept in this repository. The Questions column opens a page from the <code>pages</code> folder beside this one.</p>
+      <p><b>The problem pages show the assigned questions photographed from the textbook</b>, which is under copyright. Each scan is the single page carrying a problem the course sets, with the assigned parts ringed. The book itself is not kept here and neither is any chapter of it.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="sitefoot">
+  <div class="in">
+    <div class="col brand">
+      <a href="./">ELG3125 Hub</a>
+      <p>Signal and System Analysis, University of Ottawa, Fall 2026.</p>
+    </div>
+    <nav class="col" aria-label="Sections">
+      <h2>On this page</h2>
+      <a href="#assignments">Assignments</a>
+      <a href="#course-backlog">Course backlog</a>
+      <a href="#technical-backlog">Technical backlog</a>
+    </nav>
+    <nav class="col" aria-label="Elsewhere">
+      <h2>Elsewhere</h2>
+      <a href="../">All four courses</a>
+      <a href="https://site.uottawa.ca/~jpyao/courses/E3125_Fall_2026.html">Prof. Yao's course page</a>
+      <a href="https://uottawa.brightspace.com/d2l/le/content/611416/Home">Brightspace lecture notes</a>
+    </nav>
+  </div>
+  <div class="colophon">
+    <span>Built with Claude from the course page and Brightspace. AI can make mistakes, so check anything that decides an answer.</span>
+    <span>Assigned problems appear as scans of the textbook pages that carry them. The book is under copyright and is not hosted here.</span>
+  </div>
+</footer>
+
+<script src="../shared/tasks.js"></script>
+</body>
+</html>

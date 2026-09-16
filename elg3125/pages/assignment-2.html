@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELG3125 Assignment 2</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%231C5D93'/%3E%3Cpath%20d='M9%2032%20Q19%209%2029%2032%20T49%2032'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+ :root{--paper:#ECEEF1;--surface:#F5F6F8;--sunk:#E1E4E9;--ink:#171A1E;--ink-soft:#404750;
+  --muted:#6C737C;--rule:#D0D6DD;--accent:#1C5D93;--hot:#8E6318;
+  --display:"Newsreader",Georgia,serif;--body:"Source Sans 3",-apple-system,sans-serif;--mono:"IBM Plex Mono",Menlo,monospace}
+ @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#131619;--surface:#1A1E22;--sunk:#0F1114;
+  --ink:#E3E7EB;--ink-soft:#B2B9C1;--muted:#89909A;--rule:#2A3037;--accent:#6BB4E8;--hot:#D9A957}}
+ :root[data-theme="dark"]{--paper:#131619;--surface:#1A1E22;--sunk:#0F1114;--ink:#E3E7EB;--ink-soft:#B2B9C1;
+  --muted:#89909A;--rule:#2A3037;--accent:#6BB4E8;--hot:#D9A957}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+ .wrap{max-width:880px;margin:0 auto;padding:clamp(36px,7vh,80px) 24px 80px;display:flex;flex-direction:column;gap:34px}
+ .back{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+ .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+ h1{font-family:var(--display);font-weight:600;font-size:clamp(32px,6vw,50px);line-height:1.05;margin:12px 0 0}
+ .stand{font-family:var(--display);font-size:19px;color:var(--ink-soft);margin:14px 0 0;max-width:56ch}
+ h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0}
+ table{border-collapse:collapse;width:100%;font-size:15px;background:var(--surface);
+  border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+ th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--rule)}
+ tr:last-child td{border-bottom:none}
+ th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
+ td.n{font-family:var(--mono);color:var(--accent);font-weight:500;white-space:nowrap}
+ td.pt{font-family:var(--mono);font-size:13.5px;color:var(--ink-soft)}
+ td.pg{font-family:var(--mono);color:var(--muted);text-align:right}
+ figure{margin:0;display:flex;flex-direction:column;gap:9px}
+ img{width:100%;border:1px solid var(--rule);border-radius:8px;background:#fff}
+ figcaption{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+ .pages{display:flex;flex-direction:column;gap:30px}
+ .note{background:var(--sunk);border-radius:10px;padding:17px 21px;font-size:15.5px;color:var(--ink-soft)}
+ .note b{color:var(--ink)}
+ .warn{background:var(--sunk);border-left:3px solid var(--hot);border-radius:0 8px 8px 0;
+  padding:15px 19px;font-size:15px;color:var(--ink-soft)}
+ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:12.5px;color:var(--muted)}
+</style></head><body><div class="wrap">
+ <a class="back" href="../index.html">&larr; ELG3125 hub</a>
+ <header>
+  <div class="eyebrow">Assignment 2 &middot; Chapter 1</div>
+  <h1>Periodicity, even and odd parts, energy and power</h1>
+  <p class="stand">These are practice problems. Nothing is handed in and nothing carries marks, and the worked solution is posted beside the set.</p>
+ </header>
+ <section>
+  <h2>What is assigned</h2>
+  <table><thead><tr><th>Problem</th><th>Parts</th><th>Page</th></tr></thead><tbody>
+      <tr><td class="n">1.10</td><td class="pt">all parts</td><td class="pg">58</td></tr>
+      <tr><td class="n">1.11</td><td class="pt">all parts</td><td class="pg">58</td></tr>
+      <tr><td class="n">1.12</td><td class="pt">all parts</td><td class="pg">58</td></tr>
+      <tr><td class="n">1.19</td><td class="pt">all parts</td><td class="pg">59</td></tr>
+      <tr><td class="n">1.25</td><td class="pt">(a) (c) (e)</td><td class="pg">61</td></tr>
+      <tr><td class="n">1.26</td><td class="pt">all parts</td><td class="pg">61</td></tr>
+      <tr><td class="n">1.28</td><td class="pt">all parts</td><td class="pg">62</td></tr>
+  </tbody></table>
+  
+ </section>
+ <section>
+  <h2>The problems</h2>
+  <div class="note"><b>Assigned problems are ringed in blue.</b> Unringed problems on the same page were not set. Page numbers are the printed ones in Oppenheim, Willsky and Nawab, 2nd edition.</div>
+  <div class="pages">
+    <figure><img src="img/a2_p58.png" alt="Oppenheim printed page 58, assigned problems ringed" loading="lazy"><figcaption>Printed page 58. Ringed: 1.10, 1.11, 1.12.</figcaption></figure>
+    <figure><img src="img/a2_p59.png" alt="Oppenheim printed page 59, assigned problems ringed" loading="lazy"><figcaption>Printed page 59. Ringed: 1.19.</figcaption></figure>
+    <figure><img src="img/a2_p61.png" alt="Oppenheim printed page 61, assigned problems ringed" loading="lazy"><figcaption>Printed page 61. Ringed: 1.25, 1.26.</figcaption></figure>
+    <figure><img src="img/a2_p62.png" alt="Oppenheim printed page 62, assigned problems ringed" loading="lazy"><figcaption>Printed page 62. Ringed: 1.28.</figcaption></figure>
+  </div>
+ </section>
+ <footer>Pages reproduced from the course textbook for private study. Rings added automatically from the assignment list.</footer>
+</div></body></html>

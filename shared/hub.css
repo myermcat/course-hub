@@ -162,6 +162,32 @@ tr.gate .det{font-size:14.5px;color:var(--ink-soft)}
 .task.now .tag{color:var(--accent);border-color:var(--accent)}
 .task.done .h,.task.done .d{text-decoration:line-through;color:var(--muted)}
 
+/* ---------- a tick box in a table row ---------- */
+
+td.tick{width:44px;padding-right:0}
+td.tick .box{width:15px;height:15px;margin-top:2px;border:1.6px solid var(--muted);border-radius:3.5px;
+  display:block;cursor:pointer;transition:background .15s,border-color .15s}
+td.tick .box:hover{border-color:var(--accent)}
+td.tick .box:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+td.tick .box[aria-checked="true"]{background:var(--done);border-color:var(--done);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size:contain}
+tbody tr.done td{color:var(--muted)}
+tbody tr.done td.num{color:var(--done)}
+tbody tr.done td.prob,tbody tr.done td.topic{opacity:.6}
+thead th.tick{width:44px}
+
+/* A label a screen reader announces and the eye never sees, for the tick column header. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* ---------- the done count beside a heading ---------- */
+
+.meter{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--rule);border-radius:20px;padding:4px 11px;white-space:nowrap}
+.meter.all-done{color:var(--done);border-color:var(--done)}
+.head-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+
 /* ---------- the detail toggle ---------- */
 
 details.spec{margin-top:9px;border-top:1px solid var(--rule);padding-top:9px}

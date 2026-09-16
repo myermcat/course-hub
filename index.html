@@ -6,7 +6,7 @@
 <title>Course Hub</title>
 <meta name="description" content="One page for four uOttawa courses in Fall 2026. Engineering Design, Scientific Thought and Social Values, Signal and System Analysis, and Digital Systems II.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%2322282E'/%3E%3Crect%20x='13'%20y='13'%20width='16'%20height='16'%20rx='4'%20fill='%237C5CB8'/%3E%3Crect%20x='35'%20y='13'%20width='16'%20height='16'%20rx='4'%20fill='%233E9E82'/%3E%3Crect%20x='13'%20y='35'%20width='16'%20height='16'%20rx='4'%20fill='%234E90C8'/%3E%3Crect%20x='35'%20y='35'%20width='16'%20height='16'%20rx='4'%20fill='%23C08A3E'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="shared/hub.css">
 <style>
   :root{--accent:#3C6E8F;--lead:#2A5273}
@@ -27,37 +27,21 @@
   td.when{font-family:var(--mono);font-size:13.5px;color:var(--ink);white-space:nowrap;min-width:150px}
   td.wt{font-family:var(--mono);color:var(--accent);white-space:nowrap}
   td.course{font-family:var(--mono);font-size:13px;letter-spacing:.04em;white-space:nowrap}
-  .card.pending{box-shadow:none;border-style:dashed;cursor:default}
-  .card.pending:hover{transform:none;box-shadow:none;border-color:var(--rule)}
-  .card.pending .go{color:var(--muted);text-transform:none;letter-spacing:.04em;font-size:12px}
 </style>
 </head>
-<body>
+<body data-store="hub">
 <div class="wrap">
 
   <header>
     <div class="eyebrow">University of Ottawa &middot; Fall 2026</div>
     <h1>Course hub</h1>
-    <p class="standfirst">Four courses, one page. Each card carries the next date that falls for that course and opens its own hub, with the assignments and what is worth doing next.</p>
+    <p class="standfirst">Four courses, one page. Each card carries that course's next date from the table below and opens its own hub, with the assignments and what is worth doing next.</p>
   </header>
 
   <section>
     <h2 id="courses">Courses</h2>
-    <p>Ordered by the next date that falls, so the course needing attention first is at the top.</p>
+    <p>The four cards stay in this order all term.</p>
     <div class="cards">
-
-      <a class="card gng" href="gng2101/">
-        <div class="ghost" aria-hidden="true">GNG</div>
-        <div class="t">
-          <div class="n">GNG 2101 B &middot; Engineering Design</div>
-          <h3>Adjustable Bed Canvas Holder</h3>
-          <p>One client project carried across the term, with ten deliverables, four in-class tests and no final exam. The team sets its own dates for deliverables B through J.</p>
-        </div>
-        <div class="meta"><span><b>Next:</b> PD A, Friday 18 September</span><span><b>Prof.</b> Rubina Lakhani</span><span><b>Lab</b> B4, Saturdays</span></div>
-        <div class="go">Open the hub
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
-        </div>
-      </a>
 
       <a class="card phi" href="https://myermcat.github.io/phi-reading-hub/">
         <div class="ghost" aria-hidden="true">PHI</div>
@@ -72,16 +56,18 @@
         </div>
       </a>
 
-      <div class="card elg pending">
+      <a class="card elg" href="elg3125/">
         <div class="ghost" aria-hidden="true">ELG</div>
         <div class="t">
           <div class="n">ELG 3125 A &middot; Signal and System Analysis</div>
           <h3>Assignments and solutions</h3>
-          <p>Nine practice problem sets from Oppenheim and Willsky, each with its posted solution. Marks come from the Friday tutorial quiz, and the sets are the preparation for it.</p>
+          <p>The nine problem sets from Oppenheim and Willsky have a page each, ten pages in all because set 6 runs to two, with every problem typed out and the textbook page shown with the assigned problems ringed. The assignments table links every posted solution on Prof. Yao's site.</p>
         </div>
         <div class="meta"><span><b>Next:</b> Midterm, Wednesday 21 October</span><span><b>Prof.</b> Jianping Yao</span><span><b>Tutorial</b> A04, Fridays</span></div>
-        <div class="go">Arrives here once the problem pages are finished</div>
-      </div>
+        <div class="go">Open the hub
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+        </div>
+      </a>
 
       <a class="card ceg" href="ceg3155/">
         <div class="ghost" aria-hidden="true">CEG</div>
@@ -90,7 +76,20 @@
           <h3>Course hub</h3>
           <p>Four laboratories, five assignments with the best four counted, a term project whose details have not been published, and three quizzes.</p>
         </div>
-        <div class="meta"><span><b>Next:</b> Midterm, Thursday 22 October</span><span><b>Prof.</b> Rami Abielmona</span><span><b>Lecture</b> Fridays, 19:00</span></div>
+        <div class="meta"><span><b>Next:</b> Midterm, Thursday 22 October</span><span><b>Prof.</b> Rami Abielmona</span><span><b>Lecture</b> Thursdays, 19:00</span></div>
+        <div class="go">Open the hub
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+        </div>
+      </a>
+
+      <a class="card gng" href="gng2101/">
+        <div class="ghost" aria-hidden="true">GNG</div>
+        <div class="t">
+          <div class="n">GNG 2101 B &middot; Engineering Design</div>
+          <h3>Adjustable Bed Canvas Holder</h3>
+          <p>One client project carried across the term, with ten deliverables, four in-class tests and no final exam. The team sets its own dates for deliverables B through J.</p>
+        </div>
+        <div class="meta"><span><b>Next:</b> PD A, Friday 18 September</span><span><b>Prof.</b> Rubina Lakhani</span><span><b>Lab</b> B4, Saturdays</span></div>
         <div class="go">Open the hub
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
         </div>
@@ -101,7 +100,7 @@
 
   <section>
     <h2 id="dates">Dates that are set</h2>
-    <p>Every published assessment across the four courses, in the order they fall. Three dates are still with the Registrar.</p>
+    <p>Every exam and test across the four courses, in the order they fall, with the deliverable that opens the design project and the day that closes it. Three dates are still with the Registrar. The laboratories, the weekly quizzes and the assignments sit on each course hub.</p>
 
     <div class="scroll">
       <table>
@@ -143,6 +142,65 @@
   </section>
 
   <section>
+    <div class="head-row">
+      <h2 id="backlog">Hub backlog</h2>
+      <span class="meter" data-progress="#hub-tasks"></span>
+    </div>
+    <p>Work on the hub itself, held here beside the course pages so it stays visible.</p>
+
+    <div class="stack" id="hub-tasks">
+
+      <div class="task now">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-sync"></div>
+        <div class="b">
+          <div class="h">Keep the tick boxes when the browser forgets</div>
+          <div class="d">Everything ticked is held in this browser and nowhere else, so cleared site data or a second laptop opens an empty page. Firestore behind a Google sign-in would carry the state across both.</div>
+          <span class="tag">Next</span>
+          <details class="spec">
+            <summary>What sync would take, and why sign-in comes with it</summary>
+            <div class="in">
+              <p><b>Where the ticks are now.</b> Every tick box and every highlight is saved by the browser under a key for this site. It survives a reload and a restart. It is lost when site data is cleared, it never reaches a second device, and one browser knows nothing about the other.</p>
+              <p><b>The proposal.</b> Google Firestore holds the state and Firebase Authentication handles the sign-in, arranged so the page keeps working with no account at all. The browser stays the default, and the page behaves signed out exactly as it does today. Signing in with Google copies what is in the browser up to Firestore, and from then on both are written together. A second device signed in to the same account opens with the same ticks.</p>
+              <p><b>Why the sign-in comes with it.</b> A database with no sign-in has to allow writes from anyone who finds the address, and this repository is public, so the address is findable. With sign-in, a Firestore rule of the shape "a signed-in person may read and write only the documents under their own user id" means a stranger who signs in gets an empty private space of their own, and can neither see nor change hers.</p>
+              <p><b>What it costs to run.</b> The Firebase configuration values are identifiers, so publishing them in a public repository is safe, and the security rule is what protects the data. The free tier covers a workload this size with room to spare.</p>
+              <p><b>How the data is shaped.</b> One small document per course. A Firestore document stops at one megabyte, and the philosophy highlights are the part that grows, so a single document holding all four courses reaches that ceiling first.</p>
+              <p><b>The seam is already there.</b> <code>shared/tasks.js</code> routes every read and every write through one object called <code>store</code>, so the change is that object plus a sign-in button.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-export"></div>
+        <div class="b">
+          <div class="h">Add an export button as the escape hatch</div>
+          <div class="d">A button that writes everything ticked to a JSON file gives a backup that depends on no service at all, the philosophy week 1 guide already carries one, and it is worth having whether or not the database arrives.</div>
+          <span class="tag">Cheap</span>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-shared-css"></div>
+        <div class="b">
+          <div class="h">Bring the problem pages into the shared stylesheet</div>
+          <div class="d">The ten pages under <code>elg3125/pages/</code> still carry their own copy of the design system. They should import <code>shared/hub.css</code> like every other page, so one edit to a colour or a table reaches all ten.</div>
+          <span class="tag">Tidying</span>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-course-pages"></div>
+        <div class="b">
+          <div class="h">Fill out the CEG3155 and GNG2101 hubs properly</div>
+          <div class="d">Each one is a session of its own: the laboratories and the assignment detail for Digital Systems II, and the project record for Engineering Design, which is still in a markdown file in the course folder.</div>
+          <span class="tag">Per course</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
     <h2 id="about">How these pages work</h2>
     <div class="note">
       <p><b>One stylesheet serves every hub.</b> The colours, the type, the cards, the tables and the task lists live in <code>shared/hub.css</code>, and each course page sets only its own accent colour: green for philosophy, blue for signals, amber for digital systems, purple for design. Changing how a card looks is one edit for all four.</p>
@@ -151,7 +209,7 @@
       <p><b>Philosophy keeps its own repository.</b> Its reading guides are published at an address that has already been shared and is written into four other files, so moving them would leave every one of those links pointing at nothing. The card above goes across to them instead.</p>
     </div>
     <div class="note">
-      <p><b>Tick boxes are saved in this browser.</b> Marking a task done on a course hub writes to the browser you are using and survives a reload and a restart. The state does not travel to another computer, it is never sent anywhere, and clearing browsing data for the site removes it.</p>
+      <p><b>Tick boxes are saved in this browser.</b> Marking a task done on any of these pages writes to the browser you are using and survives a reload and a restart. The state does not travel to another computer, it is never sent anywhere, and clearing browsing data for the site removes it.</p>
     </div>
     <div class="note">
       <p><b>These pages were built with Claude from Brightspace, the course pages and the lecture decks.</b> They are dependable on dates, rooms and weightings, all of which were read off a published source. Check anything that decides an answer against the course page itself, because a date can move after a page is written.</p>
@@ -170,12 +228,13 @@
       <h2>Courses</h2>
       <a href="gng2101/">GNG2101 &middot; Engineering Design</a>
       <a href="https://myermcat.github.io/phi-reading-hub/">PHI2394 &middot; Reading hub</a>
-      <a href="#courses">ELG3125 &middot; Signal and System Analysis</a>
+      <a href="elg3125/">ELG3125 &middot; Signal and System Analysis</a>
       <a href="ceg3155/">CEG3155 &middot; Digital Systems II</a>
     </nav>
     <nav class="col" aria-label="This page">
       <h2>On this page</h2>
       <a href="#dates">Dates that are set</a>
+      <a href="#backlog">Hub backlog</a>
       <a href="#about">How these pages work</a>
       <a href="https://github.com/myermcat/course-hub">Source on GitHub</a>
     </nav>
@@ -185,5 +244,6 @@
     <span>Textbooks and readings are copyright and are not hosted here.</span>
   </div>
 </footer>
+<script src="shared/tasks.js"></script>
 </body>
 </html>
