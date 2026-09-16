@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Hub</title>
+<meta name="description" content="One page for four uOttawa courses in Fall 2026. Engineering Design, Scientific Thought and Social Values, Signal and System Analysis, and Digital Systems II.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%2322282E'/%3E%3Crect%20x='13'%20y='13'%20width='16'%20height='16'%20rx='4'%20fill='%237C5CB8'/%3E%3Crect%20x='35'%20y='13'%20width='16'%20height='16'%20rx='4'%20fill='%233E9E82'/%3E%3Crect%20x='13'%20y='35'%20width='16'%20height='16'%20rx='4'%20fill='%234E90C8'/%3E%3Crect%20x='35'%20y='35'%20width='16'%20height='16'%20rx='4'%20fill='%23C08A3E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="shared/hub.css">
+<style>
+  :root{--accent:#3C6E8F;--lead:#2A5273}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#7FB6D4;--lead:#95BFDC}}
+  :root[data-theme="dark"]{--accent:#7FB6D4;--lead:#95BFDC}
+  .gng{--card-accent:#5B3E8E}
+  .phi{--card-accent:#1F6B57}
+  .elg{--card-accent:#1C5D93}
+  .ceg{--card-accent:#8A5A1E}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .gng{--card-accent:#A98BD6}
+    :root:not([data-theme="light"]) .phi{--card-accent:#64BFA1}
+    :root:not([data-theme="light"]) .elg{--card-accent:#6BB4E8}
+    :root:not([data-theme="light"]) .ceg{--card-accent:#D9A957}}
+  :root[data-theme="dark"] .gng{--card-accent:#A98BD6}
+  :root[data-theme="dark"] .phi{--card-accent:#64BFA1}
+  :root[data-theme="dark"] .elg{--card-accent:#6BB4E8}
+  :root[data-theme="dark"] .ceg{--card-accent:#D9A957}
+  td.when{font-family:var(--mono);font-size:13.5px;color:var(--ink);white-space:nowrap;min-width:150px}
+  td.wt{font-family:var(--mono);color:var(--accent);white-space:nowrap}
+  td.course{font-family:var(--mono);font-size:13px;letter-spacing:.04em;white-space:nowrap}
+  .card.pending{box-shadow:none;border-style:dashed;cursor:default}
+  .card.pending:hover{transform:none;box-shadow:none;border-color:var(--rule)}
+  .card.pending .go{color:var(--muted);text-transform:none;letter-spacing:.04em;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">University of Ottawa &middot; Fall 2026</div>
+    <h1>Course hub</h1>
+    <p class="standfirst">Four courses, one page. Each card carries the next date that falls for that course and opens its own hub, with the assignments and what is worth doing next.</p>
+  </header>
+
+  <section>
+    <h2 id="courses">Courses</h2>
+    <p>Ordered by the next date that falls, so the course needing attention first is at the top.</p>
+    <div class="cards">
+
+      <a class="card gng" href="gng2101/">
+        <div class="ghost" aria-hidden="true">GNG</div>
+        <div class="t">
+          <div class="n">GNG 2101 B &middot; Engineering Design</div>
+          <h3>Adjustable Bed Canvas Holder</h3>
+          <p>One client project carried across the term, with ten deliverables, four in-class tests and no final exam. The team sets its own dates for deliverables B through J.</p>
+        </div>
+        <div class="meta"><span><b>Next:</b> PD A, Friday 18 September</span><span><b>Prof.</b> Rubina Lakhani</span><span><b>Lab</b> B4, Saturdays</span></div>
+        <div class="go">Open the hub
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+        </div>
+      </a>
+
+      <a class="card phi" href="https://myermcat.github.io/phi-reading-hub/">
+        <div class="ghost" aria-hidden="true">PHI</div>
+        <div class="t">
+          <div class="n">PHI 2394 B &middot; Scientific Thought and Social Values</div>
+          <h3>Reading hub</h3>
+          <p>Every argument in the week's reading, written out for someone who has not opened the source, plus a cheat sheet before each exam. Three exams and no essays.</p>
+        </div>
+        <div class="meta"><span><b>Next:</b> Exam 1, Wednesday 7 October</span><span><b>Prof.</b> Emily Kotow</span><span><b>Own repository</b></span></div>
+        <div class="go">Open the reading hub
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+        </div>
+      </a>
+
+      <div class="card elg pending">
+        <div class="ghost" aria-hidden="true">ELG</div>
+        <div class="t">
+          <div class="n">ELG 3125 A &middot; Signal and System Analysis</div>
+          <h3>Assignments and solutions</h3>
+          <p>Nine practice problem sets from Oppenheim and Willsky, each with its posted solution. Marks come from the Friday tutorial quiz, and the sets are the preparation for it.</p>
+        </div>
+        <div class="meta"><span><b>Next:</b> Midterm, Wednesday 21 October</span><span><b>Prof.</b> Jianping Yao</span><span><b>Tutorial</b> A04, Fridays</span></div>
+        <div class="go">Arrives here once the problem pages are finished</div>
+      </div>
+
+      <a class="card ceg" href="ceg3155/">
+        <div class="ghost" aria-hidden="true">CEG</div>
+        <div class="t">
+          <div class="n">CEG 3155 A &middot; Digital Systems II</div>
+          <h3>Course hub</h3>
+          <p>Four laboratories, five assignments with the best four counted, a term project whose details have not been published, and three quizzes.</p>
+        </div>
+        <div class="meta"><span><b>Next:</b> Midterm, Thursday 22 October</span><span><b>Prof.</b> Rami Abielmona</span><span><b>Lecture</b> Fridays, 19:00</span></div>
+        <div class="go">Open the hub
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section>
+    <h2 id="dates">Dates that are set</h2>
+    <p>Every published assessment across the four courses, in the order they fall. Three dates are still with the Registrar.</p>
+
+    <div class="scroll">
+      <table>
+        <caption>Fall 2026, all four courses</caption>
+        <thead>
+          <tr><th>When</th><th>Course</th><th>Assessment</th><th>Weight</th><th>Where</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="when">Fri 18 Sept</td><td class="course">GNG2101</td><td>Project deliverable A, which includes setting the team's dates for B through J</td><td class="wt">&mdash;</td><td>Brightspace</td></tr>
+          <tr><td class="when">Wed 7 Oct</td><td class="course">PHI2394</td><td>Exam 1, covering every reading and lecture so far</td><td class="wt">30%</td><td>In class</td></tr>
+          <tr><td class="when">Fri 9 Oct</td><td class="course">GNG2101</td><td>Design Test 1</td><td class="wt">5%</td><td>In class, lecture 9</td></tr>
+
+          <tr class="gate">
+            <td colspan="5">
+              <div class="g">
+                <span class="lbl">Two midterms in two days</span>
+                <span class="det">Signal and System Analysis on the Wednesday afternoon, Digital Systems II the following evening. They arrive two weeks after the first philosophy exam, so the October study load wants planning ahead of it.</span>
+              </div>
+            </td>
+          </tr>
+
+          <tr><td class="when">Wed 21 Oct<br>14:30 to 15:50</td><td class="course">ELG3125</td><td>Midterm, covering chapters 1 to 3</td><td class="wt">25%</td><td>STE H0104</td></tr>
+          <tr><td class="when">Thu 22 Oct<br>19:00 to 20:20</td><td class="course">CEG3155</td><td>Midterm, which cannot be transferred to the final</td><td class="wt">20%</td><td>FSS 1007</td></tr>
+          <tr><td class="when">Tue 10 Nov</td><td class="course">GNG2101</td><td>Design Test 2</td><td class="wt">5%</td><td>In class, lecture 16</td></tr>
+          <tr><td class="when">Wed 11 Nov</td><td class="course">PHI2394</td><td>Exam 2, covering the material after Exam 1</td><td class="wt">30%</td><td>In class</td></tr>
+          <tr><td class="when">Tue 17 or Fri 20 Nov</td><td class="course">GNG2101</td><td>Lab Test, hands-on skills. Listed on both dates, so the day still needs confirming</td><td class="wt">10%</td><td>Skills labs</td></tr>
+          <tr><td class="when">Tue 24 Nov</td><td class="course">GNG2101</td><td>Economics Test</td><td class="wt">10%</td><td>In class, lecture 20</td></tr>
+          <tr><td class="when">Thu 3 Dec</td><td class="course">GNG2101</td><td>Design Day</td><td class="wt">&mdash;</td><td>Final showing of the project</td></tr>
+          <tr><td class="when">Set by Registrar</td><td class="course">ELG3125</td><td>Final exam, covering the material after the midterm</td><td class="wt">50%</td><td>To be announced</td></tr>
+          <tr><td class="when">Set by Registrar</td><td class="course">CEG3155</td><td>Final exam</td><td class="wt">40%</td><td>To be announced</td></tr>
+          <tr><td class="when">Set by Registrar</td><td class="course">PHI2394</td><td>Final exam, covering all class material</td><td class="wt">40%</td><td>To be announced</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <p><b>Engineering Design has no final exam.</b> Its marks come from the project deliverables and the four tests in the table, which is why it carries the most rows and finishes on Design Day.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="about">How these pages work</h2>
+    <div class="note">
+      <p><b>One stylesheet serves every hub.</b> The colours, the type, the cards, the tables and the task lists live in <code>shared/hub.css</code>, and each course page sets only its own accent colour: green for philosophy, blue for signals, amber for digital systems, purple for design. Changing how a card looks is one edit for all four.</p>
+    </div>
+    <div class="note">
+      <p><b>Philosophy keeps its own repository.</b> Its reading guides are published at an address that has been shared, and the highlights saved in the browser are tied to that exact address. Moving the pages would break both, so the card above links across to them.</p>
+    </div>
+    <div class="note">
+      <p><b>Tick boxes are saved in this browser.</b> Marking a task done on a course hub writes to the browser you are using and survives a reload and a restart. The state does not travel to another computer, it is never sent anywhere, and clearing browsing data for the site removes it.</p>
+    </div>
+    <div class="note">
+      <p><b>These pages were built with Claude from Brightspace, the course pages and the lecture decks.</b> They are dependable on dates, rooms and weightings, all of which were read off a published source. Check anything that decides an answer against the course page itself, because a date can move after a page is written.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="sitefoot">
+  <div class="in">
+    <div class="col brand">
+      <a href="./">Course Hub</a>
+      <p>Four uOttawa courses, Fall 2026.</p>
+    </div>
+    <nav class="col" aria-label="Courses">
+      <h2>Courses</h2>
+      <a href="gng2101/">GNG2101 &middot; Engineering Design</a>
+      <a href="https://myermcat.github.io/phi-reading-hub/">PHI2394 &middot; Reading hub</a>
+      <a href="#courses">ELG3125 &middot; Signal and System Analysis</a>
+      <a href="ceg3155/">CEG3155 &middot; Digital Systems II</a>
+    </nav>
+    <nav class="col" aria-label="This page">
+      <h2>On this page</h2>
+      <a href="#dates">Dates that are set</a>
+      <a href="#about">How these pages work</a>
+      <a href="https://github.com/myermcat/course-hub">Source on GitHub</a>
+    </nav>
+  </div>
+  <div class="colophon">
+    <span>Built with Claude from Brightspace and the course pages. AI can make mistakes, so check anything that decides an answer.</span>
+    <span>Textbooks and readings are copyright and are not hosted here.</span>
+  </div>
+</footer>
+</body>
+</html>
