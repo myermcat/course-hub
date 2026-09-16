@@ -203,116 +203,9 @@
       </div>
   </section>
 
-  <section>
-    <h2 id="technical-backlog">Technical backlog</h2>
-    <p>Work on the files and the tooling, which serves the list above.</p>
-    <div class="stack">
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="get-oppenheim-and-willsky-2nd-edition"></div>
-        <div class="b">
-          <div class="h">Get Oppenheim and Willsky, 2nd edition</div>
-          <div class="d">In the course folder, second edition, ISBN 9780136511755. The problem index is built and verified: problem 1.21 is on printed page 59, which matches the pages scanned for Assignment 1. Printed page plus 22 gives the page in the file.</div>
-          <span class="tag">Done</span>
-          <details class="spec"><summary>What the search turned up</summary><div class="in">
-            <p>uOttawa Omni returns six results for the author and title. One is the book that matters: <b>Signals &amp; systems</b>, Oppenheim, Willsky and Nawab, 1997, on Reserve at Morisset plus other locations. A 1983 first edition with Young as third author is in the General Collection at QA 402 .O63 1983, and its problem numbering does not match what the assignments ask for.</p>
-            <p><b>There is no electronic copy through the library.</b> The only results offering online access are a 1985 journal review of the book and two unrelated book chapters. A 2015 printing shows as not available locally.</p>
-            <p>The route taken was a Reserve loan, with the problem pages for chapters 1 to 3 photographed first because those carry the midterm.</p>
-          </div></details>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="build-a-problem-index-from-the-textbook"></div>
-        <div class="b">
-          <div class="h">Build a problem index from the textbook</div>
-          <div class="d">A script scanned the book for problem markers and recorded which page each numbered problem starts on, writing a small index file. Nothing from the book was read into a conversation during that step, so the index cost almost nothing to build and makes every later lookup a single page.</div>
-          <span class="tag">Done</span>
-          <details class="spec"><summary>How the index is built</summary><div class="in">
-            <p><b>The book is never read into a conversation.</b> A script walks the pages and writes a small table; the conversation only ever sees the handful of pages a given assignment needs.</p>
-            <ol>
-              <li>Extract text page by page with PyMuPDF. If the source is photographs, run optical character recognition first with <code>ocrmypdf</code>, which adds a searchable text layer without changing how the pages look.</li>
-              <li>Match problem markers at the start of a line, in the shape <code>^(\d+)\.(\d+)\.</code>, and record chapter, problem and page.</li>
-              <li>Write <code>Working files/problem-index.json</code> as a map from problem number to page.</li>
-              <li>Check the index against the five problem numbers already known from Assignment 1, which are on Oppenheim pages 59 to 61. If those come out right, the rest are trustworthy.</li>
-            </ol>
-            <p>A whole textbook is far too large to read directly. The index makes the cost independent of the size of the book.</p>
-          </div></details>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="add-the-problem-text-to-the-assignments-table"></div>
-        <div class="b">
-          <div class="h">Add the problem text to the assignments table</div>
-          <div class="d">Every row in the table has a page of its own, ten in all, reached from the Questions column: the problem typed out, the figure it refers to, and the source page with the assigned parts ringed. The pages live in <code>pages/</code> beside the hub.</div>
-          <span class="tag">Done</span>
-          <details class="spec"><summary>Page format, and how problems get marked</summary><div class="in">
-            <p><b>Each problem appears twice, as typed text and as a picture, because neither alone is enough.</b> Typed text renders the mathematics properly, can be searched, and costs almost nothing to revisit. Many problems refer to a figure, such as Figure P1.21 in the first assignment, and a figure has to be an image.</p>
-            <ul>
-              <li><b>Typed statement.</b> The problem written out in the page, with the mathematics set properly. This is what reads first.</li>
-              <li><b>The figure</b> where one is referenced, cropped from the page and placed beside the statement.</li>
-              <li><b>The full source page</b> inside a closed toggle, with the assigned parts ringed, for checking against the original.</li>
-            </ul>
-            <p><b>Drawing the rings.</b> PyMuPDF searches a page for the problem label, for example <code>1.21</code>, which returns the rectangle holding it. Widening that rectangle to the column and adding <code>page.add_rect_annot</code> in the accent colour draws a ring around the problem. Rendering afterwards bakes the ring into the image. Only the assigned parts are ringed: for Assignment 1 that means 1.21 (c)(d)(e), 1.22 (b)(d)(e), 1.23 (b), 1.24 (c) and 1.25 (a)(c)(e), leaving the unassigned parts plain.</p>
-            <p><b>The marking was built and checked on the Assignment 1 scan first</b>, because those three pages were downloaded while the rest of the book was still being sourced.</p>
-          </div></details>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="extract-transcripts-for-the-lecture-decks"></div>
-        <div class="b">
-          <div class="h">Extract transcripts for the lecture decks</div>
-          <div class="d">A plain text version of each deck is kept in <code>Working files</code> in the course folder and makes searching free. Rendered page images stay in reserve for the slides that carry equations, which is where extracted text goes wrong.</div>
-          <span class="tag">Per lecture</span>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="build-one-course-hub-covering-all-four-courses"></div>
-        <div class="b">
-          <div class="h">Build one course hub covering all four courses</div>
-          <div class="d">One front page lists GNG2101, CEG3155, ELG3125 and PHI2394, in the card style the philosophy hub uses for its weeks. The design system moved into <code>shared/hub.css</code>, which every page in the repository imports, so no hub is built twice.</div>
-          <span class="tag">Done</span>
-          <details class="spec"><summary>Repository shape, shared design system, favicon</summary><div class="in">
-            <p><b>A new repository was built, leaving the philosophy one alone.</b> The repository <code>phi-reading-hub</code> already serves published pages at a URL that has been shared, its week 1 guide is a 285 KB page carrying saved highlights, and its browser storage keys are tied to that origin. Renaming it breaks the published address and every stored highlight. A new umbrella repository costs nothing, and philosophy is reached from it by a link.</p>
-            <p><b>The shape of the new repository, <code>course-hub</code>:</b></p>
-            <ul>
-              <li><code>index.html</code>, the front page, one card per course</li>
-              <li><code>shared/hub.css</code>, the design system every hub imports: colour tokens for light and dark, type scale, the card, the table, the task list, the footer</li>
-              <li><code>elg3125/</code>, <code>ceg3155/</code>, <code>gng2101/</code>, each its own hub page</li>
-              <li>The philosophy card links out to <code>myermcat.github.io/phi-reading-hub</code></li>
-              <li><code>.nojekyll</code>, so GitHub Pages serves the files untouched</li>
-            </ul>
-            <p><b>Extracting the shared stylesheet is the part that stops work being redone.</b> This page carried its own copy of the tokens and the components until it moved here, and the philosophy hub in its separate repository still carries one. A single file, imported by every page here, means a change to the card or the dark palette happens once. Each hub keeps only its own accent colour.</p>
-            <p><b>Everything on the repository that goes stale, to change in the same pass:</b> the repository description, the topics and tags, the README, the Pages source branch and folder, the social preview image, the About section website field, and any link in the course READMEs pointing at the old address.</p>
-            <p><b>Favicon.</b> One mark for the umbrella, then a per-course variant in that course's accent colour, so tabs stay tellable apart. Drawn as inline SVG in a data URI, which needs no file and no network request, the way this page already does it. The philosophy lightbulb does not carry over to four courses and gets replaced.</p>
-          </div></details>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="decide-how-the-hub-skill-is-split"></div>
-        <div class="b">
-          <div class="h">Decide how the hub skill is split</div>
-          <div class="d">The original skill was written for reading philosophy. Separating what every hub shares from what belongs to one kind of course kept the useful parts, and an engineering course is no longer pushed through a method built for narrating arguments.</div>
-          <span class="tag">Done</span>
-          <details class="spec"><summary>The recommendation and the reasoning</summary><div class="in">
-            <p><b>Three pieces.</b> The shared parts were pulled out into their own reference, and both course skills point at it.</p>
-            <ol>
-              <li><b>A shared reference</b> holding what travels: the design system, the prose rules and the linter, the interaction rules, browser storage and its export, the accessibility and dark mode requirements, the folder convention, and the publishing steps.</li>
-              <li><b><code>course-readings</code>, kept as it is.</b> Its heart is narrating an argument for someone who will not read the source, and that method suits philosophy and suits nothing in this course. It keeps the guide specification, the explanation standard and the optical character recognition pipeline for scans.</li>
-              <li><b>A new problem-set skill</b> for the engineering courses: the assignment table, the problem index, marking up source pages, worked solutions, and preparing for a weekly quiz.</li>
-            </ol>
-            <p><b>Why one general skill was rejected.</b> The explanation standard in the philosophy skill exists to stop summaries that teach nothing about an argument. A problem set has no argument to narrate, and folding the two together would either bury that standard or apply it where it does not belong. The parts genuinely shared are the interface and the prose, which is what the shared reference holds.</p>
-          </div></details>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="pull-the-past-midterm-and-final-papers"></div>
-        <div class="b">
-          <div class="h">Pull the past midterm and final papers</div>
-          <div class="d">Yao's course page hosts a midterm and a final from earlier years, both with worked solutions. They are the closest thing available to a practice paper for 21 October.</div>
-          <span class="tag">Before the midterm</span>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div class="note">
+    <p>Work on the files and the tooling moved to the <a href="../#backlog">hub backlog</a> on the front page, where the ELG3125 items are labelled and stand beside the same work for the other three courses.</p>
+  </div>
 
   <section>
     <h2 id="about">Where this comes from</h2>
@@ -338,11 +231,12 @@
       <h2>On this page</h2>
       <a href="#assignments">Assignments</a>
       <a href="#course-backlog">Course backlog</a>
-      <a href="#technical-backlog">Technical backlog</a>
+      <a href="#about">Where this comes from</a>
     </nav>
     <nav class="col" aria-label="Elsewhere">
       <h2>Elsewhere</h2>
       <a href="../">All four courses</a>
+      <a href="../#backlog">Hub backlog</a>
       <a href="https://site.uottawa.ca/~jpyao/courses/E3125_Fall_2026.html">Prof. Yao's course page</a>
       <a href="https://uottawa.brightspace.com/d2l/le/content/611416/Home">Brightspace lecture notes</a>
     </nav>

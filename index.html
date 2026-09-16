@@ -30,7 +30,7 @@
   td.course{font-family:var(--mono);font-size:13px;letter-spacing:.04em;white-space:nowrap}
 </style>
 </head>
-<body data-store="hub">
+<body data-store="hub" data-adopt="elg3125">
 <nav class="topnav" aria-label="Courses">
   <div class="in">
     <a class="home" href="./" aria-label="Course hub, the front page"><svg viewBox='0 0 64 64' aria-hidden='true'><rect width='64' height='64' rx='14' fill='#22282E'/><rect x='13' y='13' width='16' height='16' rx='4' fill='#7C5CB8'/><rect x='35' y='13' width='16' height='16' rx='4' fill='#3E9E82'/><rect x='13' y='35' width='16' height='16' rx='4' fill='#4E90C8'/><rect x='35' y='35' width='16' height='16' rx='4' fill='#C08A3E'/></svg><span>Course hub</span></a>
@@ -113,7 +113,7 @@
 
   <section>
     <h2 id="dates">Dates that are set</h2>
-    <p>Every exam and test across the four courses, in the order they fall, with the deliverable that opens the design project and the day that closes it. Three dates are still with the Registrar. The laboratories, the weekly quizzes and the assignments sit on each course hub.</p>
+    <p>Every exam and test across the four courses, in the order they fall, with the deliverable that opens the design project and the day that closes it. Three dates are still with the Registrar. Each course hub carries its own laboratories, weekly quizzes and assignments.</p>
 
     <div class="scroll">
       <table>
@@ -157,20 +157,30 @@
   <section>
     <div class="head-row">
       <h2 id="backlog">Hub backlog</h2>
-      <span class="meter" data-progress="#hub-tasks"></span>
+      <span class="meter" data-progress="#backlog-all"></span>
     </div>
-    <p>Work on the hub itself, held here beside the course pages so it stays visible.</p>
+    <p>Every open piece of work on the hub, for all four courses, kept here beside the course pages. A closed item shows its heading and one line. Opening it gives the reasoning and the steps. Ticking an item moves it into Done at the foot of the list, and unticking it puts it back where it was.</p>
 
-    <div class="stack" id="hub-tasks">
+    <div id="backlog-all">
 
-      <div class="task now">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-sync"></div>
-        <div class="b">
-          <div class="h">Keep the tick boxes when the browser forgets</div>
-          <div class="d">Everything ticked is held in this browser and nowhere else, so cleared site data or a second laptop opens an empty page. Firestore behind a Google sign-in would carry the state across both.</div>
-          <span class="tag">Next</span>
-          <details class="spec">
-            <summary>What sync would take, and why sign-in comes with it</summary>
+      <div class="tgroup">
+        <div class="head-row">
+          <h3 id="backlog-hub">Across the hub</h3>
+          <span class="meter" data-progress="#backlog-hub-list" data-count="left"></span>
+        </div>
+        <p>Work that serves every course page at once.</p>
+
+        <div class="stack" id="backlog-hub-list" data-home="across">
+
+          <details class="task fold now" data-group="across" data-pos="1">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-sync"></span>
+              <span class="b">
+                <span class="h">Keep the ticks when the browser forgets</span>
+                <span class="d">Everything marked done is held in one browser, so cleared site data or a second laptop opens a page with nothing ticked.</span>
+                <span class="tagrow"><span class="tag">Next</span></span>
+              </span>
+            </summary>
             <div class="in">
               <p><b>Where the ticks are now.</b> Every tick box and every highlight is saved by the browser under a key for this site. It survives a reload and a restart. It is lost when site data is cleared, it never reaches a second device, and one browser knows nothing about the other.</p>
               <p><b>The proposal.</b> Google Firestore holds the state and Firebase Authentication handles the sign-in, arranged so the page keeps working with no account at all. The browser stays the default, and the page behaves signed out exactly as it does today. Signing in with Google copies what is in the browser up to Firestore, and from then on both are written together. A second device signed in to the same account opens with the same ticks.</p>
@@ -180,33 +190,220 @@
               <p><b>The seam is already there.</b> <code>shared/tasks.js</code> routes every read and every write through one object called <code>store</code>, so the change is that object plus a sign-in button.</p>
             </div>
           </details>
+
+          <details class="task fold" data-group="across" data-pos="2">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-shared-css"></span>
+              <span class="b">
+                <span class="h">Bring the problem pages into the shared stylesheet</span>
+                <span class="d">The ten pages under <code>elg3125/pages/</code> still carry their own copy of the design system.</span>
+                <span class="tagrow"><span class="tag">Tidying</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>What each page carries.</b> Its own colour tokens in all three theme states, its own type scale, its own table and its own toggle, around sixty lines repeated ten times. The only shared file any of them links today is <code>shared/nav.css</code>.</p>
+              <p><b>The change, per page.</b> Delete the duplicated block, add <code>&lt;link rel="stylesheet" href="../../shared/hub.css"&gt;</code> above the nav stylesheet, and leave in the page's own <code>&lt;style&gt;</code> block only what belongs to that page: the ELG3125 accent and the column classes the problem table uses.</p>
+              <p><b>What to check afterwards.</b> The figure and scan images, which the shared file says nothing about, and the back link at the top of each page. Do one page end to end in both themes before the other nine are touched.</p>
+              <p><b>What it saves.</b> A change to a colour, a table or a toggle is one edit today. With these ten pages holding copies it is eleven, and the copies drift the first time one of the eleven is missed.</p>
+              <p><b>The philosophy guides stay as they are.</b> They are published from a separate repository, so reaching this file would mean loading a stylesheet across origins, and that is a separate decision from tidying these ten.</p>
+            </div>
+          </details>
+
+          <details class="task fold" data-group="across" data-pos="3">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="build-one-course-hub-covering-all-four-courses"></span>
+              <span class="b">
+                <span class="h">Finish the move into one repository</span>
+                <span class="d">The front page, the shared stylesheet and the nav bar are built, and the README and the skill still describe the old layout.</span>
+                <span class="tagrow"><span class="tag">Part done</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>What is built.</b></p>
+              <ul>
+                <li><code>index.html</code>, the front page, one card per course in a fixed order, with the dates table above this list</li>
+                <li><code>shared/hub.css</code>, the design system every page in the repository imports</li>
+                <li><code>shared/nav.css</code> and the course bar across the top of every page</li>
+                <li><code>shared/tasks.js</code>, the tick boxes, the meters and the print behaviour of these toggles</li>
+                <li><code>elg3125/</code>, moved in from its own folder and stripped of the inline design system it used to carry</li>
+                <li><code>ceg3155/</code> and <code>gng2101/</code>, each holding the course facts with a banner naming what is absent</li>
+                <li>The philosophy card links out to <code>myermcat.github.io/phi-reading-hub</code></li>
+                <li><code>.nojekyll</code>, so GitHub Pages serves the files untouched</li>
+                <li>A favicon per page, inline SVG in a data URI, drawn in that course's accent colour</li>
+              </ul>
+              <p><b>A new repository was built, leaving the philosophy one alone.</b> The repository <code>phi-reading-hub</code> already serves published pages at a URL that has been shared, its week 1 guide is a 285 KB page carrying saved highlights, and its browser storage keys are tied to that origin. Renaming it breaks the published address and every stored highlight. A new umbrella repository costs nothing, and philosophy is reached from it by a link.</p>
+              <p><b>Extracting the shared stylesheet is the part that stops work being redone.</b> The ELG3125 page carried its own copy of the tokens and the components until it moved here, and the philosophy hub in its separate repository still carries one. A single file, imported by every page here, means a change to the card or the dark palette happens once. Each hub keeps only its own accent colour.</p>
+              <p><b>What is left.</b></p>
+              <ul>
+                <li><code>README.md</code> still lists <code>elg3125/index.html</code> as "still to be moved in", and it says nothing about <code>shared/nav.css</code>.</li>
+                <li>The <code>course-hub</code> skill still gives the ELG3125 page as <code>ELG3125/elg-hub/index.html</code> on disk and calls it the last page carrying its own design system inline. The ten pages under <code>elg3125/pages/</code> hold that title now.</li>
+                <li>The settings that go stale after a move each need a look on the repository page: the description, the topics, the Pages source branch and folder, the social preview image, and the About website field.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="task fold" data-group="across" data-pos="4">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="decide-how-the-hub-skill-is-split"></span>
+              <span class="b">
+                <span class="h">Keep the three-way skill split current</span>
+                <span class="d">The split is decided and all three skills are written, and the shared one drifts every time a page or a component changes.</span>
+                <span class="tagrow"><span class="tag">Part done</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>What exists now.</b> The original skill was written for reading philosophy. Separating what every hub shares from what belongs to one kind of course left three pieces.</p>
+              <ol>
+                <li><b><code>course-hub</code>, the shared one.</b> The design tokens, every component in <code>shared/hub.css</code>, the interaction rules, browser storage, the folder convention and the publishing steps. Both course skills point at it.</li>
+                <li><b><code>course-readings</code>, kept as it was.</b> Its heart is narrating an argument for someone who will not read the source, which suits philosophy and suits nothing in an engineering course. It keeps the guide specification, the explanation standard and the optical character recognition pipeline for scans.</li>
+                <li><b><code>course-problem-sets</code>, new.</b> The assignment table, the problem index, marking up source pages, worked solutions, and preparing for a weekly quiz.</li>
+              </ol>
+              <p><b>Why one general skill was rejected.</b> The explanation standard in the philosophy skill exists to stop summaries that teach nothing about an argument. A problem set has no argument to narrate, and folding the two together would either bury that standard or apply it where it does not belong. The parts genuinely shared are the interface and the prose, which is what <code>course-hub</code> holds.</p>
+              <p><b>What is left.</b> The shared skill describes files that keep moving, and nothing checks it for drift. Its course table still gives the ELG3125 page at its old path, and its component list has to gain a row every time <code>shared/hub.css</code> gains a component. Both are a read-through after any change to the stylesheet or to where a page lives.</p>
+            </div>
+          </details>
+
         </div>
       </div>
 
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-export"></div>
-        <div class="b">
-          <div class="h">Add an export button as the escape hatch</div>
-          <div class="d">A button that writes everything ticked to a JSON file gives a backup that depends on no service at all, the philosophy week 1 guide already carries one, and it is worth having whether or not the database arrives.</div>
-          <span class="tag">Cheap</span>
+      <div class="tgroup">
+        <div class="head-row">
+          <h3 id="backlog-course">Per course</h3>
+          <span class="meter" data-progress="#backlog-course-list" data-count="left"></span>
+        </div>
+        <p>Work that belongs to one course. The first pill on each item says which.</p>
+
+        <div class="stack" id="backlog-course-list" data-home="course">
+
+          <details class="task fold" data-group="course" data-pos="1">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-course-pages"></span>
+              <span class="b">
+                <span class="h">Finish the CEG3155 and GNG2101 hubs</span>
+                <span class="d">Both pages carry the dates and the marking scheme, and neither carries the work itself.</span>
+                <span class="tagrow"><span class="tag who">CEG3155</span><span class="tag who">GNG2101</span><span class="tag">Two sessions</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>CEG3155.</b> The schedule, the fifteen dated items, the marking scheme, the topic list and the toolchain are on the page, taken from the outline dated 17 July 2026, the notes from the first class on 12 September and the Lab 1 handout. Two things are absent. The project description, worth 10 percent, was promised in class and has not been published. The laboratory detail, meaning what each of the four labs builds and what has to be prepared for it, is on Brightspace and has been worked through for Lab 1 only.</p>
+              <p><b>GNG2101.</b> The ten deliverables and their dates are complete. The project record is in <code>GNG2101-context.md</code> in the course folder: the client brief, the benchmarking, the price landscape, the approaches already ruled out and the questions for the client. None of it has been brought onto the page.</p>
+              <p><b>Each one is a working session of its own</b>, and each ends with the banner at the top of that page coming off.</p>
+            </div>
+          </details>
+
+          <details class="task fold" data-group="course" data-pos="2">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="get-oppenheim-and-willsky-2nd-edition"></span>
+              <span class="b">
+                <span class="h">Get Oppenheim and Willsky, 2nd edition</span>
+                <span class="d">The book is in the course folder, and the problem index built from it checks out against Assignment 1.</span>
+                <span class="tagrow"><span class="tag who">ELG3125</span><span class="tag">Done</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>The copy in use.</b> Second edition, ISBN 9780136511755, in the course folder. Problem 1.21 is on printed page 59, which matches the pages scanned for Assignment 1. Printed page plus 22 gives the page in the file.</p>
+              <p>uOttawa Omni returns six results for the author and title. One is the book that matters: <b>Signals &amp; systems</b>, Oppenheim, Willsky and Nawab, 1997, on Reserve at Morisset plus other locations. A 1983 first edition with Young as third author is in the General Collection at QA 402 .O63 1983, and its problem numbering does not match what the assignments ask for.</p>
+              <p><b>There is no electronic copy through the library.</b> The only results offering online access are a 1985 journal review of the book and two unrelated book chapters. A 2015 printing shows as not available locally.</p>
+              <p>The route taken was a Reserve loan, with the problem pages for chapters 1 to 3 photographed first because those carry the midterm.</p>
+            </div>
+          </details>
+
+          <details class="task fold" data-group="course" data-pos="3">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="build-a-problem-index-from-the-textbook"></span>
+              <span class="b">
+                <span class="h">Build a problem index from the textbook</span>
+                <span class="d">A script recorded which page each numbered problem starts on, so any later lookup costs one page.</span>
+                <span class="tagrow"><span class="tag who">ELG3125</span><span class="tag">Done</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>The book is never read into a conversation.</b> A script walks the pages and writes a small table; the conversation only ever sees the handful of pages a given assignment needs, so the index cost almost nothing to build.</p>
+              <ol>
+                <li>Extract text page by page with PyMuPDF. If the source is photographs, run optical character recognition first with <code>ocrmypdf</code>, which adds a searchable text layer without changing how the pages look.</li>
+                <li>Match problem markers at the start of a line, in the shape <code>^(\d+)\.(\d+)\.</code>, and record chapter, problem and page.</li>
+                <li>Write <code>Working files/problem-index.json</code> as a map from problem number to page.</li>
+                <li>Check the index against the five problem numbers already known from Assignment 1, which are on Oppenheim pages 59 to 61. If those come out right, the rest are trustworthy.</li>
+              </ol>
+              <p>A whole textbook is far too large to read directly. The index makes the cost of a lookup independent of the size of the book.</p>
+            </div>
+          </details>
+
+          <details class="task fold" data-group="course" data-pos="4">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="add-the-problem-text-to-the-assignments-table"></span>
+              <span class="b">
+                <span class="h">Add the problem text to the assignments table</span>
+                <span class="d">Every row in the ELG3125 assignments table opens a page carrying the problem, its figure and the source page.</span>
+                <span class="tagrow"><span class="tag who">ELG3125</span><span class="tag">Done</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>What was built.</b> Ten pages under <code>elg3125/pages/</code>, one per assignment except set 6 which runs to two, reached from the Questions column of the table on that hub.</p>
+              <p><b>Each problem appears twice, as typed text and as a picture, because neither alone is enough.</b> Typed text renders the mathematics properly, can be searched, and costs almost nothing to revisit. Many problems refer to a figure, such as Figure P1.21 in the first assignment, and a figure has to be an image.</p>
+              <ul>
+                <li><b>Typed statement.</b> The problem written out in the page, with the mathematics set properly. This is what reads first.</li>
+                <li><b>The figure</b> where one is referenced, cropped from the page and placed beside the statement.</li>
+                <li><b>The full source page</b> inside a closed toggle, with the assigned parts ringed, for checking against the original.</li>
+              </ul>
+              <p><b>Drawing the rings.</b> PyMuPDF searches a page for the problem label, for example <code>1.21</code>, which returns the rectangle holding it. Widening that rectangle to the column and adding <code>page.add_rect_annot</code> in the accent colour draws a ring around the problem. Rendering afterwards bakes the ring into the image. Only the assigned parts are ringed: for Assignment 1 that means 1.21 (c)(d)(e), 1.22 (b)(d)(e), 1.23 (b), 1.24 (c) and 1.25 (a)(c)(e), leaving the unassigned parts plain.</p>
+              <p><b>The marking was built and checked on the Assignment 1 scan first</b>, because those three pages were downloaded while the rest of the book was still being sourced.</p>
+            </div>
+          </details>
+
+          <details class="task fold" data-group="course" data-pos="5">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="extract-transcripts-for-the-lecture-decks"></span>
+              <span class="b">
+                <span class="h">Extract transcripts for the lecture decks</span>
+                <span class="d">A plain text version of each deck makes searching a term across the whole course free.</span>
+                <span class="tagrow"><span class="tag who">ELG3125</span><span class="tag">Per lecture</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>Where they go.</b> One text file per deck in <code>Working files</code> in the course folder on disk. The decks are Prof. Yao's, so they stay out of this repository and so do the transcripts.</p>
+              <p><b>How.</b> PyMuPDF walks the pages of the deck and writes the text out. A deck takes seconds and needs no optical character recognition, because the slides carry a real text layer.</p>
+              <p><b>Where extracted text goes wrong.</b> A slide whose content is an equation, a plot or a block diagram comes back as scattered symbols or as nothing at all. Rendered page images are kept for those slides and read directly, which is the expensive route and is used only where the text version fails.</p>
+              <p><b>What it buys.</b> Finding which lecture covered a topic becomes a search across a folder of text files, with no deck opened and nothing large read.</p>
+              <p><b>It runs once per deck</b>, so the item stays open all term and is cleared a lecture at a time.</p>
+            </div>
+          </details>
+
+          <details class="task fold" data-group="course" data-pos="6">
+            <summary>
+              <span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="pull-the-past-midterm-and-final-papers"></span>
+              <span class="b">
+                <span class="h">Pull the past midterm and final papers</span>
+                <span class="d">Yao's course page hosts a midterm and a final from earlier years, both with worked solutions.</span>
+                <span class="tagrow"><span class="tag who">ELG3125</span><span class="tag">Before the midterm</span></span>
+              </span>
+            </summary>
+            <div class="in">
+              <p><b>Why they matter.</b> The midterm falls on Wednesday 21 October, covers chapters 1 to 3 and carries 25 percent of the course mark. These two papers are the closest thing available to a practice paper for it.</p>
+              <p><b>Where they are.</b> On Prof. Yao's own page at <a href="https://site.uottawa.ca/~jpyao/courses/E3125_Fall_2026.html">site.uottawa.ca/~jpyao</a>, the same page the Solution column of the assignments table links to. The files are served from a folder named for the old course code, ELG3120, which is a stale label on current material.</p>
+              <p><b>How to use them.</b> Work the midterm paper through with the solution closed, then mark it against the posted one and write down every question that needed the solution. That list is what the last week before 21 October is for.</p>
+              <p><b>They stay on disk.</b> The papers and their solutions are Prof. Yao's, so the hub links across to them and keeps no copy.</p>
+            </div>
+          </details>
+
         </div>
       </div>
 
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-shared-css"></div>
-        <div class="b">
-          <div class="h">Bring the problem pages into the shared stylesheet</div>
-          <div class="d">The ten pages under <code>elg3125/pages/</code> still carry their own copy of the design system. They should import <code>shared/hub.css</code> like every other page, so one edit to a colour or a table reaches all ten.</div>
-          <span class="tag">Tidying</span>
+      <div class="tdone" id="backlog-done">
+        <div class="head-row">
+          <h3>Done</h3>
+          <span class="meter" data-progress="#backlog-done" data-count="done"></span>
         </div>
-      </div>
+        <p data-done-empty>Nothing is done yet. An item moves down here when its box is ticked.</p>
 
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="hub-course-pages"></div>
-        <div class="b">
-          <div class="h">Fill out the CEG3155 and GNG2101 hubs properly</div>
-          <div class="d">Each one is a session of its own: the laboratories and the assignment detail for Digital Systems II, and the project record for Engineering Design, which is still in a markdown file in the course folder.</div>
-          <span class="tag">Per course</span>
+        <div class="tgroup" hidden>
+          <h4>Across the hub</h4>
+          <div class="stack" data-done-group="across"></div>
+        </div>
+
+        <div class="tgroup" hidden>
+          <h4>Per course</h4>
+          <div class="stack" data-done-group="course"></div>
         </div>
       </div>
 
