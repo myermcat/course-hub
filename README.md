@@ -16,9 +16,11 @@ elg3125/index.html  Signal and System Analysis, still to be moved in
 ```
 
 **Philosophy keeps its own repository.** It is reached by a link out to
-[myermcat.github.io/phi-reading-hub](https://myermcat.github.io/phi-reading-hub/), which is its
-own repository. Its published address has been shared and the highlights readers save are tied
-to that address, so those pages stay where they are.
+[myermcat.github.io/phi-reading-hub](https://myermcat.github.io/phi-reading-hub/). That address
+has already been shared and is written into the front page card, the site footer and four
+README files, so renaming the repository would leave all of them pointing at nothing. The saved
+highlights survive a rename, because the guide stores them under a fixed key on the shared
+`myermcat.github.io` origin. The address is the thing that breaks.
 
 ## The design system
 
