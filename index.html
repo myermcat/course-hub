@@ -8,6 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%2322282E'/%3E%3Crect%20x='13'%20y='13'%20width='16'%20height='16'%20rx='4'%20fill='%237C5CB8'/%3E%3Crect%20x='35'%20y='13'%20width='16'%20height='16'%20rx='4'%20fill='%233E9E82'/%3E%3Crect%20x='13'%20y='35'%20width='16'%20height='16'%20rx='4'%20fill='%234E90C8'/%3E%3Crect%20x='35'%20y='35'%20width='16'%20height='16'%20rx='4'%20fill='%23C08A3E'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="shared/hub.css">
+<link rel="stylesheet" href="shared/nav.css">
 <style>
   :root{--accent:#3C6E8F;--lead:#2A5273}
   @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#7FB6D4;--lead:#95BFDC}}
@@ -30,6 +31,18 @@
 </style>
 </head>
 <body data-store="hub">
+<nav class="topnav" aria-label="Courses">
+  <div class="in">
+    <a class="home" href="./" aria-label="Course hub, the front page"><svg viewBox='0 0 64 64' aria-hidden='true'><rect width='64' height='64' rx='14' fill='#22282E'/><rect x='13' y='13' width='16' height='16' rx='4' fill='#7C5CB8'/><rect x='35' y='13' width='16' height='16' rx='4' fill='#3E9E82'/><rect x='13' y='35' width='16' height='16' rx='4' fill='#4E90C8'/><rect x='35' y='35' width='16' height='16' rx='4' fill='#C08A3E'/></svg><span>Course hub</span></a>
+    <div class="links">
+      <a class="phi" href="https://myermcat.github.io/phi-reading-hub/">PHI2394</a>
+      <a class="elg" href="elg3125/">ELG3125</a>
+      <a class="ceg" href="ceg3155/">CEG3155</a>
+      <a class="gng" href="gng2101/">GNG2101</a>
+    </div>
+  </div>
+</nav>
+
 <div class="wrap">
 
   <header>
@@ -44,10 +57,10 @@
     <div class="cards">
 
       <a class="card phi" href="https://myermcat.github.io/phi-reading-hub/">
-        <div class="ghost" aria-hidden="true">PHI</div>
+        <div class="ghost" aria-hidden="true">2394</div>
         <div class="t">
-          <div class="n">PHI 2394 B &middot; Scientific Thought and Social Values</div>
-          <h3>Reading hub</h3>
+          <div class="n">Scientific Thought and Social Values &middot; Section B00</div>
+          <h3>PHI2394</h3>
           <p>Every argument in the week's reading, written out for someone who has not opened the source, plus a cheat sheet before each exam. Three exams and no essays.</p>
         </div>
         <div class="meta"><span><b>Next:</b> Exam 1, Wednesday 7 October</span><span><b>Prof.</b> Emily Kotow</span><span><b>Own repository</b></span></div>
@@ -57,10 +70,10 @@
       </a>
 
       <a class="card elg" href="elg3125/">
-        <div class="ghost" aria-hidden="true">ELG</div>
+        <div class="ghost" aria-hidden="true">3125</div>
         <div class="t">
-          <div class="n">ELG 3125 A &middot; Signal and System Analysis</div>
-          <h3>Assignments and solutions</h3>
+          <div class="n">Signal and System Analysis &middot; Section A00</div>
+          <h3>ELG3125</h3>
           <p>The nine problem sets from Oppenheim and Willsky have a page each, ten pages in all because set 6 runs to two, with every problem typed out and the textbook page shown with the assigned problems ringed. The assignments table links every posted solution on Prof. Yao's site.</p>
         </div>
         <div class="meta"><span><b>Next:</b> Midterm, Wednesday 21 October</span><span><b>Prof.</b> Jianping Yao</span><span><b>Tutorial</b> A04, Fridays</span></div>
@@ -70,10 +83,10 @@
       </a>
 
       <a class="card ceg" href="ceg3155/">
-        <div class="ghost" aria-hidden="true">CEG</div>
+        <div class="ghost" aria-hidden="true">3155</div>
         <div class="t">
-          <div class="n">CEG 3155 A &middot; Digital Systems II</div>
-          <h3>Course hub</h3>
+          <div class="n">Digital Systems II &middot; Section A03</div>
+          <h3>CEG3155</h3>
           <p>Four laboratories, five assignments with the best four counted, a term project whose details have not been published, and three quizzes.</p>
         </div>
         <div class="meta"><span><b>Next:</b> Midterm, Thursday 22 October</span><span><b>Prof.</b> Rami Abielmona</span><span><b>Lecture</b> Thursdays, 19:00</span></div>
@@ -83,11 +96,11 @@
       </a>
 
       <a class="card gng" href="gng2101/">
-        <div class="ghost" aria-hidden="true">GNG</div>
+        <div class="ghost" aria-hidden="true">2101</div>
         <div class="t">
-          <div class="n">GNG 2101 B &middot; Engineering Design</div>
-          <h3>Adjustable Bed Canvas Holder</h3>
-          <p>One client project carried across the term, with ten deliverables, four in-class tests and no final exam. The team sets its own dates for deliverables B through J.</p>
+          <div class="n">Engineering Design &middot; Section B, Lab B4</div>
+          <h3>GNG2101</h3>
+          <p>The Adjustable Bed Canvas Holder, one client project carried across the term on a budget of 75 dollars, with ten deliverables, four in-class tests and no final exam. The team sets its own dates for deliverables B through J.</p>
         </div>
         <div class="meta"><span><b>Next:</b> PD A, Friday 18 September</span><span><b>Prof.</b> Rubina Lakhani</span><span><b>Lab</b> B4, Saturdays</span></div>
         <div class="go">Open the hub

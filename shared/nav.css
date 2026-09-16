@@ -1,0 +1,67 @@
+/* nav.css
+   The bar across the top of every page: the way back to the front page, and a jump to any of
+   the four courses from anywhere.
+
+   It is a separate file from hub.css because the ten problem pages under elg3125/pages/ still
+   carry their own copy of the design system and do not import hub.css. This file uses only
+   tokens those pages already define, so it drops into either kind of page unchanged. */
+
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: saturate(1.5) blur(10px);
+  -webkit-backdrop-filter: saturate(1.5) blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+.topnav .in {
+  max-width: 900px; margin: 0 auto; padding: 10px 26px;
+  display: flex; align-items: center; gap: 8px 20px; flex-wrap: wrap;
+}
+.topnav .home {
+  display: inline-flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink);
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase;
+  white-space: nowrap; border-bottom: 0;
+}
+.topnav .home svg { width: 18px; height: 18px; border-radius: 5px; flex: 0 0 auto; }
+.topnav .home:hover { color: var(--accent); }
+.topnav .home:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.topnav .links { display: flex; gap: 2px; flex-wrap: wrap; margin-left: auto; }
+.topnav .links a {
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--muted);
+  text-decoration: none; padding: 5px 10px; border-radius: 7px; white-space: nowrap;
+  border-bottom: 0; transition: color .15s, background .15s;
+}
+.topnav .links a:hover { color: var(--ink); background: var(--sunk); }
+.topnav .links a[aria-current] { color: var(--accent); background: var(--sunk); }
+.topnav .links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The four course colours as a hint beside each code, so the bar is scannable without reading. */
+.topnav .links a::before {
+  content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 2px;
+  margin-right: 7px; vertical-align: 1px; background: var(--dot, var(--muted)); opacity: .85;
+}
+.topnav .links a.phi { --dot: #1F6B57 }
+.topnav .links a.elg { --dot: #1C5D93 }
+.topnav .links a.ceg { --dot: #8A5A1E }
+.topnav .links a.gng { --dot: #5B3E8E }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .topnav .links a.phi { --dot: #64BFA1 }
+  :root:not([data-theme="light"]) .topnav .links a.elg { --dot: #6BB4E8 }
+  :root:not([data-theme="light"]) .topnav .links a.ceg { --dot: #D9A957 }
+  :root:not([data-theme="light"]) .topnav .links a.gng { --dot: #A98BD6 }
+}
+:root[data-theme="dark"] .topnav .links a.phi { --dot: #64BFA1 }
+:root[data-theme="dark"] .topnav .links a.elg { --dot: #6BB4E8 }
+:root[data-theme="dark"] .topnav .links a.ceg { --dot: #D9A957 }
+:root[data-theme="dark"] .topnav .links a.gng { --dot: #A98BD6 }
+
+@media (max-width: 640px) {
+  .topnav .in { padding: 9px 16px; gap: 7px 10px; }
+  .topnav .links { margin-left: 0; width: 100%; }
+  .topnav .links a { padding: 5px 8px; font-size: 11px; }
+  .topnav .home span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .topnav .links a { transition: none } }
+@media print { .topnav { display: none } }
