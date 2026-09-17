@@ -20,19 +20,6 @@
   h1{font-size:clamp(31px,5vw,44px);margin:10px 0 0}
   header.tight{display:flex;flex-direction:column;gap:14px}
 
-  details.about{border-top:1px solid var(--rule);padding-top:13px}
-  details.about summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--muted);list-style:none;display:flex;align-items:center;gap:9px}
-  details.about summary::-webkit-details-marker{display:none}
-  details.about summary::before{content:"";width:0;height:0;border-left:5px solid currentColor;
-    border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .15s}
-  details.about[open] summary::before{transform:rotate(90deg)}
-  details.about summary:hover{color:var(--accent)}
-  details.about summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-  details.about .in{display:flex;flex-direction:column;gap:11px;padding:15px 0 4px;font-size:15.5px;
-    color:var(--ink-soft);max-width:70ch}
-  details.about .in b{color:var(--ink)}
-
   @media print{
     .topnav,.sitefoot,.uplink,.lecbar,.lecdel,#nb-bar,#save,details.about{display:none!important}
     body{background:#fff}

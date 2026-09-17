@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CEG3155 Lab 3 quick guide</title>
+<meta name="description" content="Laboratory 3 of CEG3155, Digital Systems II, University of Ottawa. The handout has not been posted yet, so this page carries the date, the Brightspace module and the shape the guide takes.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%238A5A1E'/%3E%3Cpath%20d='M8%2045%20L8%2022%20L24%2022%20L24%2045%20L40%2045%20L40%2022%20L56%2022'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../shared/hub.css">
+<link rel="stylesheet" href="../../shared/nav.css">
+<style>
+  :root{--accent:#8A5A1E;--lead:#6E4A1C}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#D9A957;--lead:#C79A50}}
+  :root[data-theme="dark"]{--accent:#D9A957;--lead:#C79A50}
+  /* The page opens on the guide, so the title is smaller than a hub's and the space above it
+     is shorter. */
+  .wrap{padding-top:clamp(26px,4.5vh,50px);gap:38px}
+  h1{font-size:clamp(31px,5.4vw,46px);margin:10px 0 0}
+  header{display:flex;flex-direction:column;gap:0}
+  header .also{margin-top:18px}
+  /* A heading with no handout behind it yet says what will go under it, in the tone of a
+     caption, so the page reads as unfinished work with a shape to it. */
+  section.empty{gap:12px}
+  section.empty p{color:var(--muted)}
+</style>
+</head>
+<body data-store="ceg3155">
+<nav class="topnav" aria-label="Courses">
+  <div class="in">
+    <a class="home" href="../../" aria-label="Course hub, the front page"><svg viewBox='0 0 64 64' aria-hidden='true'><rect width='64' height='64' rx='14' fill='#22282E'/><rect x='13' y='13' width='16' height='16' rx='4' fill='#7C5CB8'/><rect x='35' y='13' width='16' height='16' rx='4' fill='#3E9E82'/><rect x='13' y='35' width='16' height='16' rx='4' fill='#4E90C8'/><rect x='35' y='35' width='16' height='16' rx='4' fill='#C08A3E'/></svg><span>Course hub</span></a>
+    <div class="links">
+      <a class="phi" href="https://myermcat.github.io/phi-reading-hub/">PHI2394</a>
+      <a class="elg" href="../../elg3125/">ELG3125</a>
+      <a class="ceg" href="../../ceg3155/" aria-current="page">CEG3155</a>
+      <a class="gng" href="../../gng2101/">GNG2101</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <a class="uplink" href="../#labs"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8H2M7 3 2 8l5 5"/></svg>CEG3155 hub, Laboratories</a>
+
+  <header>
+    <div class="eyebrow">CEG 3155 &middot; Digital Systems II &middot; uOttawa &middot; Fall 2026</div>
+    <h1>Laboratory 3</h1>
+    <p class="standfirst">Due Wednesday 11 November 2026 at midnight on Brightspace. The handout has not been posted, so what this page carries is the date, the module to watch, and the shape the guide takes once there is something to read.</p>
+    <div class="also">
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651173">Laboratory 3 on Brightspace</a>
+      <a href="lab-1.html">Laboratory 1 quick guide</a>
+    </div>
+  </header>
+
+  <div class="banner">
+    <div class="n">Waiting on the handout</div>
+    <p><b>The Laboratory 3 module on Brightspace was opened on 17 September 2026 and holds no document.</b> The date above comes from the course outline dated 17 July 2026. The eight headings below are the shape a finished guide takes, kept here so the page says what it will have to answer. Turning a posted handout into the guide takes about an hour.</p>
+  </div>
+
+  <section>
+    <h2 id="known">What is known already</h2>
+    <div class="facts">
+      <div class="fact"><div class="k">Due</div><div class="v"><b>Wednesday 11 November 2026</b><br>Midnight, on Brightspace</div></div>
+      <div class="fact"><div class="k">Laboratory</div><div class="v">Wed 19:00 to 21:50<br>CBY B402</div></div>
+      <div class="fact"><div class="k">Board</div><div class="v">Digilent Nexys A7-100T<br>Xilinx Artix-7 FPGA</div></div>
+      <div class="fact"><div class="k">Software</div><div class="v">Xilinx Vivado<br>Windows or Linux x86 only</div></div>
+    </div>
+    <div class="note">
+      <p><b>The date is the Wednesday one.</b> The course runs a Monday laboratory group and a Wednesday one, and a laboratory is due at midnight on the day its group meets. Yours is the Wednesday group.</p>
+      <p><b>The board and the software belong to the course.</b> Both are named in the Laboratory 1 handout and run through the term, and whether Laboratory 3 needs the board at all is answered by its own handout.</p>
+    </div>
+  </section>
+
+  <section class="empty">
+    <h2 id="gist">1. The gist</h2>
+    <p>What the circuit has to do, described the way you would describe it to somebody who will never open the handout: what the board shows, what the switches do, and how the display behaves as you change them.</p>
+  </section>
+
+  <section class="empty">
+    <h2 id="kit">2. The kit</h2>
+    <p>The board, the software, the room, the evening, and how many people are in a group. Laboratory 1 ran on the Nexys A7-100T under Vivado 2022.1 in CBY B402, and this handout says whether any of that changes.</p>
+  </section>
+
+  <section class="empty">
+    <h2 id="inside">3. What is happening inside the circuit</h2>
+    <p>The registers the design holds, what each one carries, and the two or three decisions that settle whether the circuit works at all.</p>
+  </section>
+
+  <section class="empty">
+    <h2 id="reset">4. What the reset does</h2>
+    <p>Which flip flops the reset forces, the value each one takes, and what the demonstration to the teaching assistant opens with.</p>
+  </section>
+
+  <section class="empty">
+    <h2 id="graded">5. What you are actually graded on</h2>
+    <p>The stages of the design method that carry the marks. Laboratory 1 wanted five of them, from pseudocode through to the control logic, and the VHDL came last.</p>
+  </section>
+
+  <section class="empty">
+    <h2 id="rules">6. The rules that cost marks</h2>
+    <p>The restrictions the marker applies. Laboratory 1 refused Verilog, refused behavioural modelling and refused ready made blocks, and it wanted a synchronous, globally resettable design stepped by an enable pulse.</p>
+  </section>
+
+  <section class="empty">
+    <h2 id="approach">7. How to approach it</h2>
+    <p>What to do in the first session, what to agree before the building is split between two people, and what to leave until the two halves come back together.</p>
+  </section>
+
+  <section class="empty">
+    <h2 id="report">8. What goes in the report</h2>
+    <p>The handout's own list of what the report has to contain, and the parts of it worth planning for while the work is still going on.</p>
+  </section>
+
+  <section>
+    <h2 id="meanwhile">What to do in the meantime</h2>
+    <div class="note">
+      <p><b>Read the <a href="lab-1.html">Laboratory 1 guide</a>.</b> The design method the marks are for, the restrictions on the VHDL and the shape of the report are set out there, and the marking in this course has followed the same pattern so far. Read it as the pattern to expect, and take this laboratory's own requirements from its handout once it appears.</p>
+      <p><b>Settle the machine that runs Vivado before this laboratory starts.</b> Synthesis and programming the board need Windows or Linux on x86, and an install started on the laboratory evening costs most of that evening.</p>
+      <p><b>Open <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651173">the module on Brightspace</a> in the week before the laboratory.</b> The other place a handout could appear is the <code>labs</code> folder of the course site, which has answered 403 Forbidden since term started.</p>
+    </div>
+  </section>
+
+  <details class="about">
+    <summary>What this page is, and where it comes from</summary>
+    <div class="in">
+      <p><b>This page is a placeholder and says so.</b> Each laboratory gets a guide in plain words once its handout is read. Laboratory 1 has one. This laboratory has no handout to read yet.</p>
+      <p>The date comes from the course outline dated 17 July 2026 and the notes from the first class on 12 September. The room, the board and the software come from the outline and the Laboratory 1 handout. Nothing here describes what Laboratory 3 asks for, because that is not known.</p>
+      <p>The handouts and the lecture slides are the professor's, so no copy of either is kept here.</p>
+    </div>
+  </details>
+
+</div>
+
+<footer class="sitefoot">
+  <div class="in">
+    <div class="col brand">
+      <a href="../">CEG3155 Hub</a>
+      <p>Digital Systems II, University of Ottawa, Fall 2026.</p>
+    </div>
+    <nav class="col" aria-label="This laboratory">
+      <h2>On this page</h2>
+      <a href="#known">What is known already</a>
+      <a href="#gist">The gist</a>
+      <a href="#kit">The kit</a>
+      <a href="#inside">Inside the circuit</a>
+      <a href="#reset">What the reset does</a>
+      <a href="#graded">What you are graded on</a>
+      <a href="#rules">The rules that cost marks</a>
+      <a href="#approach">How to approach it</a>
+      <a href="#report">What goes in the report</a>
+      <a href="#meanwhile">What to do in the meantime</a>
+    </nav>
+    <nav class="col" aria-label="Elsewhere">
+      <h2>Elsewhere</h2>
+      <a href="../">CEG3155 hub</a>
+      <a href="../#labs">Laboratories</a>
+      <a href="lab-1.html">Laboratory 1 guide</a>
+      <a href="lab-4.html">Laboratory 4</a>
+      <a href="../../">All four courses</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651173">Laboratory 3 on Brightspace</a>
+    </nav>
+  </div>
+  <div class="colophon">
+    <span>Built with Claude from the course outline and Brightspace. AI can make mistakes, so check anything that decides an answer.</span>
+    <span>The handouts and the course material are copyright and are not hosted here.</span>
+  </div>
+</footer>
+
+<script src="../../shared/tasks.js"></script>
+</body>
+</html>

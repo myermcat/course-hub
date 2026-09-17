@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CEG3155 Lab 1 quick guide</title>
+<meta name="description" content="Laboratory 1 of CEG3155, Digital Systems II, University of Ottawa. What the light display controller asks for, the board and the software, what is graded, the rules that cost marks, and what goes in the report.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%238A5A1E'/%3E%3Cpath%20d='M8%2045%20L8%2022%20L24%2022%20L24%2045%20L40%2045%20L40%2022%20L56%2022'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../shared/hub.css">
+<link rel="stylesheet" href="../../shared/nav.css">
+<style>
+  :root{--accent:#8A5A1E;--lead:#6E4A1C}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#D9A957;--lead:#C79A50}}
+  :root[data-theme="dark"]{--accent:#D9A957;--lead:#C79A50}
+  /* The page opens on the guide, so the title is smaller than a hub's and the space above it
+     is shorter. */
+  .wrap{padding-top:clamp(26px,4.5vh,50px);gap:38px}
+  h1{font-size:clamp(31px,5.4vw,46px);margin:10px 0 0}
+  header{display:flex;flex-direction:column;gap:0}
+  header .also{margin-top:18px}
+</style>
+</head>
+<body data-store="ceg3155">
+<nav class="topnav" aria-label="Courses">
+  <div class="in">
+    <a class="home" href="../../" aria-label="Course hub, the front page"><svg viewBox='0 0 64 64' aria-hidden='true'><rect width='64' height='64' rx='14' fill='#22282E'/><rect x='13' y='13' width='16' height='16' rx='4' fill='#7C5CB8'/><rect x='35' y='13' width='16' height='16' rx='4' fill='#3E9E82'/><rect x='13' y='35' width='16' height='16' rx='4' fill='#4E90C8'/><rect x='35' y='35' width='16' height='16' rx='4' fill='#C08A3E'/></svg><span>Course hub</span></a>
+    <div class="links">
+      <a class="phi" href="https://myermcat.github.io/phi-reading-hub/">PHI2394</a>
+      <a class="elg" href="../../elg3125/">ELG3125</a>
+      <a class="ceg" href="../../ceg3155/" aria-current="page">CEG3155</a>
+      <a class="gng" href="../../gng2101/">GNG2101</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <a class="uplink" href="../#labs"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8H2M7 3 2 8l5 5"/></svg>CEG3155 hub, Laboratories</a>
+
+  <header>
+    <div class="eyebrow">Laboratory 1 &middot; CEG 3155 &middot; uOttawa &middot; Fall 2026</div>
+    <h1>Light display controller</h1>
+    <p class="standfirst">What the laboratory asks for, what the hardware does, and the order to do the work in. Ten minutes of reading.</p>
+    <div class="also">
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7750088/View">Lab 1 handout</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807032/View">Lecture 4, ASM charts</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807033/View">Lecture 3, VHDL</a>
+    </div>
+  </header>
+
+  <section>
+    <h2 id="gist">1. The gist</h2>
+    <p>The board has eight small LEDs in a row. You are building a circuit that lights one of them and moves the lit one along the row, one step per second, so a dot appears to travel across the display.</p>
+    <p>Two slide switches, LEFT and RIGHT, control it. Their four combinations:</p>
+    <ol>
+      <li><b>LEFT on.</b> A dot travels from the right end of the row toward the left.</li>
+      <li><b>RIGHT on.</b> A dot travels from the left end toward the right.</li>
+      <li><b>Both on.</b> Two dots, one going each way. They pass through each other in the middle.</li>
+      <li><b>Both off.</b> The LEDs go dark. The dots stay where they were, and when you turn a switch back on they carry on from that position.</li>
+    </ol>
+    <p>A third switch is the reset. It puts both dots back at their starting ends and clears the display.</p>
+    <p>That is the whole behaviour. The circuit is small. The work is in how you are required to design it.</p>
+  </section>
+
+  <section>
+    <h2 id="kit">2. The kit</h2>
+    <div class="facts">
+      <div class="fact"><div class="k">Board</div><div class="v">Digilent Nexys A7-100T, carrying a Xilinx Artix-7 FPGA</div></div>
+      <div class="fact"><div class="k">Software</div><div class="v">Xilinx Vivado 2022.1</div></div>
+      <div class="fact"><div class="k">Runs on</div><div class="v">Windows or Linux, x86 only. There is no Mac version</div></div>
+      <div class="fact"><div class="k">Disk needed</div><div class="v">Around 90 GB once installed, and more during the install itself</div></div>
+      <div class="fact"><div class="k">Language</div><div class="v">VHDL</div></div>
+      <div class="fact"><div class="k">Where</div><div class="v">CBY B402, Wednesday evening</div></div>
+      <div class="fact"><div class="k">Team</div><div class="v">Exactly two people</div></div>
+    </div>
+    <div class="note">
+      <p><b>One of the two of you has to be able to run Vivado.</b> If one partner is on a Mac, that partner cannot be the one who builds and programs the board. Settle this in the first ten minutes of the first session, because the download takes hours.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="inside">3. What is happening inside the circuit</h2>
+    <p>Three storage registers, eight bits each.</p>
+    <ul>
+      <li><b>DISPLAY</b> holds what the LEDs currently show.</li>
+      <li><b>LMASK</b> holds the position of the left-travelling dot.</li>
+      <li><b>RMASK</b> holds the position of the right-travelling dot.</li>
+    </ul>
+    <p><b>The masks carry the dots.</b> <code>LMASK</code> starts as <code>00000001</code>, a single 1 at one end, and each step it moves that 1 one place along. <code>RMASK</code> starts as <code>10000000</code> and moves its 1 the other way.</p>
+    <p><b>DISPLAY copies whichever mask is active.</b> With one switch on it takes that mask, with both on it takes the two combined, and with neither on it takes all zeros.</p>
+    <p><b>Two details decide whether your circuit works.</b></p>
+    <p><b>The dot has to come back.</b> Move a single 1 along an eight bit register eight times and it falls off the end, leaving <code>00000000</code>. The display would then stay dark for ever. So the registers rotate: the bit that leaves one end reappears at the other. The handout does not say this outright, so it is a decision you make and then write up.</p>
+    <p><b>Switching off must not erase the position.</b> When both switches are off, <code>DISPLAY</code> is loaded with zeros, and <code>LMASK</code> and <code>RMASK</code> are left alone. A register with an enable input holds its value whenever the enable is low, so holding costs no extra hardware. You simply do not tell those two registers to load.</p>
+  </section>
+
+  <section>
+    <h2 id="reset">4. What the reset switch does</h2>
+    <p><b>The reset forces every flip flop in the design to a known value</b>: <code>DISPLAY</code> to all zeros, <code>LMASK</code> to <code>00000001</code>, <code>RMASK</code> to <code>10000000</code>. It is the only thing that ever puts the dots back to their starting positions. Turning the two travel switches off stops the dots and leaves them where they are.</p>
+    <p>Your demo starts by flipping reset on and then off again.</p>
+  </section>
+
+  <section>
+    <h2 id="graded">5. What you are actually graded on</h2>
+    <p>The behaviour above is easy. The marks are for following a specific design method, called ASM, and showing every stage of it. Five stages:</p>
+    <ol>
+      <li><b>Write the algorithm as pseudocode.</b> The handout gives you this one already, so your job is to close the gaps in it and write out the version you intend to build.</li>
+      <li><b>Convert the pseudocode into an ASM chart.</b> A flowchart with two shapes: rectangles for states, which each take one clock step, and diamonds for tests, which take no time at all.</li>
+      <li><b>Design the datapath from the chart.</b> Every register named in the chart becomes real hardware, and every value moved between them becomes a wire, with a selector wherever a register has more than one possible source.</li>
+      <li><b>Draw the detailed ASM chart.</b> The same chart again, with every movement of data replaced by the names of the control signals that cause it.</li>
+      <li><b>Design the control logic.</b> Using the one flip flop per state method, which gives each state in your chart its own flip flop.</li>
+    </ol>
+    <p>Only after all five do you write the VHDL. A report that shows working LEDs and skips the charts loses most of the marks.</p>
+  </section>
+
+  <section>
+    <h2 id="rules">6. The rules that cost marks</h2>
+    <ul>
+      <li><b>VHDL only.</b> Verilog is refused.</li>
+      <li><b>Structural style only.</b> You build the circuit out of small named parts wired together. Describing the behaviour and letting the software work out the hardware is refused.</li>
+      <li><b>Build every part yourself.</b> No ready made blocks from the Vivado catalogue or from the internet. Flip flops, adders, comparators, all of them yours.</li>
+      <li><b>The whole design is synchronous and resettable.</b> Clock and reset reach every block.</li>
+      <li><b>Slow the display down with an enable, and leave the clock alone.</b> The board's clock runs at 100 million cycles a second, far too fast to watch. You count 100 million cycles and emit a single pulse, then let the registers move only on that pulse. Feeding a slowed signal into the clock inputs themselves is a known way to produce a circuit that behaves differently in simulation and on the board.</li>
+      <li><b>Demonstrate it working to the TA</b> before the report is due.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 id="approach">7. How to approach it</h2>
+    <p><b>Session one, together, on paper.</b> Work through stages 1 to 3. Do not split this up, and do not open Vivado yet. Everything after it depends on these being right, and a TA is in the room to check them. Start the Vivado download on your partner's machine before you begin, so it runs while you work.</p>
+    <p><b>Then agree the list of signals between the two halves of the design.</b> Write down the exact name and width of every wire that crosses from the control logic into the datapath, for example a two bit selector that chooses what <code>DISPLAY</code> loads. This list is the agreement that lets two people write code separately and have the pieces fit together afterwards.</p>
+    <p><b>Then split the building.</b> One person takes the datapath: the three registers, the selector, the combining logic. The other takes the counter that produces the one per second pulse, plus the control logic. Each writes a small test for their own parts.</p>
+    <p><b>Session two, together.</b> Wire the halves together, simulate the whole thing, then synthesise it and program the board.</p>
+    <p><b>Then the report.</b> Whoever built a part writes that part of the report, and one of you reads the whole thing at the end so it sounds like one writer.</p>
+  </section>
+
+  <section>
+    <h2 id="report">8. What goes in the report</h2>
+    <p>From the handout's own list:</p>
+    <ul>
+      <li>Simulation results, with an explanation, for every VHDL file</li>
+      <li>Comments through all the source</li>
+      <li>A flowchart of your solution</li>
+      <li>A block diagram of your solution</li>
+      <li>The ASM charts, the datapath and the control logic</li>
+      <li>Your solution described in your own words</li>
+      <li>The problems you hit and what you did about them</li>
+      <li>All source code appended, and the files submitted alongside the report</li>
+    </ul>
+    <p><b>The problems section is worth planning for.</b> The rotation decision in section 3 belongs there, and so does anything that behaved differently on the board than in simulation.</p>
+  </section>
+
+  <details class="about">
+    <summary>What this page is, and where it comes from</summary>
+    <div class="in">
+      <p><b>Read this if you have not opened the handout.</b> It covers what the lab asks for, what the hardware does, and the order to do the work in.</p>
+      <p>Everything here is a reading of <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7750088/View">the Lab 1 handout on Brightspace</a>, written out in plain language. The handout itself is the thing that is marked against, so open it before the report goes in. The design method the marks are for is in <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807032/View">Lecture 4</a>, and the language is in <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807033/View">Lecture 3</a>.</p>
+      <p>The handout and the lecture slides are the professor's, so no copy of either is kept here.</p>
+    </div>
+  </details>
+
+</div>
+
+<footer class="sitefoot">
+  <div class="in">
+    <div class="col brand">
+      <a href="../">CEG3155 Hub</a>
+      <p>Digital Systems II, University of Ottawa, Fall 2026.</p>
+    </div>
+    <nav class="col" aria-label="This laboratory">
+      <h2>On this page</h2>
+      <a href="#gist">The gist</a>
+      <a href="#kit">The kit</a>
+      <a href="#inside">Inside the circuit</a>
+      <a href="#reset">What the reset does</a>
+      <a href="#graded">What you are graded on</a>
+      <a href="#rules">The rules that cost marks</a>
+      <a href="#approach">How to approach it</a>
+      <a href="#report">What goes in the report</a>
+    </nav>
+    <nav class="col" aria-label="Elsewhere">
+      <h2>Elsewhere</h2>
+      <a href="../">CEG3155 hub</a>
+      <a href="../#labs">Laboratories</a>
+      <a href="lab-2.html">Laboratory 2</a>
+      <a href="../../">All four courses</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7750088/View">Lab 1 handout</a>
+    </nav>
+  </div>
+  <div class="colophon">
+    <span>Built with Claude from the Lab 1 handout on Brightspace. AI can make mistakes, so check anything that decides an answer.</span>
+    <span>The handout and the course material are copyright and are not hosted here.</span>
+  </div>
+</footer>
+
+<script src="../../shared/tasks.js"></script>
+</body>
+</html>

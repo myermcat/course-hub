@@ -56,12 +56,16 @@ h1{font-family:var(--display);font-weight:600;font-size:clamp(38px,7vw,62px);lin
 .standfirst{font-family:var(--display);font-size:clamp(18px,2.5vw,22px);line-height:1.5;
   color:var(--ink-soft);max-width:56ch;margin:20px 0 0}
 h2{font-family:var(--display);font-weight:600;font-size:24px;margin:0;letter-spacing:-.01em}
+/* An in-page link lands under the sticky top bar without this, so the heading it jumped to is
+   the one thing the reader cannot see. */
+[id]{scroll-margin-top:80px}
 h3{font-family:var(--display);font-weight:600;font-size:19px;margin:0;letter-spacing:-.01em}
 p{margin:0;max-width:70ch}
 section{display:flex;flex-direction:column;gap:20px}
 a{color:var(--accent)}
-ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:9px;color:var(--ink-soft);max-width:72ch}
-ul b{color:var(--ink)}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:9px;color:var(--ink-soft);max-width:72ch}
+ul b,ol b{color:var(--ink)}
+ol{padding-left:23px}
 .mono{font-family:var(--mono);font-size:14px}
 
 /* ---------- the course card ---------- */
@@ -237,6 +241,24 @@ thead th.tick{width:44px}
 /* ---------- the detail toggle ---------- */
 
 code{font-family:var(--mono);font-size:12.5px;background:var(--sunk);padding:1px 5px;border-radius:4px}
+
+/* Preamble on a page that opens on the work. The explanation a reader needs once goes below
+   what she came for, behind a summary line small enough to skip and specific enough to decide
+   from. The lecture notes page grew this first and kept its own copy; the laboratory guides are
+   the second use, so it lives here. */
+
+details.about{border-top:1px solid var(--rule);padding-top:13px}
+details.about summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);list-style:none;display:flex;align-items:center;gap:9px}
+details.about summary::-webkit-details-marker{display:none}
+details.about summary::before{content:"";width:0;height:0;border-left:5px solid currentColor;
+  border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .15s}
+details.about[open] summary::before{transform:rotate(90deg)}
+details.about summary:hover{color:var(--accent)}
+details.about summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+details.about .in{display:flex;flex-direction:column;gap:11px;padding:15px 0 4px;font-size:15.5px;
+  color:var(--ink-soft);max-width:70ch}
+details.about .in b{color:var(--ink)}
 
 /* ---------- a task that is itself the toggle ---------- */
 
