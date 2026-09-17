@@ -186,6 +186,44 @@ thead th.tick{width:44px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 
+/* ---------- a link the reader fills in herself ---------- */
+
+/* shared/links.js writes what is inside a .lnk span. Empty, it holds one small invitation in
+   --muted under a dashed line, which reads as something to fill in. Filled, it holds the link
+   and a twelve pixel pencil, and that is all, because the filled state is the one the reader
+   is in on nearly every visit. The pencil is the only way back to the input, so it stays small
+   and grey until the cursor reaches it.
+
+   The link and its pencil hold one line, so the pencil can never drop underneath and read as a
+   second thing in the cell. The input is the one state that wraps, because the line refusing an
+   address goes under it. The label is two words at most and holds its line too, so the column
+   widens to take it and no word is ever broken in half. */
+
+.lnk{display:inline-flex;flex-wrap:nowrap;align-items:baseline;gap:7px;max-width:100%}
+.lnk.editing{display:flex;flex-wrap:wrap;gap:5px 7px;width:100%}
+.lnk .lnk-a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor;
+  white-space:nowrap}
+.lnk .lnk-a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+.lnk .lnk-add{font-family:var(--body);font-size:13.5px;line-height:inherit;color:var(--muted);
+  background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;
+  text-decoration-style:dashed;text-decoration-thickness:1px;text-underline-offset:3px;
+  transition:color .15s}
+.lnk .lnk-add:hover{color:var(--accent)}
+.lnk .lnk-add:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+.lnk .lnk-edit{flex:0 0 auto;align-self:center;width:12px;height:12px;padding:0;border:0;
+  background:none;line-height:0;color:var(--muted);cursor:pointer;transition:color .15s}
+.lnk .lnk-edit svg{display:block;width:12px;height:12px}
+.lnk .lnk-edit:hover{color:var(--accent)}
+.lnk .lnk-edit:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+.lnk .lnk-in{flex:1 1 auto;min-width:0;font-family:var(--body);font-size:13.5px;color:var(--ink);
+  background:var(--paper);border:1px solid var(--rule);border-radius:5px;padding:4px 7px}
+.lnk .lnk-in:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.lnk .lnk-in.bad{border-color:var(--hot)}
+.lnk .lnk-no{flex:1 0 100%;font-family:var(--body);font-size:12.5px;line-height:1.35;color:var(--hot)}
+
 /* ---------- the done count beside a heading ---------- */
 
 .meter{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;

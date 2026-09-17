@@ -16,6 +16,7 @@
   td.at{font-family:var(--mono);font-size:13.5px;white-space:nowrap;color:var(--ink-soft)}
   td.where{font-family:var(--mono);font-size:13px;color:var(--muted);min-width:120px}
   td.topic .sub{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+  td.when{font-family:var(--mono);font-size:13px;line-height:1.55;white-space:nowrap;color:var(--ink-soft)}
 </style>
 </head>
 <body data-store="ceg3155">
@@ -196,6 +197,79 @@
   </section>
 
   <section>
+    <div class="head-row"><h2 id="labs">Laboratories</h2><span class="meter" data-progress="#lab-rows"></span></div>
+    <p>Four laboratories carry 15 percent between them, three hours on a Monday or a Wednesday evening in CBY B402. Each row holds the handout, the lecture the laboratory builds on, and the submission document. Laboratory 1 is the only one worked through, so the other three carry their dates and a placeholder.</p>
+
+    <div class="scroll">
+      <table>
+        <caption>Four laboratories, one of them read in full, in the order they fall</caption>
+        <thead>
+          <tr><th class="tick"><span class="sr-only">Done</span></th><th>Lab</th><th>Topic</th><th>Due</th><th>Handout</th><th>Lecture</th><th>Submission</th></tr>
+        </thead>
+        <tbody id="lab-rows">
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-1"></span></td>
+            <td class="num">1</td>
+            <td class="topic">Light display controller <span class="sub">Eight LEDs with a left switch and a right switch. One lit LED walks across the row, one step per tick at about 1 Hz.</span></td>
+            <td class="when">Mon 28 or<br>Wed 30 Sept<br>Midnight</td>
+            <td class="src"><a href="https://uottawa.brightspace.com/d2l/home/605994">Handout</a></td>
+            <td class="src"><a href="https://uottawa.brightspace.com/d2l/home/605994">ASM charts</a></td>
+            <td class="src"><span class="lnk" data-link="ceg-lab-1-submission" data-label="Submission" data-row="Laboratory 1"></span></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2"></span></td>
+            <td class="num">2</td>
+            <td class="topic"><span class="sub">The Laboratory 2 handout has not been opened yet</span></td>
+            <td class="when">Mon 12 or<br>Wed 14 Oct<br>Midnight</td>
+            <td class="src"><span class="none">Not here yet</span></td>
+            <td class="src"><span class="none">Not known yet</span></td>
+            <td class="src"><span class="lnk" data-link="ceg-lab-2-submission" data-label="Submission" data-row="Laboratory 2"></span></td>
+          </tr>
+
+          <tr class="gate">
+            <td colspan="7">
+              <div class="g">
+                <span class="lbl">Midterm &middot; 22 Oct</span>
+                <span class="det">Laboratories 1 and 2 are handed in before the midterm and laboratories 3 and 4 after it. The project takes the three laboratory weeks that follow Laboratory 4.</span>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-3"></span></td>
+            <td class="num">3</td>
+            <td class="topic"><span class="sub">The Laboratory 3 handout has not been opened yet</span></td>
+            <td class="when">Mon 9 or<br>Wed 11 Nov<br>Midnight</td>
+            <td class="src"><span class="none">Not here yet</span></td>
+            <td class="src"><span class="none">Not known yet</span></td>
+            <td class="src"><span class="lnk" data-link="ceg-lab-3-submission" data-label="Submission" data-row="Laboratory 3"></span></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-4"></span></td>
+            <td class="num">4</td>
+            <td class="topic"><span class="sub">The Laboratory 4 handout has not been opened yet</span></td>
+            <td class="when">Mon 23 or<br>Wed 25 Nov<br>Midnight</td>
+            <td class="src"><span class="none">Not here yet</span></td>
+            <td class="src"><span class="none">Not known yet</span></td>
+            <td class="src"><span class="lnk" data-link="ceg-lab-4-submission" data-label="Submission" data-row="Laboratory 4"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The Submission column is filled in by hand: each cell is a named slot, <code>ceg-lab-1-submission</code> through <code>ceg-lab-4-submission</code>, and the link component on this page puts the Google Doc address saved under that key into the cell.</p>
+
+    <div class="note">
+      <p><b>Laboratory 1 is marked against the restrictions in section 6 of its handout.</b> The design is VHDL at the structural level of modelling, and both behavioural modelling and Verilog are refused. No IP core may be instantiated, from the Vivado catalogue or from anywhere else, so every atomic block down to the D flip-flop is built by the group. The circuit has to be synchronous and globally resettable, which means a clock signal and a reset signal in every functional block. Every register runs on the board's single 100 MHz oscillator and advances on a one-cycle enable pulse at a divide ratio of 100,000,000, which gives a step about once a second; a divided clock routed to the registers loses marks. A working version is demonstrated to the teaching assistant before the report is due.</p>
+    </div>
+
+    <div class="note">
+      <p><b>Laboratories 2, 3 and 4 have handouts on Brightspace that nobody has opened yet.</b> Their dates come from the course outline and the notes from the first class, so each of those three rows carries its date and a placeholder until its handout is read.</p>
+      <p><b>The Lecture column opens <a href="https://uottawa.brightspace.com/d2l/home/605994">Brightspace organisation unit 605994</a>, where the slide decks are.</b> The other copy is in the <code>lectures</code> folder of the course site, which answers 403 Forbidden, so no address on this page reaches a single deck. Laboratory 1 is labelled by the material it builds on, the ASM chart method its handout says was presented in the course, and the remaining three wait for their handouts to name a topic.</p>
+    </div>
+  </section>
+
+  <section>
     <h2 id="marks">What carries the marks</h2>
     <div class="note">
       <p><b>The midterm cannot be transferred to the final.</b> A missed midterm is a lost 20 percent, so the date is worth protecting. It falls the evening after the Signal and System Analysis midterm.</p>
@@ -339,6 +413,7 @@
     <nav class="col" aria-label="Sections">
       <h2>On this page</h2>
       <a href="#deadlines">Everything with a date on it</a>
+      <a href="#labs">Laboratories</a>
       <a href="#marks">What carries the marks</a>
       <a href="#tools">The toolchain</a>
       <a href="#topics">What the course covers</a>
@@ -360,5 +435,6 @@
 </footer>
 
 <script src="../shared/tasks.js"></script>
+<script src="../shared/links.js"></script>
 </body>
 </html>
