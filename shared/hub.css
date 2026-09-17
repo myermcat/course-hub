@@ -11,6 +11,7 @@
   --ink:#171A1E; --ink-soft:#404750; --muted:#6C737C;
   --rule:#D0D6DD; --rule-soft:#DFE3E9;
   --accent:#1C5D93; --lead:#2A5273; --hot:#8E6318; --done:#2E7D62;
+  --c-y:#8A6A0B; --c-p:#AE2F73;
   --shadow-1:0 1px 2px rgba(16,24,20,.05),0 6px 18px -8px rgba(16,24,20,.16);
   --shadow-2:0 2px 4px rgba(16,24,20,.06),0 18px 34px -12px rgba(16,24,20,.3);
   --ghost:.045;
@@ -24,6 +25,7 @@
   --ink:#E3E7EB; --ink-soft:#B2B9C1; --muted:#89909A;
   --rule:#2A3037; --rule-soft:#222830;
   --accent:#6BB4E8; --lead:#95BFDC; --hot:#D9A957; --done:#68C3A3;
+  --c-y:#E3BE57; --c-p:#FF97C6;
   --shadow-1:0 1px 2px rgba(0,0,0,.4),0 8px 22px -10px rgba(0,0,0,.6);
   --shadow-2:0 2px 6px rgba(0,0,0,.5),0 20px 38px -14px rgba(0,0,0,.75);
   --ghost:.07;
@@ -34,6 +36,7 @@
   --ink:#E3E7EB; --ink-soft:#B2B9C1; --muted:#89909A;
   --rule:#2A3037; --rule-soft:#222830;
   --accent:#6BB4E8; --lead:#95BFDC; --hot:#D9A957; --done:#68C3A3;
+  --c-y:#E3BE57; --c-p:#FF97C6;
   --shadow-1:0 1px 2px rgba(0,0,0,.4),0 8px 22px -10px rgba(0,0,0,.6);
   --shadow-2:0 2px 6px rgba(0,0,0,.5),0 20px 38px -14px rgba(0,0,0,.75);
   --ghost:.07;
@@ -307,6 +310,147 @@ details.task.fold>.in ol,details.task.fold>.in ul{padding-left:19px;display:flex
   border-bottom:1px solid transparent;align-self:flex-start}
 .uplink:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .uplink svg{width:14px;height:14px}
+
+/* ---------- lecture notes she writes herself ---------- */
+
+/* shared/notes.js fills a [data-notes] container: the button that adds a lecture, then the
+   lectures, newest first. One lecture is one details element carrying two things she wrote,
+   a heading in the summary and the notes inside.
+
+   Every toggle is closed on load and which ones were open is never stored, so the page opens
+   on the button and a list of headings, with last month's notes out of sight until one of them
+   is asked for. */
+
+.lecbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.lecadd{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--surface);
+  border:1px solid var(--rule);border-radius:9px;padding:9px 15px;cursor:pointer;
+  transition:border-color .15s,background .15s,color .15s}
+.lecadd svg{width:14px;height:14px;flex:0 0 auto}
+.lecadd:hover{border-color:var(--accent);background:var(--sunk)}
+.lecadd:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.leclist{display:flex;flex-direction:column;gap:12px}
+.lecnone{font-size:15px;color:var(--muted);max-width:60ch}
+.lecnone[hidden]{display:none}
+
+.lec{background:var(--surface);border:1px solid var(--rule);border-radius:10px}
+.lec>summary{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 17px;
+  cursor:pointer;list-style:none;border-radius:10px}
+.lec>summary::-webkit-details-marker{display:none}
+.lec>summary::before{content:"";flex:0 0 auto;width:0;height:0;border-left:5px solid var(--muted);
+  border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .15s}
+.lec[open]>summary::before{transform:rotate(90deg)}
+.lec>summary:hover::before{border-left-color:var(--accent)}
+.lec>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+/* The heading is hers to name, so it is a line she types into. Clicking it places the caret and
+   leaves the toggle alone; shared/notes.js cancels the click that would otherwise open the
+   lecture. */
+.lec .lech{position:relative;flex:1 1 200px;min-width:0;font-family:var(--display);font-weight:600;
+  font-size:19px;line-height:1.3;letter-spacing:-.01em;color:var(--ink);cursor:text;outline:none;
+  border-radius:4px;padding:1px 3px;margin:-1px -3px}
+.lec .lech:focus{box-shadow:0 0 0 2px var(--accent)}
+.lec .lech.is-empty::before{content:attr(data-ph);position:absolute;left:3px;top:0;
+  font-family:var(--body);font-size:15.5px;font-weight:400;font-style:italic;color:var(--muted);
+  pointer-events:none;white-space:nowrap}
+
+/* The size and weight of the pencil in links.js, because it does the same kind of job: a small
+   grey control that waits at the end of a row until it is wanted. */
+.lec .lecdel{flex:0 0 auto;width:12px;height:12px;padding:0;border:0;background:none;line-height:0;
+  color:var(--muted);cursor:pointer;transition:color .15s}
+.lec .lecdel svg{display:block;width:12px;height:12px}
+.lec .lecdel:hover{color:var(--accent)}
+.lec .lecdel:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.lec .lecdel[hidden]{display:none}
+
+.lec .lecsure{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;margin-left:auto}
+.lec .lecsure .q{font-size:13.5px;color:var(--ink-soft)}
+.lec .lecsure button{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;border:1px solid var(--rule);background:var(--paper);
+  color:var(--muted);cursor:pointer;transition:color .15s,border-color .15s}
+.lec .lecsure button:hover{color:var(--ink);border-color:var(--muted)}
+.lec .lecsure .yes{color:var(--hot);border-color:var(--hot)}
+.lec .lecsure .yes:hover{color:var(--hot);border-color:var(--hot);background:var(--sunk)}
+.lec .lecsure button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.lec .lecin{padding:2px 17px 17px}
+
+/* ---------- a place she writes ---------- */
+
+/* Recessed, because a raised surface reads as something presented to be read and a well reads
+   as somewhere to put things in. The left edge holds the rule colour while the block is empty
+   and the course accent once it holds something, so a page of blocks says at a glance where
+   she has got to. The text inside keeps the page's own body type. */
+
+.nbwrap{display:flex;flex-direction:column}
+.nbpad{position:relative;padding:14px 16px;background:var(--sunk);border:1px solid var(--rule);
+  border-left:3px solid var(--rule);border-radius:8px;box-shadow:inset 0 1px 0 rgba(0,0,0,.06);
+  transition:border-color .15s}
+.nbwrap.has .nbpad{border-left-color:var(--accent)}
+.nbwrap:focus-within .nbpad{border-color:var(--accent)}
+
+.nb{position:relative;min-height:190px;outline:none;color:var(--ink)}
+.nb.is-empty::before{content:attr(data-ph);position:absolute;left:0;top:0;color:var(--muted);
+  font-style:italic;pointer-events:none}
+.nb p{margin:0 0 9px;max-width:none}
+.nb p:last-child{margin-bottom:0}
+.nb ul,.nb ol{margin:6px 0 9px;padding-left:22px;display:block;max-width:none;color:inherit}
+.nb li{margin-bottom:4px}
+.nb b,.nb strong{font-weight:600}
+.nb h3,.nb h4,.nb h5{margin:14px 0 6px;font-family:var(--display);font-weight:600;line-height:1.25;
+  color:var(--ink)}
+.nb h3{font-size:21px}
+.nb h4{font-size:19px}
+.nb h5{font-size:17px}
+.nb>:first-child{margin-top:0}
+.nb hr{border:0;border-top:1px solid var(--rule);margin:14px 0}
+.nb blockquote{margin:9px 0;padding-left:13px;border-left:2px solid var(--rule);color:var(--ink-soft)}
+
+/* The four colours the editor writes. c-n is normal text spelled out, for a run inside a
+   coloured span where dropping the class would recolour words she meant to keep. */
+.c-y{color:var(--c-y)}
+.c-p{color:var(--c-p)}
+.c-m{color:var(--muted)}
+.c-g{color:var(--accent)}
+.c-n{color:var(--ink)}
+
+/* The bar that appears over a selection inside a note. */
+#nb-bar{position:absolute;z-index:60;display:flex;gap:2px;padding:3px;background:var(--surface);
+  border:1px solid var(--rule);border-radius:6px;box-shadow:var(--shadow-1)}
+#nb-bar[hidden]{display:none!important}
+#nb-bar button{min-width:24px;height:22px;border:0;border-radius:3px;background:none;cursor:pointer;
+  color:var(--ink-soft);font-family:var(--display);font-size:14px;padding:0 5px}
+#nb-bar button:hover{background:var(--sunk);color:var(--ink)}
+#nb-bar button.i{font-style:italic}
+#nb-bar button.l{font-family:var(--mono);font-size:11px}
+#nb-bar .sep{width:1px;background:var(--rule);margin:3px 2px}
+#nb-bar button.sw{width:18px;min-width:18px;height:18px;border-radius:3px;align-self:center;
+  border:1px solid var(--rule);font-size:0}
+#nb-bar button.sw.y{background:var(--c-y)}
+#nb-bar button.sw.p{background:var(--c-p)}
+#nb-bar button.sw.g{background:var(--accent)}
+#nb-bar button.sw.m{background:var(--muted)}
+#nb-bar button.sw.x{background:none;font-size:12px;color:var(--muted);border-color:transparent}
+
+/* Whether anything was saved. A browser refusing to store is the one thing that has to be said
+   out loud, because staying silent is how somebody loses an evening believing it was kept. */
+#save{position:fixed;right:16px;bottom:16px;z-index:70;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.04em;padding:6px 10px;border-radius:5px;background:var(--surface);
+  border:1px solid var(--rule);color:var(--muted);opacity:0;transition:opacity .25s;pointer-events:none}
+#save.on{opacity:1}
+#save.bad{color:#9B2C2C;border-color:#9B2C2C;opacity:1;pointer-events:auto}
+:root[data-theme="dark"] #save.bad{color:#F09B9B;border-color:#F09B9B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #save.bad{color:#F09B9B;border-color:#F09B9B}}
+
+@media (max-width:620px){
+  .lec>summary{padding:13px 14px;gap:10px}
+  .lec .lecin{padding:2px 14px 14px}
+  .lec .lecsure{margin-left:0;flex-basis:100%}
+  /* The question takes its own line so the two answers stay together under it. */
+  .lec .lecsure .q{flex:1 0 100%}
+  .nbpad{padding:13px 14px}
+}
 
 /* ---------- small screens and reduced motion ---------- */
 

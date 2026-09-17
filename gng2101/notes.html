@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GNG2101 Lecture Notes</title>
+<meta name="description" content="Lecture notes for GNG2101, Engineering Design. One toggle per lecture, written in the browser and kept on this device.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%235B3E8E'/%3E%3Cpath%20d='M20%2051%20L32%2018%20L44%2051'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Ccircle%20cx='32'%20cy='16'%20r='5'%20fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../shared/hub.css">
+<link rel="stylesheet" href="../shared/nav.css">
+<style>
+  :root{--accent:#5B3E8E;--lead:#4A3374}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#A98BD6;--lead:#9A7CC8}}
+  :root[data-theme="dark"]{--accent:#A98BD6;--lead:#9A7CC8}
+
+  /* The page opens on the work, so the title is smaller than a hub's and the space above it is
+     shorter. Everything below the lectures is there for the visit where it is wanted. */
+  .wrap{padding-top:clamp(26px,4.5vh,50px);gap:32px}
+  h1{font-size:clamp(31px,5vw,44px);margin:10px 0 0}
+  header.tight{display:flex;flex-direction:column;gap:14px}
+
+  details.about{border-top:1px solid var(--rule);padding-top:13px}
+  details.about summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);list-style:none;display:flex;align-items:center;gap:9px}
+  details.about summary::-webkit-details-marker{display:none}
+  details.about summary::before{content:"";width:0;height:0;border-left:5px solid currentColor;
+    border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .15s}
+  details.about[open] summary::before{transform:rotate(90deg)}
+  details.about summary:hover{color:var(--accent)}
+  details.about summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  details.about .in{display:flex;flex-direction:column;gap:11px;padding:15px 0 4px;font-size:15.5px;
+    color:var(--ink-soft);max-width:70ch}
+  details.about .in b{color:var(--ink)}
+
+  @media print{
+    .topnav,.sitefoot,.uplink,.lecbar,.lecdel,#nb-bar,#save,details.about{display:none!important}
+    body{background:#fff}
+    .wrap{max-width:none;padding:0;gap:20px}
+    .lec{break-inside:avoid;border-color:#ccc}
+  }
+</style>
+</head>
+<body data-store="gng2101">
+<nav class="topnav" aria-label="Courses">
+  <div class="in">
+    <a class="home" href="../" aria-label="Course hub, the front page"><svg viewBox='0 0 64 64' aria-hidden='true'><rect width='64' height='64' rx='14' fill='#22282E'/><rect x='13' y='13' width='16' height='16' rx='4' fill='#7C5CB8'/><rect x='35' y='13' width='16' height='16' rx='4' fill='#3E9E82'/><rect x='13' y='35' width='16' height='16' rx='4' fill='#4E90C8'/><rect x='35' y='35' width='16' height='16' rx='4' fill='#C08A3E'/></svg><span>Course hub</span></a>
+    <div class="links">
+      <a class="phi" href="https://myermcat.github.io/phi-reading-hub/">PHI2394</a>
+      <a class="elg" href="../elg3125/">ELG3125</a>
+      <a class="ceg" href="../ceg3155/">CEG3155</a>
+      <a class="gng" href="./" aria-current="page">GNG2101</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <a class="uplink" href="./"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8H2M7 3 2 8l5 5"/></svg>GNG2101 hub</a>
+
+  <header class="tight">
+    <div class="eyebrow">GNG 2101 B &middot; Engineering Design &middot; lecture notes</div>
+    <h1>Lecture notes</h1>
+  </header>
+
+  <section aria-label="Lectures">
+    <div data-notes data-add="Add a lecture" data-heading="Date or topic" data-body="What was said in this lecture&hellip;"></div>
+  </section>
+
+  <details class="about">
+    <summary>What this page is, and how to write in it</summary>
+    <div class="in">
+      <p>The button at the top starts a lecture and puts it above the others, because the newest one is the one being written. Give it a heading, which is yours to name: a date, a topic, the lecture number, whatever you find it by later.</p>
+      <p>Every lecture is closed when the page loads. The list reads as headings, and you open the one you want.</p>
+      <p>Typing saves on its own. <b>Cmd or Ctrl + B</b> for bold, <b>+ I</b> for italic, <b>+ H</b> for the last colour you used, and again to take it off. Selecting text brings up a small bar with bold, italic, a bullet list and the four colours. Typing <b>- </b> or <b>1. </b> starts a list, <b>### </b> starts a heading, <b>&gt; </b> starts a quote, <b>--- </b> draws a rule, and <b>Tab</b> inside a list indents.</p>
+      <p>The small cross at the end of a heading removes that lecture. It asks first, and Keep puts the row back untouched.</p>
+    </div>
+  </details>
+
+  <div class="note">
+    <p><b>Everything written here stays in this browser.</b> These notes live on the device you are using, beside the tick boxes on the GNG2101 hub. They survive a reload and a closed tab, they are sent nowhere, and clearing your browsing data removes them. Copy anything you cannot afford to lose.</p>
+  </div>
+
+</div>
+
+<footer class="sitefoot">
+  <div class="in">
+    <div class="col brand">
+      <a href="./">GNG2101 Hub</a>
+      <p>Engineering Design, University of Ottawa, Fall 2026.</p>
+    </div>
+    <nav class="col" aria-label="This course">
+      <h2>GNG2101</h2>
+      <a href="./">Course hub</a>
+      <a href="./#deliverables">Deliverables</a>
+      <a href="./#labs">The B4 Saturday labs</a>
+      <a href="notes.html" aria-current="page">Lecture notes</a>
+    </nav>
+    <nav class="col" aria-label="Elsewhere">
+      <h2>Elsewhere</h2>
+      <a href="../">All four courses</a>
+      <a href="https://uottawa.brightspace.com/d2l/home/602711">Brightspace</a>
+    </nav>
+  </div>
+  <div class="colophon">
+    <span>Built with Claude. AI can make mistakes, so check anything that decides an answer.</span>
+    <span>Your notes are kept in this browser only.</span>
+  </div>
+</footer>
+
+<script src="../shared/notes.js"></script>
+</body>
+</html>
