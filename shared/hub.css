@@ -311,17 +311,40 @@ details.task.fold>.in ol,details.task.fold>.in ul{padding-left:19px;display:flex
 
 /* ---------- the site footer ---------- */
 
+/* Every page in the hub carries the same one, and the columns are always in this order:
+
+     .brand        the course code and one line saying what the site is
+     On this page  the sections of the page you are on, as anchors
+     This course   every page of this course, the one you are on marked
+     Elsewhere     the outbound links that page already had, and the way back to all four
+
+   A page reachable from one spot only, such as the GNG2101 lecture notes, belongs in the
+   third column, so the bottom of any page of that course reaches it.
+
+   The grid lays four tracks, because every page in the hub carries four columns. A footer
+   that ever drops one leaves the last track empty, and the brand column is the wide one so
+   that empty space falls on the right, away from the text the eye starts on. */
+
 .sitefoot{border-top:1px solid var(--rule);background:var(--surface);margin-top:30px}
 .sitefoot .in{max-width:900px;margin:0 auto;padding:40px 26px 30px;display:grid;
-  grid-template-columns:1.5fr 1fr 1fr;gap:32px}
-.sitefoot .col{display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+  grid-template-columns:1.5fr repeat(3,minmax(0,1fr));gap:30px 26px}
+.sitefoot .col{display:flex;flex-direction:column;gap:8px;align-items:flex-start;min-width:0}
 .sitefoot h2{margin:0 0 2px;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
   text-transform:uppercase;color:var(--muted);font-weight:500}
-.sitefoot a{font-family:var(--body);font-size:14.5px;color:var(--ink-soft);text-decoration:none;
-  border-bottom:1px solid transparent}
+.sitefoot a{font-family:var(--body);font-size:14px;line-height:1.45;color:var(--ink-soft);
+  text-decoration:none;border-bottom:1px solid transparent}
 .sitefoot a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sitefoot a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
 .sitefoot .brand a{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
-.sitefoot .brand p{margin:0;font-size:14px;color:var(--muted);max-width:32ch}
+.sitefoot p{margin:0;font-size:13.5px;line-height:1.5;color:var(--muted);max-width:32ch}
+.sitefoot .brand p{font-size:14px}
+
+/* The page you are on, marked the way the top bar marks the current course, in the accent on
+   the sunk colour. The negative side margin holds the words on the same left edge as the
+   links above and below, so the mark reads as a highlight and never as an indent. */
+.sitefoot a[aria-current]{color:var(--accent);background:var(--sunk);border-radius:6px;
+  padding:2px 8px;margin:0 -8px}
+
 .sitefoot .colophon{max-width:900px;margin:0 auto;padding:16px 26px 34px;border-top:1px solid var(--rule);
   display:flex;flex-wrap:wrap;gap:6px 28px;font-size:12.5px;color:var(--muted)}
 
@@ -343,7 +366,9 @@ details.task.fold>.in ol,details.task.fold>.in ul{padding-left:19px;display:flex
    on the button and a list of headings, with last month's notes out of sight until one of them
    is asked for. */
 
-.lecbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+/* The bar and the list sit in a plain block with no gap of its own, so the button was
+   touching the first lecture. 18px is the rhythm the rest of a section uses. */
+.lecbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
 .lecadd{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;
   letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--surface);
   border:1px solid var(--rule);border-radius:9px;padding:9px 15px;cursor:pointer;
@@ -378,13 +403,41 @@ details.task.fold>.in ol,details.task.fold>.in ul{padding-left:19px;display:flex
   pointer-events:none;white-space:nowrap}
 
 /* The size and weight of the pencil in links.js, because it does the same kind of job: a small
-   grey control that waits at the end of a row until it is wanted. */
-.lec .lecdel{flex:0 0 auto;width:12px;height:12px;padding:0;border:0;background:none;line-height:0;
-  color:var(--muted);cursor:pointer;transition:color .15s}
-.lec .lecdel svg{display:block;width:12px;height:12px}
-.lec .lecdel:hover{color:var(--accent)}
-.lec .lecdel:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
-.lec .lecdel[hidden]{display:none}
+   grey control that waits at the end of a row until it is wanted. Three dots are what an overflow
+   menu looks like everywhere else, and they carry no verb of their own, so a slip of the mouse
+   opens a list she can walk away from. A cross in this spot read as close, and closing a lecture
+   is the one thing the summary beside it already does.
+
+   The dots are drawn at twelve pixels and pressed at twenty four: the padding and the matching
+   negative margin grow what a finger has to hit without moving anything in the row or changing
+   what the eye sees. */
+.lec .lecmore{flex:0 0 auto;width:24px;height:24px;padding:6px;margin:-6px;border:0;background:none;
+  line-height:0;color:var(--muted);cursor:pointer;transition:color .15s}
+.lec .lecmore svg{display:block;width:12px;height:12px}
+.lec .lecmore:hover,.lec .lecmore[aria-expanded="true"]{color:var(--accent)}
+.lec .lecmore:focus-visible{outline:2px solid var(--accent);outline-offset:-1px;border-radius:7px}
+.lec .lecmore[hidden]{display:none}
+
+/* THE MENU IS DRAWN AT THE END OF THE DOCUMENT and placed over the page in page coordinates by
+   shared/notes.js. A menu nested inside the lecture it belongs to is cut off by the rounded
+   details around it the moment it is taller than the row, and the same happens on a phone, where
+   the block reaches the window edge. Page coordinates also mean the menu travels with the lecture
+   as the page scrolls.
+
+   One item today. The column and the gap are there so a second and a third arrive without any of
+   this being rewritten. */
+.lecpop{position:absolute;z-index:65;display:flex;flex-direction:column;gap:2px;min-width:194px;
+  max-width:calc(100vw - 16px);padding:5px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:9px;box-shadow:var(--shadow-2)}
+.lecpop button{display:block;width:100%;text-align:left;font-family:var(--body);font-size:14.5px;
+  line-height:1.3;padding:9px 11px;border:0;border-radius:6px;background:none;color:var(--ink-soft);
+  cursor:pointer;transition:background .15s,color .15s}
+.lecpop button:hover{background:var(--sunk);color:var(--ink)}
+/* A plain :focus, because the arrow keys and the opening keystroke both move focus here by script,
+   and Chrome withholds :focus-visible from a focus it did not see a key press behind. */
+.lecpop button:focus{outline:2px solid var(--accent);outline-offset:-2px;background:var(--sunk)}
+.lecpop button.hot{color:var(--hot)}
+.lecpop button.hot:hover,.lecpop button.hot:focus{color:var(--hot)}
 
 .lec .lecsure{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;margin-left:auto}
 .lec .lecsure .q{font-size:13.5px;color:var(--ink-soft)}
@@ -412,7 +465,9 @@ details.task.fold>.in ol,details.task.fold>.in ul{padding-left:19px;display:flex
 .nbwrap.has .nbpad{border-left-color:var(--accent)}
 .nbwrap:focus-within .nbpad{border-color:var(--accent)}
 
-.nb{position:relative;min-height:190px;outline:none;color:var(--ink)}
+/* 16px on 1.62 is what the philosophy notes use. Without it the editor inherited the page
+   body at 17.5px on 28px, which read as a different, looser text in the same place. */
+.nb{position:relative;font-size:16px;line-height:1.62;min-height:190px;outline:none;color:var(--ink)}
 .nb.is-empty::before{content:attr(data-ph);position:absolute;left:0;top:0;color:var(--muted);
   font-style:italic;pointer-events:none}
 .nb p{margin:0 0 9px;max-width:none}
@@ -476,8 +531,13 @@ details.task.fold>.in ol,details.task.fold>.in ul{padding-left:19px;display:flex
 
 /* ---------- small screens and reduced motion ---------- */
 
-@media (max-width:700px){
-  .sitefoot .in{grid-template-columns:1fr;gap:26px;padding:30px 16px 22px}
+/* Four columns need more width than three did, so the footer folds in two steps: to a pair of
+   columns while there is still room for two, and to a single column on a phone. */
+@media (max-width:860px){
+  .sitefoot .in{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+}
+@media (max-width:560px){
+  .sitefoot .in{grid-template-columns:1fr;gap:24px;padding:30px 16px 22px}
   .sitefoot .colophon{padding:14px 16px 26px;flex-direction:column}
 }
 @media (max-width:620px){

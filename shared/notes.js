@@ -21,9 +21,12 @@
    screen she has to scroll past to reach today's lecture. A lecture she has just added opens
    on its own, since she added it to write in it.
 
-   Removing a lecture asks first. The control is the size of the pencil in links.js and sits at
-   the right of the summary; pressing it turns that end of the row into a question with two
-   answers, and only the second press destroys anything.
+   Removing a lecture takes three presses. Three dots sit at the right of the summary, the size of
+   the pencil in links.js, and open a menu holding one item, Delete this lecture. Choosing it turns
+   that end of the row into a question with two answers, and only the last press destroys anything.
+   The menu is built at the end of the document and placed over the page, because a menu nested in
+   the summary is cut off by the rounded details around it. Escape closes it and puts focus back on
+   the dots, and so does a press anywhere else on the page.
 
    THE EDITOR is the one the PHI2394 reading guide and its lecture notes page use, carried
    across whole: Cmd or Ctrl with B, I and H, the floating bar on a selection, the four
@@ -556,12 +559,145 @@
 
   var listEl = null, none = null, addBtn = null;
 
-  var CROSS = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
-    '<path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.6" ' +
-    'stroke-linecap="round"/></svg>';
+  var DOTS = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
+    '<circle cx="8" cy="2.6" r="1.6" fill="currentColor"/>' +
+    '<circle cx="8" cy="8" r="1.6" fill="currentColor"/>' +
+    '<circle cx="8" cy="13.4" r="1.6" fill="currentColor"/></svg>';
   var PLUS = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
     '<path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.7" ' +
     'stroke-linecap="round"/></svg>';
+
+  /* ---------- the menu behind the three dots ---------- */
+
+  /* One menu is open at a time, so the whole thing is one object. It is built on the press and
+     thrown away on the close, which is what keeps a menu out of a lecture that has been removed
+     under it.
+
+     WHY IT IS APPENDED TO THE BODY. A menu written into the summary is clipped by the rounded
+     details it sits in as soon as it is taller than the row. Page coordinates put it over
+     everything and let it travel with the lecture as the page scrolls.
+
+     A caller hands over a list of items, each one { label, name, hot, run }, so a second item is
+     a line in that list and nothing here changes. */
+  var menu = { pop: null, btn: null, items: [] };
+  var POPID = 'lecpop-open';
+
+  function shutMenu(refocus) {
+    var b = menu.btn;
+    if (menu.pop) menu.pop.remove();
+    menu.pop = null;
+    menu.btn = null;
+    menu.items = [];
+    if (!b) return;
+    b.setAttribute('aria-expanded', 'false');
+    b.removeAttribute('aria-controls');
+    if (refocus && document.contains(b)) b.focus();
+  }
+
+  /* Under the dots and flush with their right edge, because the control stands at the right end
+     of the row and a menu hanging off to the right would leave the window. It goes above the row
+     when the window has no room under it. */
+  function placeMenu() {
+    if (!menu.pop || !menu.btn) return;
+    var r = menu.btn.getBoundingClientRect();
+    var w = menu.pop.offsetWidth, h = menu.pop.offsetHeight;
+    var left = r.right - w;
+    if (left < 8) left = 8;
+    if (left + w > window.innerWidth - 8) left = Math.max(8, window.innerWidth - 8 - w);
+    var top = r.bottom + 6;
+    if (top + h > window.innerHeight - 8 && r.top - 6 - h > 8) top = r.top - 6 - h;
+    menu.pop.style.left = (window.scrollX + left) + 'px';
+    menu.pop.style.top = (window.scrollY + top) + 'px';
+  }
+
+  function moveIn(n) {
+    var L = menu.items.length;
+    if (!L) return;
+    menu.items[((n % L) + L) % L].focus();
+  }
+
+  function menuKey(e) {
+    e.stopPropagation();
+    var i = menu.items.indexOf(document.activeElement);
+    if (e.key === 'Escape') { e.preventDefault(); shutMenu(true); return; }
+    /* Tab hands focus back to the dots and closes. The menu is the last thing in the document, so
+       letting the browser move on from here would drop her at the end of the page. */
+    if (e.key === 'Tab') { e.preventDefault(); shutMenu(true); return; }
+    if (e.key === 'ArrowDown') { e.preventDefault(); moveIn(i + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); moveIn(i - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); moveIn(0); }
+    else if (e.key === 'End') { e.preventDefault(); moveIn(menu.items.length - 1); }
+  }
+
+  function openMenu(btn, items, atEnd) {
+    shutMenu(false);
+    var pop = document.createElement('div');
+    pop.className = 'lecpop';
+    /* One menu is open at a time, so one id is enough for the button to point at. */
+    pop.id = POPID;
+    pop.setAttribute('role', 'menu');
+    pop.setAttribute('aria-label', btn.getAttribute('aria-label') || 'Lecture actions');
+    items.forEach(function (it) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'menuitem');
+      b.tabIndex = -1;
+      if (it.hot) b.className = 'hot';
+      b.textContent = it.label;
+      if (it.name) b.setAttribute('aria-label', it.name);
+      b.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        shutMenu(false);
+        it.run();
+      });
+      pop.appendChild(b);
+    });
+    pop.addEventListener('keydown', menuKey);
+    /* A press that lands on the menu's own padding, or in the gap between two items, would
+       otherwise blur the item and leave focus on the page body with the menu still standing.
+       Cancelling that press keeps the focus where the menu put it. */
+    pop.addEventListener('mousedown', function (e) {
+      if (!e.target.closest('[role="menuitem"]')) e.preventDefault();
+    });
+    document.body.appendChild(pop);
+
+    menu.pop = pop;
+    menu.btn = btn;
+    menu.items = Array.prototype.slice.call(pop.querySelectorAll('[role="menuitem"]'));
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-controls', POPID);
+    placeMenu();
+    moveIn(atEnd ? menu.items.length - 1 : 0);
+  }
+
+  /* A press anywhere else closes it. The dots themselves are left out, so the press that closes
+     an open menu is the same press its own click handler reads as a toggle. Touch is listened for
+     beside the mouse, because a tap on a phone reaches a plain paragraph as a touch and nothing
+     else. */
+  function pressOut(e) {
+    if (!menu.pop) return;
+    if (menu.pop.contains(e.target) || (menu.btn && menu.btn.contains(e.target))) return;
+    shutMenu(false);
+  }
+  document.addEventListener('mousedown', pressOut, true);
+  document.addEventListener('touchstart', pressOut, { capture: true, passive: true });
+  /* Focus landing anywhere outside closes it too, which covers a screen reader moving on and a
+     click that lands on another control. */
+  document.addEventListener('focusin', function (e) {
+    if (!menu.pop) return;
+    if (menu.pop.contains(e.target) || (menu.btn && menu.btn.contains(e.target))) return;
+    shutMenu(false);
+  });
+  /* Escape closes an open menu from anywhere on the page, not only from inside it. menuKey stops
+     the keystroke while focus is on an item, so this runs only when focus has landed somewhere
+     else and the menu would otherwise have no key that puts it away. */
+  document.addEventListener('keydown', function (e) {
+    if (!menu.pop || e.key !== 'Escape') return;
+    e.preventDefault();
+    shutMenu(true);
+  });
+  window.addEventListener('resize', function () { if (menu.pop) shutMenu(false); });
 
   function uid() {
     return String(Date.now()) + '-' + Math.random().toString(36).slice(2, 7);
@@ -585,6 +721,15 @@
     if (w) w.classList.toggle('has', !!nb.textContent.trim());
   }
 
+  /* What a control on one lecture is called when it is read out on its own: "Delete the lecture
+     23 September" while it has a heading, "Delete this lecture" while it has none. links.js names
+     the row a pencil belongs to the same way, and a menu needs it more than a pencil does, because
+     the menu is drawn away from the block it acts on. */
+  function said(b, verb) {
+    var t = oneLine(b.heading);
+    return t ? verb + ' the lecture ' + t : verb + ' this lecture';
+  }
+
   function make(b) {
     var d = document.createElement('details');
     d.className = 'lec';
@@ -599,15 +744,17 @@
     h.setAttribute('data-ph', PH_HEAD);
     h.setAttribute('aria-label', 'Heading for this lecture');
 
-    var del = document.createElement('button');
-    del.type = 'button';
-    del.className = 'lecdel';
-    del.title = 'Remove this lecture';
-    del.setAttribute('aria-label', 'Remove this lecture');
-    del.innerHTML = CROSS;
+    var more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'lecmore';
+    more.title = 'More for this lecture';
+    more.setAttribute('aria-haspopup', 'menu');
+    more.setAttribute('aria-expanded', 'false');
+    more.setAttribute('aria-label', said(b, 'More for'));
+    more.innerHTML = DOTS;
 
     sum.appendChild(h);
-    sum.appendChild(del);
+    sum.appendChild(more);
 
     var inn = document.createElement('div');
     inn.className = 'lecin';
@@ -654,6 +801,7 @@
     h.addEventListener('input', function () {
       b.heading = h.textContent;
       h.classList.toggle('is-empty', !h.textContent.trim());
+      more.setAttribute('aria-label', said(b, 'More for'));
       save();
     });
     h.addEventListener('blur', function () {
@@ -661,6 +809,7 @@
       if (h.textContent !== tidy) h.textContent = tidy;
       b.heading = tidy;
       h.classList.toggle('is-empty', !tidy);
+      more.setAttribute('aria-label', said(b, 'More for'));
       save();
     });
 
@@ -668,26 +817,67 @@
     nb.addEventListener('blur', function () { hideBar(); b.body = nb.innerHTML; touch(nb); save(); });
     rich(nb, function () { b.body = nb.innerHTML; touch(nb); save(); });
 
-    del.addEventListener('click', function (e) {
+    /* What the menu holds. One item today, and a second one is another entry in this array. */
+    function acts() {
+      return [{
+        label: 'Delete this lecture',
+        name: said(b, 'Delete'),
+        hot: true,
+        run: function () { ask(d, b); },
+      }];
+    }
+
+    /* A summary opens on any click that reaches it, so the press is cancelled here the way it is
+       on the heading. Pressing the dots a second time closes the menu, which works because the
+       document handler above leaves this button alone. */
+    more.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
-      ask(d, b);
+      if (menu.btn === more) { shutMenu(true); return; }
+      openMenu(more, acts(), false);
+    });
+    /* The keyboard opens it too. Enter and the space bar are answered here and their default
+       press is cancelled, for two reasons: a button inside a summary lets that press through to
+       the lecture, which would open the notes at the same time, and the click a browser makes
+       out of the key would then reach the handler above and close what this just opened. Down
+       goes to the first item, up to the last, which is what every other menu does. */
+    more.addEventListener('keydown', function (e) {
+      e.stopPropagation();
+      var open = menu.btn === more;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (open) moveIn(e.key === 'ArrowDown' ? 0 : menu.items.length - 1);
+        else openMenu(more, acts(), e.key === 'ArrowUp');
+      } else if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar' || e.code === 'Space') {
+        e.preventDefault();
+        if (open) shutMenu(true);
+        else openMenu(more, acts(), false);
+      } else if (e.key === 'Escape' && open) {
+        e.preventDefault();
+        shutMenu(true);
+      }
     });
 
     return d;
   }
 
-  /* Removing destroys something she wrote, so the button asks first. The question takes the
+  /* Removing destroys something she wrote, so the menu item asks first. The question takes the
      place of the control that raised it, inside the row it belongs to, and Keep puts the row
-     back exactly as it was. */
+     back exactly as it was. Choosing Delete in the menu is the first of two presses, and the
+     second one is the only thing that destroys anything. */
   function ask(d, b) {
     var sum = d.querySelector('summary');
     if (sum.querySelector('.lecsure')) return;
-    var del = sum.querySelector('.lecdel');
+    var del = sum.querySelector('.lecmore');
     del.hidden = true;
 
+    /* The question and its two answers name the lecture, the way the dots and the menu item
+       above them do. Read on its own, out of the row it sits in, "Remove" says nothing about
+       what is about to go, and this is the press that destroys something she wrote. */
     var g = document.createElement('span');
     g.className = 'lecsure';
+    g.setAttribute('role', 'group');
+    g.setAttribute('aria-label', said(b, 'Remove'));
     var q = document.createElement('span');
     q.className = 'q';
     q.textContent = 'Remove this lecture and its notes?';
@@ -695,10 +885,12 @@
     yes.type = 'button';
     yes.className = 'yes';
     yes.textContent = 'Remove';
+    yes.setAttribute('aria-label', said(b, 'Remove'));
     var no = document.createElement('button');
     no.type = 'button';
     no.className = 'no';
     no.textContent = 'Keep';
+    no.setAttribute('aria-label', said(b, 'Keep'));
     g.appendChild(q);
     g.appendChild(yes);
     g.appendChild(no);
@@ -768,7 +960,12 @@
     var live = {};
     store.blocks.forEach(function (b) { live[b.id] = 1; });
     Object.keys(have).forEach(function (id) {
-      if (!live[id]) have[id].remove();
+      if (!live[id]) {
+        /* The menu lives at the end of the document, so a lecture removed in a second tab would
+           otherwise leave its menu standing over a page it no longer belongs to. */
+        if (menu.btn && have[id].contains(menu.btn)) shutMenu(false);
+        have[id].remove();
+      }
     });
     var prev = null;
     store.blocks.forEach(function (b) {

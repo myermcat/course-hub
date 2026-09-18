@@ -21,7 +21,7 @@
   header.tight{display:flex;flex-direction:column;gap:14px}
 
   @media print{
-    .topnav,.sitefoot,.uplink,.lecbar,.lecdel,#nb-bar,#save,details.about{display:none!important}
+    .topnav,.sitefoot,.uplink,.lecbar,.lecmore,.lecpop,#nb-bar,#save,details.about{display:none!important}
     body{background:#fff}
     .wrap{max-width:none;padding:0;gap:20px}
     .lec{break-inside:avoid;border-color:#ccc}
@@ -50,17 +50,17 @@
     <h1>Lecture notes</h1>
   </header>
 
-  <section aria-label="Lectures">
+  <section id="lectures" aria-label="Lectures">
     <div data-notes data-add="Add a lecture" data-heading="Date or topic" data-body="What was said in this lecture&hellip;"></div>
   </section>
 
-  <details class="about">
+  <details class="about" id="about">
     <summary>What this page is, and how to write in it</summary>
     <div class="in">
       <p>The button at the top starts a lecture and puts it above the others, because the newest one is the one being written. Give it a heading, which is yours to name: a date, a topic, the lecture number, whatever you find it by later.</p>
       <p>Every lecture is closed when the page loads. The list reads as headings, and you open the one you want.</p>
       <p>Typing saves on its own. <b>Cmd or Ctrl + B</b> for bold, <b>+ I</b> for italic, <b>+ H</b> for the last colour you used, and again to take it off. Selecting text brings up a small bar with bold, italic, a bullet list and the four colours. Typing <b>- </b> or <b>1. </b> starts a list, <b>### </b> starts a heading, <b>&gt; </b> starts a quote, <b>--- </b> draws a rule, and <b>Tab</b> inside a list indents.</p>
-      <p>The small cross at the end of a heading removes that lecture. It asks first, and Keep puts the row back untouched.</p>
+      <p>The three dots at the end of a heading open a small menu, and the one thing in it today removes that lecture. Choosing it asks first, and Keep puts the row back untouched.</p>
     </div>
   </details>
 
@@ -76,8 +76,13 @@
       <a href="./">GNG2101 Hub</a>
       <p>Engineering Design, University of Ottawa, Fall 2026.</p>
     </div>
+    <nav class="col" aria-label="On this page">
+      <h2>On this page</h2>
+      <a href="#lectures">Lectures</a>
+      <a href="#about">What this page is</a>
+    </nav>
     <nav class="col" aria-label="This course">
-      <h2>GNG2101</h2>
+      <h2>This course</h2>
       <a href="./">Course hub</a>
       <a href="./#deliverables">Deliverables</a>
       <a href="./#labs">The B4 Saturday labs</a>
@@ -86,7 +91,7 @@
     <nav class="col" aria-label="Elsewhere">
       <h2>Elsewhere</h2>
       <a href="../">All four courses</a>
-      <a href="https://uottawa.brightspace.com/d2l/home/602711">Brightspace</a>
+      <a href="https://uottawa.brightspace.com/d2l/home/602711" target="_blank" rel="noopener">Brightspace</a>
     </nav>
   </div>
   <div class="colophon">
