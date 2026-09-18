@@ -622,7 +622,11 @@
 
   /* Under the dots and flush with their right edge, because the control stands at the right end
      of the row and a menu hanging off to the right would leave the window. It goes above the row
-     when the window has no room under it. */
+     when the window has no room under it.
+
+     A page carrying the bar pinned to the bottom has that much less room. The menu draws over the
+     bar, since it sits higher in the stack, and reading the bar's height here is what sends the
+     menu above the row before it gets that far. */
   function placeMenu() {
     if (!menu.pop || !menu.btn) return;
     var r = menu.btn.getBoundingClientRect();
@@ -630,8 +634,10 @@
     var left = r.right - w;
     if (left < 8) left = 8;
     if (left + w > window.innerWidth - 8) left = Math.max(8, window.innerWidth - 8 - w);
+    var dock = document.querySelector('.dock');
+    var floor = window.innerHeight - 8 - (dock ? dock.offsetHeight : 0);
     var top = r.bottom + 6;
-    if (top + h > window.innerHeight - 8 && r.top - 6 - h > 8) top = r.top - 6 - h;
+    if (top + h > floor && r.top - 6 - h > 8) top = r.top - 6 - h;
     menu.pop.style.left = (window.scrollX + left) + 'px';
     menu.pop.style.top = (window.scrollY + top) + 'px';
   }
@@ -805,6 +811,16 @@
        already happened by now, so cancelling the click leaves the caret where she put it and
        takes the toggle away. */
     h.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); });
+    /* THE SPACE BAR IN A HEADING. A summary is a button to the browser, and the space bar presses
+       a button: Chrome answers a space typed in here with a click of its own on the summary, so
+       every word she typed shut the lecture and the next word opened it again. That click carries
+       the summary as its target and never passes through the heading, which is why the handler
+       above does not see it. It is cancelled here instead, and only while the caret is in the
+       heading: a click made out of a key press carries a detail of 0, and a press on the summary
+       itself leaves focus on the summary, so both of those still open the lecture. */
+    sum.addEventListener('click', function (e) {
+      if (e.detail === 0 && document.activeElement === h) e.preventDefault();
+    });
     h.addEventListener('keydown', function (e) {
       e.stopPropagation();
       if (e.key === 'Enter') {

@@ -28,7 +28,7 @@
   }
 </style>
 </head>
-<body data-store="gng2101">
+<body data-store="gng2101" class="has-dock">
 <nav class="topnav" aria-label="Courses">
   <div class="in">
     <a class="home" href="../" aria-label="Course hub, the front page"><svg viewBox='0 0 64 64' aria-hidden='true'><rect width='64' height='64' rx='14' fill='#22282E'/><rect x='13' y='13' width='16' height='16' rx='4' fill='#7C5CB8'/><rect x='35' y='13' width='16' height='16' rx='4' fill='#3E9E82'/><rect x='13' y='35' width='16' height='16' rx='4' fill='#4E90C8'/><rect x='35' y='35' width='16' height='16' rx='4' fill='#C08A3E'/></svg><span>Course hub</span></a>
@@ -100,6 +100,28 @@
   </div>
 </footer>
 
+<!-- The bar across the bottom of the window, the one the philosophy reading guide carries.
+     It stays put as the page scrolls, so a lecture can be added and any lecture reached from
+     the middle of a long page. shared/dock.js wires it. -->
+<div class="dock">
+  <div class="prog"></div>
+  <div class="in">
+    <button type="button" data-dock-add title="Start another lecture" aria-label="Add a lecture">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>
+      <span class="lab">Add a lecture</span></button>
+    <button type="button" data-dock-list aria-haspopup="menu" aria-expanded="false" title="Jump to a lecture" aria-label="Lectures on this page">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 3.5h11M2.5 8h11M2.5 12.5h7"/></svg>
+      <span class="lab">Lectures</span><span class="n"></span></button>
+    <a href="./" title="Back to the Engineering Design hub" aria-label="The hub, Engineering Design">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8H2M7 3 2 8l5 5"/></svg>
+      <span class="lab">The hub</span></a>
+    <button type="button" data-dock-top class="end" title="Back to the top" aria-label="Top of the page">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>
+      <span class="lab">Top</span></button>
+  </div>
+</div>
+
 <script src="../shared/notes.js"></script>
+<script src="../shared/dock.js"></script>
 </body>
 </html>
