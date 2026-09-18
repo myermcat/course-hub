@@ -330,11 +330,37 @@
     });
     return did;
   }
+  /* TWO SUBSTITUTIONS SHE ASKED FOR WHILE TYPING.
+     "->" becomes an arrow and "--" becomes an em dash, the moment the second character lands.
+     Only the text immediately before a collapsed caret is looked at, so nothing already written
+     is rewritten behind her, and the caret is put back after the character it replaced. */
+  var SWAPS = [[/->$/, '\u2192'], [/--$/, '\u2014']];
+  function swapAsTyped() {
+    var sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return false;
+    var r = sel.getRangeAt(0);
+    if (!r.collapsed || r.startContainer.nodeType !== 3) return false;
+    var n = r.startContainer, off = r.startOffset, before = n.nodeValue.slice(0, off);
+    for (var i = 0; i < SWAPS.length; i++) {
+      var m = before.match(SWAPS[i][0]);
+      if (!m) continue;
+      var cut = m[0].length, to = SWAPS[i][1];
+      n.nodeValue = before.slice(0, off - cut) + to + n.nodeValue.slice(off);
+      var put = document.createRange();
+      put.setStart(n, off - cut + to.length);
+      put.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(put);
+      return true;
+    }
+    return false;
+  }
+
   function rich(el, onChange) {
     try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch (e) {}
     markEmpty(el);
     el.addEventListener('focus', function () { prime(el); markEmpty(el); });
-    el.addEventListener('input', function () { markEmpty(el); });
+    el.addEventListener('input', function () { swapAsTyped(); markEmpty(el); });
     /* Chrome carries inline formatting across a paragraph break, so a line started at the end
        of a coloured run comes out coloured and one started at the end of a bold run comes out
        bold. Enter clears both on a line that is still empty: `plainCaret` turns off the
@@ -799,6 +825,7 @@
       document.execCommand('insertText', false, oneLine(cd.getData('text/plain')));
     });
     h.addEventListener('input', function () {
+      swapAsTyped();
       b.heading = h.textContent;
       h.classList.toggle('is-empty', !h.textContent.trim());
       more.setAttribute('aria-label', said(b, 'More for'));
@@ -813,7 +840,10 @@
       save();
     });
 
-    nb.addEventListener('input', function () { b.body = nb.innerHTML; touch(nb); save(); });
+    /* The swap runs before the body is read. This listener is registered ahead of the one
+       inside rich(), so reading innerHTML first would store the raw "->" and the next
+       render would put it straight back over the arrow. */
+    nb.addEventListener('input', function () { swapAsTyped(); b.body = nb.innerHTML; touch(nb); save(); });
     nb.addEventListener('blur', function () { hideBar(); b.body = nb.innerHTML; touch(nb); save(); });
     rich(nb, function () { b.body = nb.innerHTML; touch(nb); save(); });
 
