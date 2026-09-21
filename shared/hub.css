@@ -622,3 +622,51 @@ body.has-dock #save{bottom:calc(var(--dock-h) + 14px)}
   details.task.fold>.in{margin:0 16px;padding-bottom:16px}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important}.card:hover{transform:none}}
+
+/* rail
+   The assigned problems on an assignment page, hanging beside the scanned source pages so the
+   list of what to do stays on screen while the reader scrolls through them. Styled after
+   .topnav, mono type on a translucent ground with the same blur, so the two read as one family.
+   Below 1100px it stops hanging and becomes an ordinary block above the content.
+
+   The grid needs both classes, .wrap.railed. The assignment pages carry their own <style>
+   block after this file, so a single class would lose the cascade to it. */
+.wrap.railed{display:grid;grid-template-columns:minmax(0,1fr);gap:30px;align-content:start}
+@media (min-width:1100px){
+  .wrap.railed{grid-template-columns:250px minmax(0,1fr);gap:20px 46px;max-width:1180px;align-items:start}
+  .wrap.railed>header,.wrap.railed>.back{grid-column:1/-1}
+  .rail{position:sticky;top:64px;max-height:calc(100vh - 88px);overflow-y:auto}
+}
+.rail{background:var(--surface);background:color-mix(in srgb,var(--surface) 88%,transparent);
+  backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);
+  border:1px solid var(--rule);border-radius:12px;padding:15px 15px 13px;
+  display:flex;flex-direction:column;gap:11px}
+.rail .rail-head{display:flex;flex-direction:column;gap:3px}
+.rail h2{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;margin:0}
+.rail .prog{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--muted)}
+.rail .prog.all-done{color:var(--done)}
+.rail ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+.rail-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;
+  gap:10px;padding:7px 7px;border-radius:8px;transition:background .15s}
+.rail-item:hover{background:var(--sunk)}
+.rail-item .box{width:14px;height:14px;border:1.6px solid var(--muted);border-radius:3.5px;
+  cursor:pointer;transition:background .15s,border-color .15s}
+.rail-item .box:hover{border-color:var(--accent)}
+.rail-item .box:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.rail-item .box[aria-checked="true"]{background:var(--done);border-color:var(--done);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size:contain}
+.rail-item .h{display:flex;align-items:baseline;gap:8px;min-width:0}
+.rail-item .h a{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent);
+  text-decoration:none;border-bottom:0;white-space:nowrap}
+.rail-item .h a:hover{text-decoration:underline}
+.rail-item .h a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.rail-item .h em{font-family:var(--mono);font-size:11px;font-style:normal;color:var(--ink-soft);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rail-item .pg{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.rail-item.done .h a,.rail-item.done .h em{color:var(--muted);text-decoration:line-through}
+.rail .foot{font-size:12px;line-height:1.45;color:var(--muted);
+  border-top:1px solid var(--rule);padding-top:9px}
+@media print{.rail{position:static;max-height:none;break-inside:avoid;backdrop-filter:none}}
+@media (prefers-reduced-motion:reduce){.rail-item,.rail-item .box{transition:none}}
