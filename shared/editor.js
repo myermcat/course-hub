@@ -275,7 +275,12 @@
   function rich(el, onChange) {
     try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch (e) {}
     markEmpty(el);
-    el.addEventListener('focus', function () { prime(el); markEmpty(el); });
+    el.addEventListener('focus', function () {
+      /* Cmd+B is the browser's own command and reads the same flag, so it is set here
+         too, once per visit to an editor. */
+      try { document.execCommand('styleWithCSS', false, false); } catch (err) {}
+      prime(el); markEmpty(el);
+    });
     el.addEventListener('input', function () { swapAsTyped(); markEmpty(el); });
     /* Chrome carries inline formatting across a paragraph break, so a line started at the end
        of a coloured run comes out coloured and one started at the end of a bold run comes out
@@ -520,6 +525,10 @@
       var b = e.target.closest('button');
       if (!b) return;
       if (b.hasAttribute('data-p')) { paintSel(b.getAttribute('data-p')); hideBar(); return; }
+      /* Tags, never a style attribute. clean() strips style on the way to storage, so a bold
+         written as one is on the screen until the next load and gone after it. Asked for here
+         rather than trusted, because foreColor turns this on and the browser keeps it on. */
+      try { document.execCommand('styleWithCSS', false, false); } catch (err) {}
       document.execCommand(b.getAttribute('data-a'), false, null);
       var el = document.activeElement;
       if (isEditor(el) && cfg.save) cfg.save(el);
