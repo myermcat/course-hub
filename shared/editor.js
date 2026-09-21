@@ -475,6 +475,10 @@
         }
         e.className = k;
       });
+      /* foreColor needs styleWithCSS on, and it stays on for whatever comes next. Bold pressed
+         after a colour then writes a style attribute, which clean() strips on the way to storage,
+         so the bold was there until the next load and then gone. Put it back to writing tags. */
+      try { document.execCommand('styleWithCSS', false, false); } catch (e) {}
     }
     if (cfg.save) cfg.save(box);
   }
