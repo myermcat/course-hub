@@ -95,6 +95,34 @@
     r.selectNodeContents(node); r.collapse(false);
     var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
   }
+  /* A shortcut typed in front of words already on the line should leave the caret where the
+     marker was, which is where her hands already are, and not at the far end of the line. */
+  function caretStart(node) {
+    var r = document.createRange();
+    r.selectNodeContents(node); r.collapse(true);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  /* The line with its first n characters taken off, as markup.
+
+     Reading the marker off the front of innerHTML with a regular expression only worked while
+     the line began with a bare text node. A line whose first characters sat inside a bold run
+     or a coloured span began with a tag, the expression matched nothing, and the heading came
+     out still carrying its "##". Counting characters through a copy of the line finds the
+     marker wherever it is, and the copy keeps the copy: the live line is never touched, so the
+     single insertHTML that replaces it is still one undoable step. */
+  function lineWithout(blk, n) {
+    var clone = blk.cloneNode(true);
+    var w = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT, null), node, left = n;
+    while (left > 0 && (node = w.nextNode())) {
+      var take = Math.min(left, node.nodeValue.length);
+      node.nodeValue = node.nodeValue.slice(take);
+      left -= take;
+    }
+    Array.prototype.forEach.call(clone.querySelectorAll('b,strong,i,em,u,s,span,code,sub,sup'), function (x) {
+      if (!x.textContent && !x.querySelector('br,img,hr')) x.remove();
+    });
+    return clone.innerHTML || '<br>';
+  }
 
   function prime(el) {
     if (!el.querySelector('p,div,h3,h4,h5,ul,ol,blockquote,hr')) {
@@ -249,6 +277,20 @@
      written is rewritten behind her, and the caret is put back after the character it
      replaced. */
   var SWAPS = [[/->$/, '→'], [/--$/, '—']];
+  /* Everything typed on this line up to the caret. The dash swap has to know whether the two
+     hyphens are the only thing on the line, because two hyphens at the start of a line are the
+     beginning of a horizontal rule and were being eaten before the rule could fire. Every rule
+     shortcut in the file was unreachable: "-- " and "---" and two hyphens then Enter all came
+     out as a dash. */
+  function lineHead(n, off) {
+    var host = n.parentElement && n.parentElement.closest(cfg.sel);
+    if (!host) return null;
+    var blk = blockOf(host, n) || host;
+    var r = document.createRange();
+    r.selectNodeContents(blk);
+    try { r.setEnd(n, off); } catch (e) { return null; }
+    return r.toString();
+  }
   function swapAsTyped() {
     var sel = window.getSelection();
     if (!sel || !sel.rangeCount) return false;
@@ -258,6 +300,10 @@
     for (var i = 0; i < SWAPS.length; i++) {
       var m = before.match(SWAPS[i][0]);
       if (!m) continue;
+      if (m[0] === '--') {
+        var lh = lineHead(n, off);
+        if (lh !== null && /^\s*--$/.test(lh)) return false;
+      }
       var cut = m[0].length, to = SWAPS[i][1];
       n.nodeValue = before.slice(0, off - cut) + to + n.nodeValue.slice(off);
       var put = document.createRange();
@@ -302,7 +348,12 @@
         /* Pasting inside a coloured run took that run's colour, because the caret is inside
            its span. Say the colour out loud for anything that arrived without one. */
         if (inColour(el) && !/^<span class="c-[ypgmn]"/.test(safe)) safe = '<span class="c-n">' + safe + '</span>';
+        /* The class is dropped on the way through insertHTML and comes out as whatever colour
+           the class happened to resolve to, which clean() then strips on the way to storage.
+           Send the marker colour instead and put the class back once it has landed. */
+        safe = safe.replace(/ class="(c-[ypgmn])"/g, function (all, k) { return ' style="color:' + CDOT[k] + '"'; });
         document.execCommand('insertHTML', false, safe);
+        reclass(el);
       } else {
         var t = cd.getData('text/plain'), asList = plainList(t);
         if (asList) document.execCommand('insertHTML', false, asList);
@@ -365,8 +416,7 @@
            item survives the parser untouched, and those lines are left to the plain command
            below, which does not disturb whatever block follows them. */
         var tag = cmd === 'ul' ? 'ul' : 'ol';
-        var lead = cmd === 'ul' ? /^(?:\s|&nbsp;|<br\s*\/?>)*[-*+]/ : /^(?:\s|&nbsp;|<br\s*\/?>)*\d+[.)]/;
-        var item = blk.innerHTML.replace(lead, '') || '<br>';
+        var item = lineWithout(blk, head.length);
         var lr = document.createRange();
         lr.selectNode(blk);
         sel.removeAllRanges(); sel.addRange(lr);
@@ -378,16 +428,16 @@
         if (made) made.removeAttribute('data-new');
         var cell = made && made.querySelector('li');
         if (!cell) { var lis = el.getElementsByTagName('li'); cell = lis.length ? lis[lis.length - 1] : null; }
-        if (cell) caretEnd(cell);
+        if (cell) caretStart(cell);
       } else if (cmd === 'block' && blk !== el) {
         // Replace the whole line with the new block, in one undoable step.
-        var inner = blk.innerHTML.replace(/^(?:\s|&nbsp;|<br\s*\/?>)*(?:#{1,3}|&gt;|>)/, '') || '<br>';
+        var inner = lineWithout(blk, head.length);
         var rr = document.createRange();
         rr.selectNode(blk);
         sel.removeAllRanges(); sel.addRange(rr);
         document.execCommand('insertHTML', false, '<' + arg + '>' + inner + '</' + arg + '>');
         var all = el.getElementsByTagName(arg);
-        if (all.length) caretEnd(all[all.length - 1]);
+        if (all.length) caretStart(all[all.length - 1]);
       } else {
         sel.removeAllRanges(); sel.addRange(pre);
         document.execCommand('delete', false, null);
@@ -444,6 +494,28 @@
     return es >= rs && ee <= re;
   }
 
+  /* Turn the marker colours back into classes. `foreColor` can only be given a colour, and a
+     pasted span's class is rewritten by the browser into an inline style on the way in, so both
+     roads end at a colour written on the element. A class is what the page stores, because it
+     is the only form that reads correctly in both themes and the only one clean() keeps. */
+  function reclass(box) {
+    Array.prototype.forEach.call(box.querySelectorAll('[style], font[color]'), function (e) {
+      var c = ((e.style && e.style.color) || e.getAttribute('color') || '').replace(/\s+/g, '').toLowerCase();
+      var k = CBACK[c];
+      if (!k) return;
+      if (e.style) e.style.color = '';
+      e.removeAttribute('color');
+      if (!e.getAttribute('style')) e.removeAttribute('style');
+      if (e.tagName === 'FONT') {
+        var sp = document.createElement('span');
+        while (e.firstChild) sp.appendChild(e.firstChild);
+        e.parentNode.replaceChild(sp, e);
+        e = sp;
+      }
+      e.className = k;
+    });
+  }
+
   function paintSel(cls) {
     var sel = window.getSelection();
     if (!sel || !sel.rangeCount || sel.isCollapsed) return;
@@ -459,27 +531,21 @@
        win, so clear the ones the selection covers whole. One it only overlaps keeps its colour
        outside. */
     Array.prototype.forEach.call(box.querySelectorAll('.c-y, .c-p, .c-g, .c-m, .c-n'), function (e) {
-      if (r.intersectsNode(e) && wholly(r, e, box)) e.removeAttribute('class');
+      if (!r.intersectsNode(e) || !wholly(r, e, box)) return;
+      e.removeAttribute('class');
+      /* A span that carried nothing but the colour has no job left, and one of them is added
+         every time a colour is cleared. */
+      if (e.tagName === 'SPAN' && !e.attributes.length) {
+        var par = e.parentNode;
+        while (e.firstChild) par.insertBefore(e.firstChild, e);
+        par.removeChild(e); par.normalize();
+      }
     });
     var want = cls || (inColour(box) ? 'c-n' : null);
     if (want) {
       try { document.execCommand('styleWithCSS', false, true); } catch (e) {}
       document.execCommand('foreColor', false, CDOT[want]);
-      Array.prototype.forEach.call(box.querySelectorAll('[style], font[color]'), function (e) {
-        var c = ((e.style && e.style.color) || e.getAttribute('color') || '').replace(/\s+/g, '').toLowerCase();
-        var k = CBACK[c];
-        if (!k) return;
-        if (e.style) e.style.color = '';
-        e.removeAttribute('color');
-        if (!e.getAttribute('style')) e.removeAttribute('style');
-        if (e.tagName === 'FONT') {
-          var sp = document.createElement('span');
-          while (e.firstChild) sp.appendChild(e.firstChild);
-          e.parentNode.replaceChild(sp, e);
-          e = sp;
-        }
-        e.className = k;
-      });
+      reclass(box);
       /* foreColor needs styleWithCSS on, and it stays on for whatever comes next. Bold pressed
          after a colour then writes a style attribute, which clean() strips on the way to storage,
          so the bold was there until the next load and then gone. Put it back to writing tags. */

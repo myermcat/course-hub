@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>editor.js tests</title>
+<style>
+  :root { --accent:#1F6B57; --c-y:#8A6A0B; --c-p:#B0246B; --muted:#6E766F; --ink:#191D1A;
+          --paper:#fff; --surface:#F6F7F4; --sunk:#E3E6E1; --rule:#D2D8D1; --rule-soft:#E1E5DF;
+          --ink-soft:#414944; --display:Georgia,serif; --body:system-ui,sans-serif; --mono:Menlo,monospace; }
+  body { font: 14px/1.5 var(--mono); margin: 0; padding: 20px; }
+  .nb { min-height: 2em; border: 1px solid #ccc; padding: 8px; }
+  .c-y{color:var(--c-y)} .c-p{color:var(--c-p)} .c-g{color:var(--accent)} .c-m{color:var(--muted)} .c-n{color:var(--ink)}
+  #out { white-space: pre-wrap; font-size: 12px; }
+  .ok { color: #157a44; } .bad { color: #b3261e; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- The editor under test. One box, reset between cases. -->
+<div class="nb" contenteditable="true" data-ph="note"></div>
+<div id="out">not run</div>
+
+<script>document.write('<scr'+'ipt src="editor.js?v='+Date.now()+'"></scr'+'ipt>');</script>
+<script>
+/* A test harness for shared/editor.js.
+
+   WHY IT EXISTS. Every shortcut in this file is a keydown handler that rewrites the DOM around
+   a caret, and every one of them has broken at least once in a way that only showed up with
+   text already on the line. Reasoning about them is not enough. These cases drive the real
+   element with real events and read the real markup back.
+
+   HOW TYPING IS SIMULATED. The editor only ever acts on keydown, so a character is typed by
+   dispatching a cancelable keydown and, if nothing called preventDefault, inserting it with
+   the same execCommand the browser would use. That is the same path a real key takes, which is
+   why these cases catch things a direct call to the handler would not. */
+(function () {
+  var el = document.querySelector('.nb');
+  var changes = 0;
+  Notes.bar({ sel: '.nb', accent: 'Green text', save: function () { changes++; } });
+  Notes.rich(el, function () { changes++; });
+
+  function reset(html) {
+    el.innerHTML = html === undefined ? '<p><br></p>' : html;
+    el.focus();
+    /* A headless pane does not always deliver a focus event, and the editor does its priming
+       and its empty-state flag there, so call both outright. */
+    Notes.prime(el); Notes.markEmpty(el);
+    changes = 0;
+  }
+  /* The caret at the start of a named block, which a plain character offset cannot say:
+     the end of one line and the start of the next are the same number. */
+  function caretIn(sel, n) {
+    var b = el.querySelector(sel);
+    var w = document.createTreeWalker(b, NodeFilter.SHOW_TEXT, null), node, pos = 0, r = document.createRange();
+    while ((node = w.nextNode())) {
+      var len = node.nodeValue.length;
+      if (n <= pos + len) { r.setStart(node, n - pos); r.collapse(true); place(r); return; }
+      pos += len;
+    }
+    r.selectNodeContents(b); r.collapse(true); place(r);
+  }
+  /* Put the caret n characters into the editor's text, counting the way a reader would. */
+  function caret(n) {
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), node, pos = 0, r = document.createRange();
+    while ((node = w.nextNode())) {
+      var len = node.nodeValue.length;
+      if (n <= pos + len) { r.setStart(node, n - pos); r.collapse(true); place(r); return; }
+      pos += len;
+    }
+    r.selectNodeContents(el); r.collapse(false); place(r);
+  }
+  function select(a, b) {
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), node, pos = 0, r = document.createRange(), started = false;
+    while ((node = w.nextNode())) {
+      var len = node.nodeValue.length;
+      if (!started && a <= pos + len) { r.setStart(node, a - pos); started = true; }
+      if (started && b <= pos + len) { r.setEnd(node, b - pos); break; }
+      pos += len;
+    }
+    place(r);
+  }
+  function selectAll() { var r = document.createRange(); r.selectNodeContents(el); place(r); }
+  function selectIn(sel) { var r = document.createRange(); r.selectNodeContents(el.querySelector(sel)); place(r); }
+  function place(r) { var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+
+  function key(k, opts) {
+    var e = new KeyboardEvent('keydown', Object.assign({ key: k, bubbles: true, cancelable: true }, opts || {}));
+    el.dispatchEvent(e);
+    return e;
+  }
+  function keyup(k) { el.dispatchEvent(new KeyboardEvent('keyup', { key: k, bubbles: true })); }
+  /* One character, the whole way through: keydown, then the insertion the browser would do. */
+  function ch(c) {
+    var e = key(c);
+    if (e.defaultPrevented) return;
+    if (c === 'Enter') document.execCommand('insertParagraph', false, null);
+    else document.execCommand('insertText', false, c);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    if (c === 'Enter') keyup('Enter');
+  }
+  function type(s) { for (var i = 0; i < s.length; i++) ch(s[i]); }
+  function paste(html, text) {
+    var dt = new DataTransfer();
+    if (html) dt.setData('text/html', html);
+    dt.setData('text/plain', text == null ? '' : text);
+    el.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }));
+  }
+  function swatch(c) {
+    var b = document.querySelector('#nb-bar button[data-p="' + c + '"]');
+    if (!b) throw new Error('no swatch ' + c);
+    b.click();
+  }
+  function html() { return el.innerHTML; }
+  /* Where the caret sits, counted in characters from the start, so a case can say so. */
+  function caretAt() {
+    var s = window.getSelection();
+    if (!s.rangeCount) return -1;
+    var r = document.createRange();
+    r.setStart(el, 0); r.setEnd(s.getRangeAt(0).startContainer, s.getRangeAt(0).startOffset);
+    return r.toString().length;
+  }
+
+  var results = [];
+  function t(name, fn) {
+    var got;
+    try { got = fn(); } catch (err) { got = 'THREW ' + err.message; }
+    results.push([name, got]);
+  }
+
+  // ---------- headings ----------
+  t('heading: ## on an empty line', function () { reset(); caret(0); type('## '); return html(); });
+  t('heading: # on an empty line', function () { reset(); caret(0); type('# '); return html(); });
+  t('heading: ### on an empty line', function () { reset(); caret(0); type('### '); return html(); });
+  t('heading: ## then text', function () { reset(); caret(0); type('## '); type('Foucault'); return html(); });
+  t('heading: ## before a word already there', function () { reset('<p>Faucault</p>'); caret(0); type('## '); return html(); });
+  t('heading: caret after ## before a word', function () { reset('<p>Faucault</p>'); caret(0); type('## '); return caretAt(); });
+  t('heading: ## on the second line of two', function () { reset('<p>first</p><p>Faucault</p>'); caretIn('p:nth-of-type(2)', 0); type('## '); return html(); });
+  t('heading: ## inside a bold run', function () { reset('<p><b>Faucault</b></p>'); caret(0); type('## '); return html(); });
+  t('heading: ## inside a coloured span', function () { reset('<p><span class="c-y">Faucault</span></p>'); caret(0); type('## '); return html(); });
+  t('heading: ## in front of a part-bold line', function () { reset('<p><b>Fou</b>cault</p>'); caret(0); type('## '); return html(); });
+  t('heading: caret inside a bold run lands at the start', function () { reset('<p><b>Faucault</b></p>'); caret(0); type('## '); return caretAt(); });
+  t('heading: #### does nothing', function () { reset('<p>x</p>'); caret(0); type('#### '); return html(); });
+  t('heading: ## mid-line does nothing', function () { reset('<p>abc</p>'); caret(3); type('## '); return html(); });
+  t('heading: ## inside a list item does nothing', function () { reset('<ul><li>item</li></ul>'); caret(0); type('## '); return html(); });
+  t('heading: ## on a line that is already a heading', function () { reset('<h4>Head</h4>'); caret(0); type('## '); return html(); });
+
+  // ---------- quote ----------
+  t('quote: > on an empty line', function () { reset(); caret(0); type('> '); return html(); });
+  t('quote: > before a word already there', function () { reset('<p>Said</p>'); caret(0); type('> '); return html(); });
+
+  // ---------- lists ----------
+  t('list: - on an empty line', function () { reset(); caret(0); type('- '); return html(); });
+  t('list: - before a word already there', function () { reset('<p>milk</p>'); caret(0); type('- '); return html(); });
+  t('list: - in front of a bold word', function () { reset('<p><b>milk</b></p>'); caret(0); type('- '); return html(); });
+  t('list: caret after - before a word', function () { reset('<p>milk</p>'); caret(0); type('- '); return caretAt(); });
+  t('list: * on an empty line', function () { reset(); caret(0); type('* '); return html(); });
+  t('list: 1. on an empty line', function () { reset(); caret(0); type('1. '); return html(); });
+  t('list: 1) on an empty line', function () { reset(); caret(0); type('1) '); return html(); });
+  t('list: - inside an existing item stays text', function () { reset('<ul><li>a</li></ul>'); caret(1); type(' - '); return html(); });
+  t('list: second item by Enter', function () { reset(); caret(0); type('- one'); ch('Enter'); type('two'); return html(); });
+
+  // ---------- rules ----------
+  t('rule: two hyphens then space', function () { reset(); caret(0); type('-- '); return html(); });
+  t('rule: three hyphens', function () { reset(); caret(0); type('---'); return html(); });
+  t('rule: two hyphens then Enter', function () { reset(); caret(0); type('--'); ch('Enter'); return html(); });
+  t('rule: typing after a rule', function () { reset(); caret(0); type('---'); type('after'); return html(); });
+  t('rule: two hyphens inside a list item', function () { reset('<ul><li>a</li></ul>'); caret(1); type('-- '); return html(); });
+
+  // ---------- substitutions ----------
+  t('swap: -> becomes an arrow', function () { reset(); caret(0); type('a-> b'); return el.textContent; });
+  t('swap: two hyphens become a dash', function () { reset(); caret(0); type('a--b'); return el.textContent; });
+
+  // ---------- Tab ----------
+  t('tab: indents inside a list', function () { reset('<ul><li>one</li><li>two</li></ul>'); caret(6); var e = key('Tab'); return e.defaultPrevented + ' | ' + html(); });
+  t('tab: shift+tab outdents', function () { reset('<ul><li>one</li><ul><li>two</li></ul></ul>'); caret(6); var e = key('Tab', { shiftKey: true }); return e.defaultPrevented + ' | ' + html(); });
+  t('tab: outside a list leaves focus alone', function () { reset('<p>abc</p>'); caret(3); var e = key('Tab'); return e.defaultPrevented; });
+
+  // ---------- colour ----------
+  t('colour: part of a paragraph', function () { reset('<p>alpha beta gamma</p>'); select(6, 10); swatch('c-p'); return html(); });
+  t('colour: a whole paragraph', function () { reset('<p>alpha beta</p>'); selectIn('p'); swatch('c-m'); return html(); });
+  t('colour: a whole heading stays a heading', function () { reset('<h5>My heading</h5>'); selectIn('h5'); swatch('c-y'); return html(); });
+  t('colour: one list item', function () { reset('<ul><li>one</li><li>two</li></ul>'); select(0, 3); swatch('c-g'); return html(); });
+  t('colour: a whole list', function () { reset('<ul><li>one</li><li>two</li></ul>'); selectIn('ul'); swatch('c-p'); return html(); });
+  t('colour: across two blocks', function () { reset('<h5>Head</h5><p>body</p>'); selectAll(); swatch('c-y'); return html(); });
+  t('colour: over an existing colour', function () { reset('<p><span class="c-m">grey words</span></p>'); select(0, 4); swatch('c-y'); return html(); });
+  t('colour: keeps italic put on first', function () { reset('<p>alpha beta</p>'); select(6, 10); document.execCommand('italic'); select(6, 10); swatch('c-y'); return html(); });
+  t('colour: the cross clears it', function () { reset('<p><span class="c-y">alpha</span> beta</p>'); select(0, 5); swatch(''); return html(); });
+  t('colour: cmd+H colours plain text', function () { reset('<p>alpha beta</p>'); select(0, 5); swatch('c-g'); reset('<p>alpha beta</p>'); select(0, 5); key('h', { metaKey: true }); return html(); });
+  t('colour: cmd+H again takes it off', function () { reset('<p>alpha beta</p>'); select(0, 5); key('h', { metaKey: true }); select(0, 5); key('h', { metaKey: true }); return html(); });
+  t('colour: a new line after a colour is plain', function () { reset('<p><span class="c-m">grey</span></p>'); caret(4); ch('Enter'); type('plain'); return html(); });
+  t('colour: splitting a colour keeps both halves', function () { reset('<p><span class="c-p">alpha beta</span></p>'); caret(5); ch('Enter'); return html(); });
+
+  // ---------- paste ----------
+  t('paste: plain prose', function () { reset(); caret(0); paste('', 'one line\nand another'); return html(); });
+  t('paste: plain bullets become a list', function () { reset(); caret(0); paste('', '- one\n- two\n- three'); return html(); });
+  t('paste: plain numbers become a list', function () { reset(); caret(0); paste('', '1. first\n2. second'); return html(); });
+  t('paste: html list stays a list', function () { reset(); caret(0); paste('<meta charset="utf-8"><ul><li>a</li><li>b</li></ul>', 'a\nb'); return html(); });
+  t('paste: chrome fragment markers are dropped', function () { reset(); caret(0); paste('<html><body><!--StartFragment--><ul><li>a</li></ul><!--EndFragment--></body></html>', 'a'); return html(); });
+  t('paste: junk markup is cut down', function () { reset('<p>x</p>'); caret(1); paste('<div style="color:red"><b>bold</b> and <a href="#">a link</a></div>', 'bold and a link'); return html(); });
+  t('paste: into a colour arrives plain', function () { reset('<p><span class="c-m">grey tail</span></p>'); caret(4); paste('', 'PLAIN'); return html(); });
+  t('paste: coloured text keeps its colour', function () { reset('<p>plain</p>'); caret(5); paste('<span class="c-m">GREY</span>', 'GREY'); return html(); });
+
+  // ---------- undo ----------
+  t('undo: after a heading', function () { reset('<p>first</p><p>x</p>'); caret(6); type('## '); document.execCommand('undo'); return html(); });
+  t('undo: after a colour', function () { reset('<p>alpha beta</p>'); select(0, 5); swatch('c-y'); document.execCommand('undo'); return html(); });
+
+  // ---------- the empty-state flag ----------
+  t('empty: a fresh box is marked empty', function () { reset(); return el.classList.contains('is-empty'); });
+  t('empty: typing clears the mark', function () { reset(); caret(0); type('a'); return el.classList.contains('is-empty'); });
+
+  // ---------- the callback ----------
+  t('onChange: fires for a heading', function () { reset('<p>x</p>'); caret(0); changes = 0; type('## '); return changes > 0; });
+  t('swap: two hyphens mid-line still give a dash', function () { reset('<p>a</p>'); caret(1); type('--b'); return el.textContent; });
+
+  /* What each case has to produce. A case with no entry here is reported as unchecked, so a
+     new case shows up as unchecked, which is louder than a silent pass. */
+  var EXPECT = {
+    'heading: ## on an empty line': '<h4><br></h4>',
+    'heading: # on an empty line': '<h3><br></h3>',
+    'heading: ### on an empty line': '<h5><br></h5>',
+    'heading: ## then text': '<h4>Foucault</h4>',
+    'heading: ## before a word already there': '<h4>Faucault</h4>',
+    'heading: caret after ## before a word': 0,
+    'heading: ## on the second line of two': '<p>first</p><h4>Faucault</h4>',
+    'heading: ## inside a bold run': '<h4><b>Faucault</b></h4>',
+    'heading: ## inside a coloured span': '<h4><span class="c-y">Faucault</span></h4>',
+    'heading: ## in front of a part-bold line': '<h4><b>Fou</b>cault</h4>',
+    'heading: caret inside a bold run lands at the start': 0,
+    'heading: #### does nothing': '<p>#### x</p>',
+    'heading: ## mid-line does nothing': '<p>abc##&nbsp;</p>',
+    'heading: ## inside a list item does nothing': '<ul><li>## item</li></ul>',
+    'heading: ## on a line that is already a heading': '<h4>Head</h4>',
+    'quote: > on an empty line': '<blockquote><br></blockquote>',
+    'quote: > before a word already there': '<blockquote>Said</blockquote>',
+    'list: - on an empty line': '<ul><li><br></li></ul>',
+    'list: - before a word already there': '<ul><li>milk</li></ul>',
+    'list: - in front of a bold word': '<ul><li><b>milk</b></li></ul>',
+    'list: caret after - before a word': 0,
+    'list: * on an empty line': '<ul><li><br></li></ul>',
+    'list: 1. on an empty line': '<ol><li><br></li></ol>',
+    'list: 1) on an empty line': '<ol><li><br></li></ol>',
+    'list: - inside an existing item stays text': '<ul><li>a -&nbsp;</li></ul>',
+    'list: second item by Enter': '<ul><li>one</li><li>two</li></ul>',
+    'rule: two hyphens then space': '<hr><p><br></p>',
+    'rule: three hyphens': '<hr><p><br></p>',
+    'rule: two hyphens then Enter': '<hr><p><br></p>',
+    'rule: typing after a rule': '<hr><p>after</p>',
+    'rule: two hyphens inside a list item': '<ul><li>a\u2014&nbsp;</li></ul>',
+    'swap: -> becomes an arrow': 'a\u2192 b',
+    'swap: two hyphens become a dash': 'a\u2014b',
+    'swap: two hyphens mid-line still give a dash': 'a\u2014b',
+    'tab: indents inside a list': 'true | <ul><li>one</li><ul><li>two</li></ul></ul>',
+    'tab: shift+tab outdents': 'true | <ul><li>one</li><li>two</li></ul>',
+    'tab: outside a list leaves focus alone': false,
+    'colour: part of a paragraph': '<p>alpha <span class="c-p">beta</span> gamma</p>',
+    'colour: a whole paragraph': '<p><span class="c-m">alpha beta</span></p>',
+    'colour: a whole heading stays a heading': '<h5><span class="c-y">My heading</span></h5>',
+    'colour: one list item': '<ul><li><span class="c-g">one</span></li><li>two</li></ul>',
+    'colour: a whole list': '<ul><li><span class="c-p">one</span></li><li><span class="c-p">two</span></li></ul>',
+    'colour: across two blocks': '<h5><span class="c-y">Head</span></h5><p><span class="c-y">body</span></p>',
+    'colour: over an existing colour': '<p><span class="c-m"><span class="c-y">grey</span> words</span></p>',
+    'colour: keeps italic put on first': '<p>alpha <i class="c-y">beta</i></p>',
+    'colour: the cross clears it': '<p>alpha beta</p>',
+    'colour: cmd+H colours plain text': '<p><span class="c-g">alpha</span> beta</p>',
+    'colour: cmd+H again takes it off': '<p>alpha beta</p>',
+    'colour: a new line after a colour is plain': '<p><span class="c-m">grey</span></p><p>plain</p>',
+    'colour: splitting a colour keeps both halves': '<p><span class="c-p">alpha</span></p><p><span class="c-p">&nbsp;beta</span></p>',
+    'paste: plain prose': '<p>one line</p><p>and another</p>',
+    'paste: plain bullets become a list': '<ul><li>one</li><li>two</li><li>three</li></ul>',
+    'paste: plain numbers become a list': '<ol><li>first</li><li>second</li></ol>',
+    'paste: html list stays a list': '<ul><li>a</li><li>b</li></ul>',
+    'paste: chrome fragment markers are dropped': '<ul><li>a</li></ul>',
+    'paste: junk markup is cut down': '<p>x<b>bold</b> and a link</p>',
+    'paste: into a colour arrives plain': '<p><span class="c-m">grey<span class="c-n">PLAIN</span>&nbsp;tail</span></p>',
+    'paste: coloured text keeps its colour': '<p>plain<span class="c-m">GREY</span></p>',
+    'undo: after a heading': '<p>first</p><p>x</p>',
+    'undo: after a colour': '<p>alpha beta</p>',
+    'empty: a fresh box is marked empty': true,
+    'empty: typing clears the mark': false,
+    'onChange: fires for a heading': true,
+  };
+
+  var pass = 0, fail = 0, unchecked = 0, lines = [];
+  results.forEach(function (r) {
+    var name = r[0], got = r[1], want = EXPECT[name];
+    var state;
+    if (!(name in EXPECT)) { state = 'UNCHECKED'; unchecked++; }
+    else if (got === want) { state = 'pass'; pass++; }
+    else { state = 'FAIL'; fail++; }
+    lines.push(state + '  ' + name + (state === 'pass' ? '' : '\n        got  ' + got + (name in EXPECT ? '\n        want ' + want : '')));
+  });
+  window.__results = results;
+  window.__summary = { pass: pass, fail: fail, unchecked: unchecked };
+  window.__failed = lines.filter(function (l) { return l.indexOf('pass') !== 0; });
+  document.getElementById('out').textContent =
+    pass + ' passed, ' + fail + ' failed, ' + unchecked + ' unchecked\n\n' + lines.join('\n');
+  el.innerHTML = '';
+})();
+</script>
+</body>
+</html>
