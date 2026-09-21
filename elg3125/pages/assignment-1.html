@@ -37,7 +37,7 @@
  .note b{color:var(--ink)}
  .warn{background:var(--sunk);border-left:3px solid var(--hot);border-radius:0 8px 8px 0;
   padding:15px 19px;font-size:15px;color:var(--ink-soft)}
-</style></head><body>
+</style></head><body data-store="elg-a1">
 <nav class="topnav" aria-label="Courses">
   <div class="in">
     <a class="home" href="../../" aria-label="Course hub, the front page"><svg viewBox='0 0 64 64' aria-hidden='true'><rect width='64' height='64' rx='14' fill='#22282E'/><rect x='13' y='13' width='16' height='16' rx='4' fill='#7C5CB8'/><rect x='35' y='13' width='16' height='16' rx='4' fill='#3E9E82'/><rect x='13' y='35' width='16' height='16' rx='4' fill='#4E90C8'/><rect x='35' y='35' width='16' height='16' rx='4' fill='#C08A3E'/></svg><span>Course hub</span></a>
@@ -49,31 +49,34 @@
     </div>
   </div>
 </nav>
-<div class="wrap">
+<div class="wrap railed">
  <a class="back" href="../index.html">&larr; ELG3125 hub</a>
  <header>
   <div class="eyebrow">Assignment 1 &middot; Chapter 1</div>
   <h1>Transformations of the independent variable</h1>
   <p class="stand">These are practice problems. Nothing is handed in and nothing carries marks, and the worked solution is posted beside the set.</p>
  </header>
- <section id="assigned">
-  <h2>What is assigned</h2>
-  <table><thead><tr><th>Problem</th><th>Parts</th><th>Page</th></tr></thead><tbody>
-      <tr><td class="n">1.21</td><td class="pt">(c) (d) (e)</td><td class="pg">59</td></tr>
-      <tr><td class="n">1.22</td><td class="pt">(b) (d) (e)</td><td class="pg">59</td></tr>
-      <tr><td class="n">1.23</td><td class="pt">(b)</td><td class="pg">60</td></tr>
-      <tr><td class="n">1.24</td><td class="pt">(c)</td><td class="pg">60</td></tr>
-      <tr><td class="n">1.25</td><td class="pt">(a) (c) (e)</td><td class="pg">61</td></tr>
-    </tbody></table>
-  
- </section>
+ <aside class="rail" id="assigned" aria-labelledby="assigned-h">
+  <div class="rail-head">
+    <h2 id="assigned-h">What is assigned</h2>
+    <span class="prog" data-progress="#assigned-list"></span>
+  </div>
+  <ul id="assigned-list">
+    <li class="rail-item"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="p1-21"></span><span class="h"><a href="#p59">1.21</a> <em>(c) (d) (e)</em></span><span class="pg">p.59</span></li>
+    <li class="rail-item"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="p1-22"></span><span class="h"><a href="#p59">1.22</a> <em>(b) (d) (e)</em></span><span class="pg">p.59</span></li>
+    <li class="rail-item"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="p1-23"></span><span class="h"><a href="#p60">1.23</a> <em>(b)</em></span><span class="pg">p.60</span></li>
+    <li class="rail-item"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="p1-24"></span><span class="h"><a href="#p60">1.24</a> <em>(c)</em></span><span class="pg">p.60</span></li>
+    <li class="rail-item"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="p1-25"></span><span class="h"><a href="#p61">1.25</a> <em>(a) (c) (e)</em></span><span class="pg">p.61</span></li>
+  </ul>
+  <p class="foot">Ticking a problem is saved in this browser on this device. It survives a reload and a restart, never travels anywhere, and clearing site data removes it.</p>
+</aside>
  <section id="problems">
   <h2>The problems</h2>
   <div class="note"><b>Assigned problem numbers are ringed in red.</b> Unringed problems on the same page were not set. Page numbers are the printed ones in Oppenheim, Willsky and Nawab, 2nd edition.</div>
   <div class="pages">
-    <figure><img src="img/a1_p59.png?v=1789951729" alt="Oppenheim printed page 59, assigned problem numbers ringed" loading="lazy"><figcaption>Printed page 59. Ringed: 1.21, 1.22.</figcaption></figure>
-    <figure><img src="img/a1_p60.png?v=1789951729" alt="Oppenheim printed page 60, assigned problem numbers ringed" loading="lazy"><figcaption>Printed page 60. Ringed: 1.23, 1.24.</figcaption></figure>
-    <figure><img src="img/a1_p61.png?v=1789951729" alt="Oppenheim printed page 61, assigned problem numbers ringed" loading="lazy"><figcaption>Printed page 61. Ringed: 1.25.</figcaption></figure>
+    <figure id="p59"><img src="img/a1_p59.png?v=1789953860" alt="Oppenheim printed page 59, assigned problem numbers ringed" loading="lazy"><figcaption>Printed page 59. Ringed: 1.21, 1.22.</figcaption></figure>
+    <figure id="p60"><img src="img/a1_p60.png?v=1789953860" alt="Oppenheim printed page 60, assigned problem numbers ringed" loading="lazy"><figcaption>Printed page 60. Ringed: 1.23, 1.24.</figcaption></figure>
+    <figure id="p61"><img src="img/a1_p61.png?v=1789953860" alt="Oppenheim printed page 61, assigned problem numbers ringed" loading="lazy"><figcaption>Printed page 61. Ringed: 1.25.</figcaption></figure>
   </div>
  </section>
 </div>
@@ -106,4 +109,5 @@
     <span>The book is under copyright and is not hosted here.</span>
   </div>
 </footer>
+<script src="../../shared/tasks.js"></script>
 </body></html>
