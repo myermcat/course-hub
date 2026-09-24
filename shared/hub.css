@@ -231,6 +231,72 @@ thead th.tick{width:44px}
 .lnk .lnk-in.bad{border-color:var(--hot)}
 .lnk .lnk-no{flex:1 0 100%;font-family:var(--body);font-size:12.5px;line-height:1.35;color:var(--hot)}
 
+
+/* ---------- a column holding several links ---------- */
+
+/* The same parts as .lnk, laid out down the cell. Each entry holds its own line with its
+   pencil beside it, and the add button comes after the last one. An entry with no name of its
+   own is drawn as the host it points at, which keeps a stack of them readable. */
+
+.lnks{display:flex;flex-direction:column;align-items:flex-start;gap:5px;max-width:100%}
+.lnks .lnks-i{display:inline-flex;flex-wrap:nowrap;align-items:baseline;gap:7px;max-width:100%}
+.lnks .lnk-a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22ch}
+.lnks .lnk-a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+.lnks .lnk-edit{flex:0 0 auto;align-self:center;width:12px;height:12px;padding:0;border:0;
+  background:none;line-height:0;color:var(--muted);cursor:pointer;transition:color .15s}
+.lnks .lnk-edit svg{display:block;width:12px;height:12px}
+.lnks .lnk-edit:hover{color:var(--accent)}
+.lnks .lnk-edit:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.lnks .lnk-add{font-family:var(--body);font-size:13.5px;line-height:inherit;color:var(--muted);
+  background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;
+  text-decoration-style:dashed;text-decoration-thickness:1px;text-underline-offset:3px;
+  transition:color .15s;text-align:left}
+.lnks .lnk-add:hover{color:var(--accent)}
+.lnks .lnk-add:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.lnks.editing{width:100%}
+.lnks .lnk-in{width:100%;min-width:0;font-family:var(--body);font-size:13.5px;color:var(--ink);
+  background:var(--paper);border:1px solid var(--rule);border-radius:5px;padding:4px 7px}
+.lnks .lnk-in:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.lnks .lnk-in.bad{border-color:var(--hot)}
+.lnks .lnk-no{font-family:var(--body);font-size:12.5px;line-height:1.35;color:var(--hot)}
+
+/* ---------- a section that folds, and the ones that carry the work ---------- */
+
+/* A whole section behind one summary line, for the two blocks a reader opens on purpose. The
+   summary carries the heading, the done count and a line saying what is inside, so the section
+   can be judged shut. Keystone marks the blocks that are the reason the page exists: an accent
+   edge, a filled summary and a chip. Nothing here defines a colour of its own, so the page
+   keeps its three-state palette. */
+
+details.block{border:1px solid var(--rule);border-radius:12px;background:var(--paper);
+  overflow:hidden}
+details.block>summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;
+  gap:10px 14px;flex-wrap:wrap;padding:18px 22px}
+details.block>summary::-webkit-details-marker{display:none}
+details.block>summary::after{content:"";margin-left:auto;align-self:center;width:0;height:0;
+  border-left:6px solid currentColor;border-top:5px solid transparent;
+  border-bottom:5px solid transparent;color:var(--muted);transition:transform .15s}
+details.block[open]>summary::after{transform:rotate(90deg)}
+details.block>summary:hover{background:var(--sunk)}
+details.block>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+details.block>summary h2{margin:0}
+details.block>summary .hint{flex:1 1 100%;font-family:var(--body);font-size:14px;
+  line-height:1.5;color:var(--muted)}
+details.block .in{display:flex;flex-direction:column;gap:20px;padding:2px 22px 24px}
+
+details.block.keystone{border-color:var(--accent);border-left-width:3px}
+details.block.keystone>summary{background:var(--sunk)}
+details.block.keystone>summary .hint{color:var(--ink)}
+.keychip{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);border:1px solid var(--accent);border-radius:20px;padding:3px 10px;
+  white-space:nowrap}
+
+@media (max-width:620px){
+  details.block>summary{padding:15px 16px}
+  details.block .in{padding:2px 16px 20px}
+}
+
 /* ---------- the done count beside a heading ---------- */
 
 .meter{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;

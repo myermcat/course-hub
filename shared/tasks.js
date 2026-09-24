@@ -168,7 +168,7 @@
   /* Printing opens every closed toggle, then puts it back as it was.
      The whole task card is one kind of toggle, and the preamble block on a page that opens on
      the work is the other. */
-  var FOLDS = 'details.task.fold, details.about'
+  var FOLDS = 'details.task.fold, details.about, details.block'
   /* The browser fires both events at the window, so a listener on document never runs. */
   window.addEventListener('beforeprint', function () {
     document.querySelectorAll(FOLDS).forEach(function (d) {
