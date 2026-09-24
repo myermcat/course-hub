@@ -307,6 +307,21 @@ details.block.keystone>summary .hint{color:var(--ink)}
   details.block .in{padding:2px 16px 20px}
 }
 
+
+/* ---------- the block a guide page exists for ---------- */
+
+/* On a laboratory quick guide, the stages that carry the marks are the reason the page is
+   open. Everything under them is a note. The accent edge and the chip say so without the
+   reader having to scroll and compare. No colour of its own, so the palette still holds in
+   all three theme states. */
+
+.keyblock{border:1px solid var(--accent);border-left-width:3px;border-radius:12px;
+  background:var(--sunk);padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.keyblock .kb-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.keyblock h2{margin:0}
+.keyblock ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:11px}
+@media (max-width:620px){.keyblock{padding:18px 16px}}
+
 /* ---------- the done count beside a heading ---------- */
 
 .meter{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
