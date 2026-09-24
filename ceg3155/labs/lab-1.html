@@ -63,8 +63,29 @@
     <p>That is the whole behaviour. The circuit is small. The work is in how you are required to design it.</p>
   </section>
 
+  
+
   <section>
-    <h2 id="kit">2. The kit</h2>
+    <div class="keyblock">
+      <div class="kb-head">
+        <h2 id="steps">2. What actually has to be done</h2>
+        <span class="keychip">The marks live here</span>
+      </div>
+      <p>The behaviour above is the easy part. The marks are for following a fixed design method, called ASM, and showing your working at every stage. Five stages, in this order, and each one reads its input off the one before it.</p>
+      <ol>
+        <li><b>Write the algorithm as pseudocode.</b> Plain register transfers, one line each, with the branches written as if and else. No hardware named yet. The handout gives you a draft, so your job is to close its gaps and group it into blocks.</li>
+        <li><b>Turn the pseudocode into an ASM chart.</b> A flowchart with two shapes: a rectangle for a state, which takes exactly one clock step, and a diamond for a test, which takes no time at all. Every register the design needs is decided here.</li>
+        <li><b>Draw the datapath.</b> Read the hardware off the chart. Every register named in the chart becomes real storage, every value moved becomes a wire, anything transformed on the way gets a device in the path, and a register fed from more than one place gets a selector. This stage produces the list of control signal names.</li>
+        <li><b>Redraw it as the detailed ASM chart.</b> The same chart again, with every movement of data replaced by the names of the control signals that cause it.</li>
+        <li><b>Design the control logic.</b> Build the state machine that produces those signals, using the one flip flop per state method, which gives every state in your chart its own flip flop.</li>
+      </ol>
+      <p>Only after all five do you write any VHDL. Simulating the result and running it on the board come after that, and neither is one of the five stages: they are how you check that stage 5 agrees with stage 1.</p>
+      <p><b>A report that shows working LEDs and skips the charts loses most of the marks.</b></p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="kit">3. The kit</h2>
     <div class="facts">
       <div class="fact"><div class="k">Board</div><div class="v">Digilent Nexys A7-100T, carrying a Xilinx Artix-7 FPGA</div></div>
       <div class="fact"><div class="k">Software</div><div class="v">Xilinx Vivado 2022.1</div></div>
@@ -80,7 +101,7 @@
   </section>
 
   <section>
-    <h2 id="inside">3. What is happening inside the circuit</h2>
+    <h2 id="inside">4. What is happening inside the circuit</h2>
     <p>Three storage registers, eight bits each.</p>
     <ul>
       <li><b>DISPLAY</b> holds what the LEDs currently show.</li>
@@ -95,22 +116,9 @@
   </section>
 
   <section>
-    <h2 id="reset">4. What the reset switch does</h2>
+    <h2 id="reset">5. What the reset switch does</h2>
     <p><b>The reset forces every flip flop in the design to a known value</b>: <code>DISPLAY</code> to all zeros, <code>LMASK</code> to <code>00000001</code>, <code>RMASK</code> to <code>10000000</code>. It is the only thing that ever puts the dots back to their starting positions. Turning the two travel switches off stops the dots and leaves them where they are.</p>
     <p>Your demo starts by flipping reset on and then off again.</p>
-  </section>
-
-  <section>
-    <h2 id="graded">5. What you are actually graded on</h2>
-    <p>The behaviour above is easy. The marks are for following a specific design method, called ASM, and showing every stage of it. Five stages:</p>
-    <ol>
-      <li><b>Write the algorithm as pseudocode.</b> The handout gives you this one already, so your job is to close the gaps in it and write out the version you intend to build.</li>
-      <li><b>Convert the pseudocode into an ASM chart.</b> A flowchart with two shapes: rectangles for states, which each take one clock step, and diamonds for tests, which take no time at all.</li>
-      <li><b>Design the datapath from the chart.</b> Every register named in the chart becomes real hardware, and every value moved between them becomes a wire, with a selector wherever a register has more than one possible source.</li>
-      <li><b>Draw the detailed ASM chart.</b> The same chart again, with every movement of data replaced by the names of the control signals that cause it.</li>
-      <li><b>Design the control logic.</b> Using the one flip flop per state method, which gives each state in your chart its own flip flop.</li>
-    </ol>
-    <p>Only after all five do you write the VHDL. A report that shows working LEDs and skips the charts loses most of the marks.</p>
   </section>
 
   <section>
@@ -170,10 +178,10 @@
     <nav class="col" aria-label="On this page">
       <h2>On this page</h2>
       <a href="#gist">The gist</a>
+      <a href="#steps">What has to be done</a>
       <a href="#kit">The kit</a>
       <a href="#inside">Inside the circuit</a>
       <a href="#reset">What the reset does</a>
-      <a href="#graded">What you are graded on</a>
       <a href="#rules">The rules that cost marks</a>
       <a href="#approach">How to approach it</a>
       <a href="#report">What goes in the report</a>
