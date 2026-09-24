@@ -271,14 +271,24 @@ thead th.tick{width:44px}
 
 details.block{border:1px solid var(--rule);border-radius:12px;background:var(--paper);
   overflow:hidden}
-details.block>summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;
-  gap:10px 14px;flex-wrap:wrap;padding:18px 22px}
+details.block>summary{cursor:pointer;list-style:none;display:flex;align-items:center;
+  gap:9px 12px;flex-wrap:wrap;padding:16px 20px}
 details.block>summary::-webkit-details-marker{display:none}
-details.block>summary::after{content:"";margin-left:auto;align-self:center;width:0;height:0;
-  border-left:6px solid currentColor;border-top:5px solid transparent;
-  border-bottom:5px solid transparent;color:var(--muted);transition:transform .15s}
-details.block[open]>summary::after{transform:rotate(90deg)}
+
+/* The arrow goes in front of the heading, in the accent, because a marker at the far end of a
+   wide bar was read as decoration and the block was taken for a heading that does not open.
+   The word beside it says which way the press goes, for the same reason. */
+details.block>summary::before{content:"";flex:0 0 auto;width:0;height:0;
+  border-left:7px solid currentColor;border-top:6px solid transparent;
+  border-bottom:6px solid transparent;color:var(--accent);transition:transform .18s}
+details.block[open]>summary::before{transform:rotate(90deg)}
+details.block>summary .cue{margin-left:auto;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--rule);
+  border-radius:20px;padding:4px 11px;white-space:nowrap;transition:color .15s,border-color .15s}
+details.block>summary .cue::after{content:"Show"}
+details.block[open]>summary .cue::after{content:"Hide"}
 details.block>summary:hover{background:var(--sunk)}
+details.block>summary:hover .cue{color:var(--accent);border-color:var(--accent)}
 details.block>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
 details.block>summary h2{margin:0}
 details.block>summary .hint{flex:1 1 100%;font-family:var(--body);font-size:14px;
