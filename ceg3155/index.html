@@ -37,7 +37,7 @@
   <header>
     <div class="eyebrow">CEG 3155 A03 &middot; Digital Systems II &middot; uOttawa &middot; Fall 2026</div>
     <h1>Digital Systems II</h1>
-    <p class="standfirst">Every dated piece of work in the term, the weekly schedule, the marking scheme, the topics the course covers, and which parts of the toolchain run on an M1 Mac.</p>
+    <p class="standfirst">The laboratories and the assignments first, then every dated piece of work in the term, the weekly schedule, the marking scheme, the topics the course covers, and which parts of the toolchain run on an M1 Mac.</p>
   </header>
 
   <div class="banner">
@@ -46,14 +46,20 @@
   </div>
 
   <section>
-    <div class="head-row"><h2 id="labs">Laboratories</h2><span class="meter" data-progress="#lab-rows"></span></div>
-    <p>Four laboratories carry 15 percent between them, three hours on a Wednesday evening in CBY B402. Each row holds a quick guide written in plain words, the handout, the lecture the laboratory builds on, and the submission document. Laboratory 1 is the only one worked through, so the other three carry their dates and a placeholder.</p>
+   <details class="block keystone" id="labs-block" open>
+    <summary>
+      <h2 id="labs">Laboratories</h2>
+      <span class="keychip">15 percent</span>
+      <span class="meter" data-progress="#lab-rows"></span>
+      <span class="hint">Four of them, three hours on a Wednesday evening in CBY B402. Each row holds a quick guide, the handout, the lecture it builds on, the submission, and any documents added by hand.</span>
+    </summary>
+    <div class="in">
 
     <div class="scroll">
       <table>
         <caption>Four laboratories, one of them read in full, in the order they fall</caption>
         <thead>
-          <tr><th class="tick"><span class="sr-only">Done</span></th><th>Lab</th><th>Topic</th><th>Due</th><th>Quick guide</th><th>Handout</th><th>Lecture</th><th>Submission</th></tr>
+          <tr><th class="tick"><span class="sr-only">Done</span></th><th>Lab</th><th>Topic</th><th>Due</th><th>Quick guide</th><th>Handout</th><th>Lecture</th><th>Submission</th><th>Documents</th></tr>
         </thead>
         <tbody id="lab-rows">
           <tr>
@@ -65,6 +71,7 @@
             <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7750088/View" target="_blank" rel="noopener">Handout</a></td>
             <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807032/View" target="_blank" rel="noopener">Lecture 4</a><br><a href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807033/View" target="_blank" rel="noopener">Lecture 3</a></td>
             <td class="src"><span class="lnk" data-link="ceg-lab-1-submission" data-label="Submission" data-row="Laboratory 1"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-lab-1-docs" data-label="document" data-add="Add document" data-row="Laboratory 1"></span></td>
           </tr>
           <tr>
             <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-2"></span></td>
@@ -75,10 +82,11 @@
             <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651172" target="_blank" rel="noopener">Handout not posted</a></td>
             <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7781904/View" target="_blank" rel="noopener">Lecture 2</a></td>
             <td class="src"><span class="lnk" data-link="ceg-lab-2-submission" data-label="Submission" data-row="Laboratory 2"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-lab-2-docs" data-label="document" data-add="Add document" data-row="Laboratory 2"></span></td>
           </tr>
 
           <tr class="gate">
-            <td colspan="8">
+            <td colspan="9">
               <div class="g">
                 <span class="lbl">Midterm &middot; 22 Oct</span>
                 <span class="det">Laboratories 1 and 2 are handed in before the midterm and laboratories 3 and 4 after it. The project takes the three laboratory weeks that follow Laboratory 4.</span>
@@ -95,6 +103,7 @@
             <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651173" target="_blank" rel="noopener">Handout not posted</a></td>
             <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807033/View" target="_blank" rel="noopener">Lecture 3</a></td>
             <td class="src"><span class="lnk" data-link="ceg-lab-3-submission" data-label="Submission" data-row="Laboratory 3"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-lab-3-docs" data-label="document" data-add="Add document" data-row="Laboratory 3"></span></td>
           </tr>
           <tr>
             <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-4"></span></td>
@@ -105,28 +114,84 @@
             <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651174" target="_blank" rel="noopener">Handout not posted</a></td>
             <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807032/View" target="_blank" rel="noopener">Lecture 4</a></td>
             <td class="src"><span class="lnk" data-link="ceg-lab-4-submission" data-label="Submission" data-row="Laboratory 4"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-lab-4-docs" data-label="document" data-add="Add document" data-row="Laboratory 4"></span></td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <p>Laboratory 1 rests on lecture 4, which is the ASM chart method the marks are for, and on lecture 3, which is the VHDL introduction. Both were read off the decks themselves. The other three rows are paired with a lecture by number alone, so those three are a guess until a handout names the material.</p>
+    </div>
+   </details>
+  </section>
 
-    <p>The Submission column is filled in by hand: each cell is a named slot, <code>ceg-lab-1-submission</code> through <code>ceg-lab-4-submission</code>, and the link component on this page puts the Google Doc address saved under that key into the cell.</p>
+  <section>
+   <details class="block keystone" id="assignments-block" open>
+    <summary>
+      <h2 id="assignments">Assignments</h2>
+      <span class="keychip">10 percent</span>
+      <span class="meter" data-progress="#assign-rows"></span>
+      <span class="hint">Five of them, and the best four count at 2.5 percent each. Each is posted on a Monday and due two weeks later at 20:00 on Brightspace. Late work loses 5 percent a day, to a maximum of five days.</span>
+    </summary>
+    <div class="in">
 
-    <div class="note">
-      <p><b>Every laboratory date on this page is the Wednesday one.</b> The course runs two laboratory groups, one meeting on Monday and one on Wednesday, and a laboratory is due at midnight on the day its group meets. She is in the Wednesday group, so the Monday dates are left off the page.</p>
-      <p><b>Every link in the table opens in a new tab</b>, which leaves this page where it is while a handout or a deck loads beside it.</p>
+    <div class="scroll">
+      <table>
+        <caption>Five assignments, one of them posted, in the order they fall</caption>
+        <thead>
+          <tr><th class="tick"><span class="sr-only">Done</span></th><th>No.</th><th>Topic</th><th>Due</th><th>Handout</th><th>Submission</th><th>Documents</th></tr>
+        </thead>
+        <tbody id="assign-rows">
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="asn-1"></span></td>
+            <td class="num">1</td>
+            <td class="topic">Logical function optimization <span class="sub">Algebraic manipulation, NAND-only and NOR-only circuits, multi-output synthesis, Karnaugh maps, Shannon&#39;s expansion, a shift circuit, and a four-bit counter by the ASM method.</span></td>
+            <td class="when">Mon 5 Oct<br>20:00</td>
+            <td class="src"><a href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7807036/View" target="_blank" rel="noopener">Assignment</a></td>
+            <td class="src"><span class="lnk" data-link="ceg-asn-1-submission" data-label="Submission" data-row="Assignment 1"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-asn-1-docs" data-label="document" data-add="Add document" data-row="Assignment 1"></span></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="asn-2"></span></td>
+            <td class="num">2</td>
+            <td class="topic"> <span class="sub">Posted in the week of 5 October</span></td>
+            <td class="when">Mon 19 Oct<br>20:00</td>
+            <td class="src"><span class="sub">Not posted yet</span></td>
+            <td class="src"><span class="lnk" data-link="ceg-asn-2-submission" data-label="Submission" data-row="Assignment 2"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-asn-2-docs" data-label="document" data-add="Add document" data-row="Assignment 2"></span></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="asn-3"></span></td>
+            <td class="num">3</td>
+            <td class="topic"> <span class="sub">Posted in the week of 19 October, three weeks ahead because of reading week</span></td>
+            <td class="when">Mon 9 Nov<br>20:00</td>
+            <td class="src"><span class="sub">Not posted yet</span></td>
+            <td class="src"><span class="lnk" data-link="ceg-asn-3-submission" data-label="Submission" data-row="Assignment 3"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-asn-3-docs" data-label="document" data-add="Add document" data-row="Assignment 3"></span></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="asn-4"></span></td>
+            <td class="num">4</td>
+            <td class="topic"> <span class="sub">Posted in the week of 9 November</span></td>
+            <td class="when">Mon 23 Nov<br>20:00</td>
+            <td class="src"><span class="sub">Not posted yet</span></td>
+            <td class="src"><span class="lnk" data-link="ceg-asn-4-submission" data-label="Submission" data-row="Assignment 4"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-asn-4-docs" data-label="document" data-add="Add document" data-row="Assignment 4"></span></td>
+          </tr>
+          <tr>
+            <td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="asn-5"></span></td>
+            <td class="num">5</td>
+            <td class="topic"> <span class="sub">Posted in the week of 23 November</span></td>
+            <td class="when">Mon 7 Dec<br>20:00</td>
+            <td class="src"><span class="sub">Not posted yet</span></td>
+            <td class="src"><span class="lnk" data-link="ceg-asn-5-submission" data-label="Submission" data-row="Assignment 5"></span></td>
+            <td class="src"><span class="lnks" data-links="ceg-asn-5-docs" data-label="document" data-add="Add document" data-row="Assignment 5"></span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="note">
-      <p><b>Laboratory 1 is marked against the restrictions in section 6 of its handout.</b> The design is VHDL at the structural level of modelling, and both behavioural modelling and Verilog are refused. No IP core may be instantiated, from the Vivado catalogue or from anywhere else, so every atomic block down to the D flip-flop is built by the group. The circuit has to be synchronous and globally resettable, which means a clock signal and a reset signal in every functional block. Every register runs on the board&#39;s single 100 MHz oscillator and advances on a one-cycle enable pulse at a divide ratio of 100,000,000, which gives a step about once a second; a divided clock routed to the registers loses marks. A working version is demonstrated to the teaching assistant before the report is due.</p>
     </div>
-
-    <div class="note">
-      <p><b>Laboratories 2, 3 and 4 have a module on Brightspace holding no document yet.</b> Each of those three Handout links opens that module, so the handout is there the moment it is posted. Their dates come from the course outline and the notes from the first class, and each of those rows carries a placeholder topic and a placeholder quick guide until its handout is read.</p>
-      <p><b>Each Lecture link opens a deck itself.</b> Four are posted, ceg3155BML1 through ceg3155BML4, and every Lecture link goes straight to that file on Brightspace. The other copy is in the <code>lectures</code> folder of the course site, which answers 403 Forbidden.</p>
-    </div>
+   </details>
   </section>
 
   <section>
@@ -142,7 +207,6 @@
       <div class="fact"><div class="k">Marks</div><div class="v">Final 40 &middot; Midterm 20<br>Labs 15 &middot; Assignments 10<br>Project 10 &middot; Quizzes 5</div></div>
     </div>
     <div class="note">
-      <p><b>The lecture runs on Thursday evening for three hours.</b> An earlier version of this page gave Friday 19:00 to 20:20 in STE A0150, which is the tutorial slot. The outline dated 17 July 2026 puts the lecture on Thursday 19:00 to 21:50 in FSS 1007, the three quizzes fall in that slot, and the midterm is set for 19:00 in FSS 1007 on Thursday 22 October, so the Thursday evening is confirmed three ways.</p>
       <p><b>The laboratories are in person in CBY B402.</b> The laboratory page on the course site still says they run online and gives room STE 2061. That text was left there from 2020 and the outline from July 2026 replaces it.</p>
     </div>
   </section>
@@ -359,8 +423,8 @@
         <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assignment-table"></div>
         <div class="b">
           <div class="h">Record what each assignment covers</div>
-          <div class="d">The five due dates are in the table above. What each assignment asks for is in the assignment itself on Brightspace, and none of the five has been read into the page.</div>
-          <span class="tag">Needs Brightspace</span>
+          <div class="d">Assignment 1 is read in and its row carries the handout. Assignments 2 to 5 have a submission folder each on Brightspace and no handout yet, so each of those rows waits for the Monday it is posted on.</div>
+          <span class="tag">Waiting on Brightspace</span>
         </div>
       </div>
       <div class="task">
@@ -424,6 +488,7 @@
     <nav class="col" aria-label="On this page">
       <h2>On this page</h2>
       <a href="#labs">Laboratories</a>
+      <a href="#assignments">Assignments</a>
       <a href="#deadlines">Everything with a date on it</a>
       <a href="#marks">What carries the marks</a>
       <a href="#tools">The toolchain</a>

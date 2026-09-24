@@ -12,6 +12,15 @@
    at its right. The pencil is the only way back to the input, because the filled state is the
    one the reader is in on nearly every visit and it should look finished.
 
+   A column that holds several links writes .lnks instead, with data-links for its key:
+
+     <span class="lnks" data-links="ceg-a1-docs" data-add="Add document"></span>
+
+   That one shows every address saved under the key, each with its own pencil, and an add
+   button after them. Each entry carries a name as well as an address, and a nameless entry
+   falls back to the host it points at, so a row of them stays readable. Emptying the address
+   and saving removes that entry, which is how the single field deletes too.
+
    Three attributes drive a field, one of them optional.
 
      data-link="<slug>"   required, the storage key for this one field. A slug survives a
@@ -57,6 +66,28 @@
     set: function (k, v) {
       if (v) this.state[k] = v
       else delete this.state[k]
+      this.save()
+    },
+    /* A multi-link field stores an array of {n, u}. Every address is cleaned on the way out,
+       the same as a single field, so a value written by anything else cannot reach an href. */
+    getList: function (k) {
+      var v = this.state[k]
+      if (!Array.isArray(v)) return []
+      var out = []
+      v.forEach(function (e) {
+        if (!e || typeof e !== 'object') return
+        var u = clean(e.u || '')
+        if (!u) return
+        out.push({ n: String(e.n == null ? '' : e.n).replace(/\s+/g, ' ').trim().slice(0, 80), u: u })
+      })
+      return out
+    },
+    setList: function (k, list) {
+      if (list && list.length) this.state[k] = list
+      else delete this.state[k]
+      this.save()
+    },
+    save: function () {
       try { localStorage.setItem(KEY, JSON.stringify(this.state)) } catch (e) {}
     },
   }
@@ -98,7 +129,8 @@
   store.load()
 
   var fields = [].slice.call(document.querySelectorAll('.lnk[data-link]'))
-  if (!fields.length) return
+  var sets = [].slice.call(document.querySelectorAll('.lnks[data-links]'))
+  if (!fields.length && !sets.length) return
 
   var PENCIL = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
     '<path d="M11.3 2.2l2.5 2.5-8 8L2 14l1.3-3.8 8-8z" fill="none" stroke="currentColor" ' +
@@ -267,7 +299,166 @@
   document.addEventListener('pointercancel', free, true)
   window.addEventListener('blur', free)
 
-  function render() { fields.forEach(paint) }
+
+  /* A MULTI-LINK FIELD.
+     The same editing rules as a single field, repeated down a list. Each entry gets a name box
+     and an address box, an entry with no name is shown by the host it points at, and clearing
+     the address removes that entry. Adding appends to the end. */
+
+  function setName(el, verb, which) {
+    var said = verb + ' ' + (el.dataset.label || 'document').toLowerCase()
+    var r = rowName(el)
+    if (which) said += ' ' + which
+    return r ? said + ' for ' + r : said
+  }
+
+  function shownAs(e) {
+    if (e.n) return e.n
+    try { return new URL(e.u).hostname.replace(/^www\./, '') } catch (err) { return e.u }
+  }
+
+  function paintSet(el) {
+    if (el.dataset.editing === '1') return
+    var list = store.getList(el.dataset.links)
+    var sig = JSON.stringify(list)
+    if (el.dataset.drawn === sig && el.firstChild) return
+    el.dataset.drawn = sig
+    el.textContent = ''
+    el.classList.remove('editing')
+    el.classList.toggle('set', list.length > 0)
+
+    list.forEach(function (e, i) {
+      var item = document.createElement('span')
+      item.className = 'lnks-i'
+
+      var a = document.createElement('a')
+      a.className = 'lnk-a'
+      a.href = e.u
+      a.title = e.u
+      a.target = '_blank'
+      a.rel = 'noopener'
+      a.textContent = shownAs(e)
+
+      var pen = document.createElement('button')
+      pen.type = 'button'
+      pen.className = 'lnk-edit'
+      pen.title = 'Change this link'
+      pen.setAttribute('aria-label', setName(el, 'Change', shownAs(e)))
+      pen.innerHTML = PENCIL
+      pen.addEventListener('click', function () { editSet(el, i) })
+
+      item.appendChild(a)
+      item.appendChild(pen)
+      el.appendChild(item)
+    })
+
+    var add = document.createElement('button')
+    add.type = 'button'
+    add.className = 'lnk-add'
+    add.textContent = el.dataset.add || 'Add document'
+    add.setAttribute('aria-label', setName(el, 'Add', ''))
+    add.addEventListener('click', function () { editSet(el, null) })
+    el.appendChild(add)
+  }
+
+  function editSet(el, i) {
+    var list = store.getList(el.dataset.links)
+    var was = i == null ? { n: '', u: '' } : list[i]
+    if (!was) return
+
+    el.dataset.editing = '1'
+    delete el.dataset.drawn
+    el.textContent = ''
+    el.classList.add('editing')
+
+    var nameBox = document.createElement('input')
+    nameBox.type = 'text'
+    nameBox.className = 'lnk-in lnk-in-n'
+    nameBox.value = was.n
+    nameBox.placeholder = 'What it is'
+    nameBox.spellcheck = false
+    nameBox.autocomplete = 'off'
+    nameBox.setAttribute('aria-label', setName(el, i == null ? 'Name the new' : 'Rename the', ''))
+
+    var box = document.createElement('input')
+    box.type = 'text'
+    box.className = 'lnk-in'
+    box.value = was.u
+    box.placeholder = 'https://'
+    box.spellcheck = false
+    box.autocomplete = 'off'
+    box.setAttribute('inputmode', 'url')
+    box.setAttribute('aria-label', setName(el, i == null ? 'Address of the new' : 'Address of the', ''))
+
+    var no = document.createElement('span')
+    no.className = 'lnk-no'
+    no.setAttribute('aria-live', 'polite')
+    no.hidden = true
+
+    el.appendChild(nameBox)
+    el.appendChild(box)
+    el.appendChild(no)
+    box.focus()
+    box.select()
+
+    var shut = false
+
+    function leave(refocus) {
+      if (shut) return
+      shut = true
+      whenFree(function () {
+        delete el.dataset.editing
+        render()
+        if (!refocus) return
+        var b = el.querySelector('button')
+        if (b) b.focus()
+      })
+    }
+
+    function save(refocus) {
+      if (shut) return
+      var raw = box.value.trim()
+      var next = store.getList(el.dataset.links)
+      /* An empty address removes the entry, and an empty address on a new one adds nothing. */
+      if (!raw) {
+        if (i != null) next.splice(i, 1)
+        store.setList(el.dataset.links, next)
+        return leave(refocus)
+      }
+      var v = clean(raw)
+      if (v === null) {
+        no.textContent = 'A link has to be a whole address, starting with http:// or https://'
+        no.hidden = false
+        box.classList.add('bad')
+        return
+      }
+      var entry = { n: nameBox.value.replace(/\s+/g, ' ').trim().slice(0, 80), u: v }
+      if (i == null) next.push(entry)
+      else next[i] = entry
+      store.setList(el.dataset.links, next)
+      leave(refocus)
+    }
+
+    function watch(input) {
+      input.addEventListener('input', function () {
+        no.hidden = true
+        box.classList.remove('bad')
+      })
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); save(true) }
+        else if (e.key === 'Escape') { e.preventDefault(); leave(true) }
+      })
+      /* Moving between the two boxes is not leaving the field, so the save only runs once
+         focus has landed somewhere outside it. */
+      input.addEventListener('blur', function () {
+        setTimeout(function () { if (!el.contains(document.activeElement)) save(false) }, 0)
+      })
+    }
+    watch(nameBox)
+    watch(box)
+  }
+
+  function render() { fields.forEach(paint); sets.forEach(paintSet) }
 
   render()
 
