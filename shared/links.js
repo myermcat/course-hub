@@ -132,6 +132,21 @@
   var sets = [].slice.call(document.querySelectorAll('.lnks[data-links]'))
   if (!fields.length && !sets.length) return
 
+  /* WHY A FIELD HAS TO BE SAVED ON THE WAY OUT.
+     An address was only written on Enter or on focus leaving the box. Typing one and then
+     switching tab, closing the page or pressing back threw it away, and a link she had
+     entered was simply gone the next time she opened the page. Whichever field is open is
+     held here and committed when the page is hidden or unloaded. */
+  var openSave = null
+
+  function commitOpenField() {
+    if (openSave) openSave(false)
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) commitOpenField()
+  })
+  window.addEventListener('pagehide', commitOpenField)
+
   var PENCIL = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
     '<path d="M11.3 2.2l2.5 2.5-8 8L2 14l1.3-3.8 8-8z" fill="none" stroke="currentColor" ' +
     'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -226,6 +241,7 @@
     box.select()
 
     var shut = false
+    openSave = save
 
     /* Leaving rebuilds the cell from storage, so Escape restores the address that was there.
        Focus goes back to the button that opened the input, unless focus had already moved off
@@ -234,6 +250,7 @@
     function leave(refocus) {
       if (shut) return
       shut = true
+      openSave = null
       whenFree(function () {
         delete el.dataset.editing
         render()
@@ -402,10 +419,12 @@
     box.select()
 
     var shut = false
+    openSave = save
 
     function leave(refocus) {
       if (shut) return
       shut = true
+      openSave = null
       whenFree(function () {
         delete el.dataset.editing
         render()
