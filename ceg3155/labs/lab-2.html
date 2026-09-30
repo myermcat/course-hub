@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CEG3155 Lab 2 quick guide</title>
-<meta name="description" content="Laboratory 2 of CEG3155, Digital Systems II, University of Ottawa. The handout has not been posted yet, so this page carries the date, the Brightspace module and the shape the guide takes.">
+<meta name="description" content="Laboratory 2 of CEG3155, Digital Systems II, University of Ottawa. A four-bit signed arithmetic logic unit: what the laboratory asks for, the pre-lab gate, and the order to do the work in.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%238A5A1E'/%3E%3Cpath%20d='M8%2045%20L8%2022%20L24%2022%20L24%2045%20L40%2045%20L40%2022%20L56%2022'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../../shared/hub.css">
@@ -19,10 +19,6 @@
   h1{font-size:clamp(31px,5.4vw,46px);margin:10px 0 0}
   header{display:flex;flex-direction:column;gap:0}
   header .also{margin-top:18px}
-  /* A heading with no handout behind it yet says what will go under it, in the tone of a
-     caption, so the page reads as unfinished work with a shape to it. */
-  section.empty{gap:12px}
-  section.empty p{color:var(--muted)}
 </style>
 </head>
 <body data-store="ceg3155">
@@ -43,37 +39,47 @@
   <a class="uplink" href="../#labs"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8H2M7 3 2 8l5 5"/></svg>CEG3155 hub, Laboratories</a>
 
   <header>
-    <div class="eyebrow">CEG 3155 &middot; Digital Systems II &middot; uOttawa &middot; Fall 2026</div>
-    <h1>Laboratory 2</h1>
-    <p class="standfirst">Due Wednesday 14 October 2026 at midnight on Brightspace. The handout has not been posted, so what this page carries is the date, the module to watch, and the shape the guide takes once there is something to read.</p>
+    <div class="eyebrow">Laboratory 2 &middot; CEG 3155 &middot; uOttawa &middot; Fall 2026</div>
+    <h1>Fixed-point arithmetic</h1>
+    <p class="standfirst">What the laboratory asks for, what the hardware does, and the order to do the work in. Ten minutes of reading.</p>
     <div class="also">
-      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651172">Laboratory 2 on Brightspace</a>
-      <a href="lab-1.html">Laboratory 1 quick guide</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7846158/View">Lab 2 handout</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7846156/View">Lecture 7, arithmetic circuits</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7846155/View">Lecture 8, arithmetic circuits</a>
     </div>
   </header>
 
-  <div class="banner">
-    <div class="n">Waiting on the handout</div>
-    <p><b>The Laboratory 2 module on Brightspace was opened on 17 September 2026 and holds no document.</b> The date above comes from the course outline dated 17 July 2026. The eight headings below are the shape a finished guide takes, kept here so the page says what it will have to answer. Turning a posted handout into the guide takes about an hour.</p>
-  </div>
-
   <section>
-    <h2 id="known">What is known already</h2>
-    <div class="facts">
-      <div class="fact"><div class="k">Due</div><div class="v"><b>Wednesday 14 October 2026</b><br>Midnight, on Brightspace</div></div>
-      <div class="fact"><div class="k">Laboratory</div><div class="v">Wed 19:00 to 21:50<br>CBY B402</div></div>
-      <div class="fact"><div class="k">Board</div><div class="v">Digilent Nexys A7-100T<br>Xilinx Artix-7 FPGA</div></div>
-      <div class="fact"><div class="k">Software</div><div class="v">Xilinx Vivado<br>Windows or Linux x86 only</div></div>
-    </div>
-    <div class="note">
-      <p><b>The date is the Wednesday one.</b> The course runs a Monday laboratory group and a Wednesday one, and a laboratory is due at midnight on the day its group meets. Yours is the Wednesday group.</p>
-      <p><b>The board and the software belong to the course.</b> Both are named in the Laboratory 1 handout and run through the term, and whether Laboratory 2 needs the board at all is answered by its own handout.</p>
+    <div class="keyblock">
+      <div class="kb-head">
+        <h2 id="prelab">Before the session</h2>
+        <span class="keychip">Due before you arrive</span>
+      </div>
+      <p><b>Laboratory 2 has a pre-lab, and Laboratory 1 did not.</b> The adder and subtractor unit of figure 6 has to be implemented and simulated in VHDL <b>before</b> the session, and presented and explained to the teaching assistant at the start of it. The teaching assistant may ask questions about it.</p>
+      <p>It is written in RTL and structural VHDL, the same restrictions as the rest of the laboratory, and the simulation has to show several pairs of numbers added and subtracted correctly.</p>
+      <p>The signed pre-lab sheet is handed in with the final report, so keep it.</p>
     </div>
   </section>
 
-  <section class="empty">
+  <section>
     <h2 id="gist">1. The gist</h2>
-    <p>What the circuit has to do, described the way you would describe it to somebody who will never open the handout: what the board shows, what the switches do, and how the display behaves as you change them.</p>
+    <p>A four-bit arithmetic logic unit for <b>signed</b> numbers. It takes two four-bit operands and a two-bit operation select, performs one of four operations on them, and shows the result on the board&#39;s seven-segment display.</p>
+    <div class="scroll">
+      <table>
+        <caption>Four operations, chosen by two switches</caption>
+        <thead><tr><th>OperationSelect</th><th>Result on MuxOut[7..0]</th><th>Where it comes from</th></tr></thead>
+        <tbody>
+          <tr><td class="num">00</td><td>four-bit sum</td><td class="topic">the pre-lab adder</td></tr>
+          <tr><td class="num">01</td><td>four-bit difference</td><td class="topic">the pre-lab subtractor</td></tr>
+          <tr><td class="num">10</td><td>eight-bit product</td><td class="topic">the multiplier you design</td></tr>
+          <tr><td class="num">11</td><td>four-bit quotient and remainder</td><td class="topic">the divider you design</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Three status lights come out alongside the result: <b>CarryOut</b> for a carry or borrow, <b>ZeroOut</b> when the result is zero, and <b>OverflowOut</b> when the operation overflowed.</p>
+    <div class="note">
+      <p><b>The operands are signed, and the handout closes the easy route explicitly.</b> You may not detect a negative operand, flip it positive, multiply or divide, and fix the sign afterwards. The multiplier and the divider have to handle signed values directly. That single sentence is what makes this laboratory harder than it looks.</p>
+    </div>
   </section>
 
   <section>
@@ -82,68 +88,100 @@
         <h2 id="steps">2. What actually has to be done</h2>
         <span class="keychip">The marks live here</span>
       </div>
-      <p>The behaviour above is the easy part. The marks are for following a fixed design method, called ASM, and showing your working at every stage. Five stages, in this order, and each one reads its input off the one before it.</p>
+      <p><b>The same five stages as Laboratory 1, run twice.</b> Once for the signed multiplier and once for the signed divider. Each of the two gets its own pseudocode, its own chart, its own datapath, its own detailed chart and its own control logic.</p>
       <ol>
-        <li><b>Write the algorithm as pseudocode.</b> Plain register transfers, one line each, with the branches written as if and else. No hardware named yet. Laboratory 1 was given a draft in its handout, so expect the same here.</li>
-        <li><b>Turn the pseudocode into an ASM chart.</b> A flowchart with two shapes: a rectangle for a state, which takes exactly one clock step, and a diamond for a test, which takes no time at all. Every register the design needs is decided here.</li>
-        <li><b>Draw the datapath.</b> Read the hardware off the chart. Every register named in the chart becomes real storage, every value moved becomes a wire, anything transformed on the way gets a device in the path, and a register fed from more than one place gets a selector. This stage produces the list of control signal names.</li>
-        <li><b>Redraw it as the detailed ASM chart.</b> The same chart again, with every movement of data replaced by the names of the control signals that cause it.</li>
-        <li><b>Design the control logic.</b> Build the state machine that produces those signals, using the one flip flop per state method, which gives every state in your chart its own flip flop.</li>
+        <li><b>Write the algorithm as pseudocode.</b> Nothing is supplied this time. Laboratory 1 handed you the pseudocode and asked you to close its gaps. Here you write it from the problem, for each of the two units.</li>
+        <li><b>Turn the pseudocode into an ASM chart.</b> Rectangles for states, one clock step each, diamonds for tests. Every register the design needs is decided here.</li>
+        <li><b>Draw the datapath.</b> Registers, the paths between them, a device wherever a value is transformed on the way, and a selector wherever a register is fed from more than one place. This stage produces the control signal names.</li>
+        <li><b>Redraw it as the detailed ASM chart</b>, with every movement of data replaced by the control signals that cause it.</li>
+        <li><b>Design the control logic</b> by the one flip flop per state method.</li>
       </ol>
-      <p>Only after all five do you write any VHDL. Simulating the result and running it on the board come after that, and neither is one of the five stages: they are how you check that stage 5 agrees with stage 1.</p>
-      <p><b>A report that shows working LEDs and skips the charts loses most of the marks.</b></p>
+      <p>Then the four units are <b>integrated into one ALU</b>, with the output multiplexer selecting between them and the three status signals brought out.</p>
+      <p><b>A report that shows a working display and skips the charts loses most of the marks.</b></p>
     </div>
-  </section>
-
-  <section class="empty">
-    <h2 id="kit">3. The kit</h2>
-    <p>The board, the software, the room, the evening, and how many people are in a group. Laboratory 1 ran on the Nexys A7-100T under Vivado 2022.1 in CBY B402, and this handout says whether any of that changes.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="inside">4. What is happening inside the circuit</h2>
-    <p>The registers the design holds, what each one carries, and the two or three decisions that settle whether the circuit works at all.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="reset">5. What the reset does</h2>
-    <p>Which flip flops the reset forces, the value each one takes, and what the demonstration to the teaching assistant opens with.</p>
-  </section>
-
-  
-
-  <section class="empty">
-    <h2 id="rules">6. The rules that cost marks</h2>
-    <p>The restrictions the marker applies. Laboratory 1 refused Verilog, refused behavioural modelling and refused ready made blocks, and it wanted a synchronous, globally resettable design stepped by an enable pulse.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="approach">7. How to approach it</h2>
-    <p>What to do in the first session, what to agree before the building is split between two people, and what to leave until the two halves come back together.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="report">8. What goes in the report</h2>
-    <p>The handout's own list of what the report has to contain, and the parts of it worth planning for while the work is still going on.</p>
   </section>
 
   <section>
-    <h2 id="meanwhile">What to do in the meantime</h2>
+    <h2 id="kit">3. The kit</h2>
+    <div class="scroll">
+      <table>
+        <caption>What the laboratory runs on</caption>
+        <tbody>
+          <tr><td class="topic">Board</td><td>Digilent Nexys A7-100T, Xilinx Artix-7</td></tr>
+          <tr><td class="topic">Software</td><td>Xilinx Vivado, Windows or Linux x86 only</td></tr>
+          <tr><td class="topic">Arithmetic</td><td>four bits, so the result fits the seven-segment display</td></tr>
+          <tr><td class="topic">Team</td><td>two people</td></tr>
+          <tr><td class="topic">Due</td><td>Wednesday 14 October, midnight, Brightspace</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="note">
-      <p><b>Read the <a href="lab-1.html">Laboratory 1 guide</a>.</b> The design method the marks are for, the restrictions on the VHDL and the shape of the report are set out there, and the marking in this course has followed the same pattern so far. Read it as the pattern to expect, and take this laboratory's own requirements from its handout once it appears.</p>
-      <p><b>Settle the machine that runs Vivado before this laboratory starts.</b> Synthesis and programming the board need Windows or Linux on x86, and an install started on the laboratory evening costs most of that evening.</p>
-      <p><b>Open <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651172">the module on Brightspace</a> in the week before the laboratory.</b> The other place a handout could appear is the <code>labs</code> folder of the course site, which has answered 403 Forbidden since term started.</p>
+      <p><b>GClock is a push button.</b> Laboratory 1 divided the 100 MHz clock down to about one step per second, and here you supply each edge yourself. Here you step the circuit by hand, and the Nexys A7 buttons are active high and not debounced, so one press can register as several edges. The multiplier and the divider each need a fixed number of steps before the answer is valid, so press deliberately and count.</p>
+      <p><b>CLK100MHZ is still there, and it drives the display only.</b> The seven-segment digits share one set of cathodes, so a supplied display controller refreshes them in turn from the oscillator. It is not the clock your arithmetic runs on.</p>
     </div>
   </section>
 
-  <details class="about">
-    <summary>What this page is, and where it comes from</summary>
-    <div class="in">
-      <p><b>This page is a placeholder and says so.</b> Each laboratory gets a guide in plain words once its handout is read. Laboratory 1 has one. This laboratory has no handout to read yet.</p>
-      <p>The date comes from the course outline dated 17 July 2026 and the notes from the first class on 12 September. The room, the board and the software come from the outline and the Laboratory 1 handout. Nothing here describes what Laboratory 2 asks for, because that is not known.</p>
-      <p>The handouts and the lecture slides are the professor's, so no copy of either is kept here.</p>
+  <section>
+    <h2 id="inside">4. What is happening inside</h2>
+    <p>Four arithmetic units, one output multiplexer and a display controller.</p>
+    <ul>
+      <li><b>The adder and subtractor</b> are the pre-lab, built around a ripple carry adder. Subtraction is addition of the two&#39;s complement.</li>
+      <li><b>The multiplier</b> is sequential. It works through the operand a bit at a time over several clock steps, which is why the product register is eight bits wide while the operands are four.</li>
+      <li><b>The divider</b> is sequential too, and produces a four-bit quotient and a four-bit remainder, both packed into the eight-bit output.</li>
+      <li><b>The output multiplexer</b> selects one of the four results onto MuxOut[7..0], padding the four-bit answers with zeros.</li>
+    </ul>
+    <p>Because the multiplier and divider take several steps, each needs a <b>Done</b> state, and the result is only valid once it is reached. That is a difference from Laboratory 1, where every step produced a finished answer.</p>
+  </section>
+
+  <section>
+    <h2 id="reset">5. What the reset does</h2>
+    <p>GReset forces every flip flop in the design to a known value, so the circuit starts from a defined state. The fabric powers up in an arbitrary one. It reaches every functional block, and section 8 requires that.</p>
+    <p>Like GClock it is a push button on the board, so the demonstration starts by pressing reset and then stepping.</p>
+  </section>
+
+  <section>
+    <h2 id="rules">6. The rules that cost marks</h2>
+    <ul>
+      <li><b>VHDL only.</b> Verilog is refused.</li>
+      <li><b>Structural modelling.</b> Behavioural is refused, with one stated exception: the supplied display controller, which is board glue for the multiplexed display.</li>
+      <li><b>RTL design and coding is mandatory.</b></li>
+      <li><b>The top level is a structural VHDL entity.</b> Vivado uses an HDL flow, where the older tool used graphical entry, so this replaces what Laboratory 1 asked for.</li>
+      <li><b>Build every block yourself.</b> No Xilinx IP, no LPM cores, nothing from the internet. Atomic modules down to the D flip flop, the one-bit adder and the one-bit comparator are written in VHDL.</li>
+      <li><b>Synchronous and globally resettable</b>, with clock and reset in every functional block.</li>
+      <li><b>Signed operands handled directly.</b> Converting negatives to positives and correcting afterwards is named and refused.</li>
+      <li><b>Simulate all four operations</b> and check the results against hand calculations.</li>
+      <li><b>Demonstrate a working version to the TA</b> before the report is due.</li>
+    </ul>
+    <div class="note">
+      <p><b>Five bonus marks are on offer.</b> Replace the ripple carry adder with a four-bit carry lookahead adder. The handout asks for the modifications discussed, with no need to redraw every component, and the new design demonstrated to the teaching assistant. Section 5.4.1 of the textbook covers the design.</p>
     </div>
-  </details>
+  </section>
+
+  <section>
+    <h2 id="approach">7. How to approach it</h2>
+    <p><b>The pre-lab comes first and it is a gate.</b> It has to exist, simulate correctly and be explained before the session begins, so it is the first thing to build, whatever order the report ends up in.</p>
+    <p><b>Then the two algorithms, on paper, before any VHDL.</b> Signed multiplication and signed division are where the thinking is, and the ban on converting to positive first is the constraint that shapes both. Work them as pseudocode until you can run them by hand on a negative operand.</p>
+    <p><b>Then the ASM stages for each unit, in order.</b> Chart, datapath, detailed chart, control logic. Each reads its input off the one before it, so a wrong chart costs everything after it.</p>
+    <p><b>Then the VHDL, from the bottom up</b>, testing each block on its own before wiring it into the next. The adder from the pre-lab is already done and tested, which is a working foundation for the other three.</p>
+    <p><b>Integration last</b>, then the output multiplexer, then the board.</p>
+  </section>
+
+  <section>
+    <h2 id="report">8. What goes in the report</h2>
+    <p>The structure is fixed by the report guidelines: cover page, objectives, problem and solution discussion, verification, lab discussion, conclusion and appendices. The marking scheme puts the weight on the algorithmic solution, the components, the simulation and the demonstration.</p>
+    <ul>
+      <li>Timing simulations with explanation, for every VHDL source file</li>
+      <li>All source files described and commented</li>
+      <li>A flowchart and a block diagram of the solution</li>
+      <li>The ASM charts, datapaths and control logic for both the multiplier and the divider</li>
+      <li>Your solution described in your own words, without pronouns and in the passive voice</li>
+      <li>The design obstacles and how they were overcome</li>
+      <li>All source code appended, and the files submitted alongside</li>
+    </ul>
+    <div class="note">
+      <p><b>Twenty five pages maximum</b>, including cover page, contents and appendices, losing a mark for every page over. With two full ASM designs to present, this binds on Laboratory 2 in a way it did not on Laboratory 1.</p>
+    </div>
+  </section>
 
 </div>
 
@@ -155,7 +193,7 @@
     </div>
     <nav class="col" aria-label="On this page">
       <h2>On this page</h2>
-      <a href="#known">What is known already</a>
+      <a href="#prelab">Before the session</a>
       <a href="#gist">The gist</a>
       <a href="#steps">What has to be done</a>
       <a href="#kit">The kit</a>
@@ -164,7 +202,6 @@
       <a href="#rules">The rules that cost marks</a>
       <a href="#approach">How to approach it</a>
       <a href="#report">What goes in the report</a>
-      <a href="#meanwhile">What to do in the meantime</a>
     </nav>
     <nav class="col" aria-label="This course">
       <h2>This course</h2>
@@ -178,12 +215,12 @@
     <nav class="col" aria-label="Elsewhere">
       <h2>Elsewhere</h2>
       <a href="../../">All four courses</a>
-      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651172">Laboratory 2 on Brightspace</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7750088/View">Lab 1 handout</a>
     </nav>
   </div>
   <div class="colophon">
-    <span>Built with Claude from the course outline and Brightspace. AI can make mistakes, so check anything that decides an answer.</span>
-    <span>The handouts and the course material are copyright and are not hosted here.</span>
+    <span>Built with Claude from the Lab 1 handout on Brightspace. AI can make mistakes, so check anything that decides an answer.</span>
+    <span>The handout and the course material are copyright and are not hosted here.</span>
   </div>
 </footer>
 
