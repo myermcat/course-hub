@@ -131,8 +131,8 @@ td.topic{min-width:170px}
 td.src{font-size:13.5px;min-width:120px}
 td.src a{text-decoration:none;border-bottom:1px solid currentColor}
 td.src .none{color:var(--muted);border:0;font-style:italic}
-td.src .lec{display:block}
-td.src .lec + .lec{margin-top:7px}
+td.src .lec{display:block;background:var(--sunk);border-radius:8px;padding:6px 9px;text-align:center}
+td.src .lec + .lec{margin-top:6px}
 td.src .lec .lecnote{display:block;margin-top:1px;font-size:11px;font-weight:400;line-height:1.2;color:var(--muted);
   background:none;border:0;padding:0;border-radius:0}
 tr.gate td{background:var(--sunk);padding:15px 16px;border-top:2px solid var(--accent);border-bottom:2px solid var(--accent)}
