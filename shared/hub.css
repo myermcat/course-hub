@@ -131,6 +131,12 @@ td.topic{min-width:170px}
 td.src{font-size:13.5px;min-width:120px}
 td.src a{text-decoration:none;border-bottom:1px solid currentColor}
 td.src .none{color:var(--muted);border:0;font-style:italic}
+/* A drawn figure: an inline SVG that inherits the page colours, with its caption under it. */
+.fig{margin:0;display:flex;flex-direction:column;gap:9px}
+.fig .plate{background:var(--surface);border:1px solid var(--rule-soft);border-radius:10px;
+  padding:14px 12px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:430px;height:auto;color:var(--ink-soft)}
+.fig figcaption{font-size:12.5px;color:var(--muted);max-width:72ch}
 td.src .lec{display:block;background:var(--sunk);border-radius:8px;padding:6px 9px;text-align:center}
 td.src .lec + .lec{margin-top:6px}
 td.src .lec .lecnote{display:block;margin-top:1px;font-size:11px;font-weight:400;line-height:1.2;color:var(--muted);
