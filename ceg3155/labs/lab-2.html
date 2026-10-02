@@ -148,6 +148,33 @@
   </section>
 
   <section>
+    <div class="keyblock">
+      <div class="kb-head">
+        <h2 id="lab">Lab</h2>
+        <span class="keychip">The marks live here</span>
+      </div>
+      <p><b>Two ASM designs, then an ALU built around them.</b></p>
+      <p><b>The five stages of Laboratory 1, run twice</b>, once for the signed multiplier and once for the signed divider. Each gets its own pseudocode, chart, datapath, detailed chart and control logic.</p>
+      <ol>
+        <li><b>Write the algorithm as pseudocode.</b> Nothing is supplied this time. Laboratory 1 handed you the pseudocode and asked you to close its gaps. Here you write it from the problem, for each of the two units.</li>
+        <li><b>Turn the pseudocode into an ASM chart.</b> Rectangles for states, one clock step each, diamonds for tests. Every register the design needs is decided here.</li>
+        <li><b>Draw the datapath.</b> Registers, the paths between them, a device wherever a value is transformed on the way, and a selector wherever a register is fed from more than one place. This stage produces the control signal names.</li>
+        <li><b>Redraw it as the detailed ASM chart</b>, with every movement of data replaced by the control signals that cause it.</li>
+        <li><b>Design the control logic</b> by the one flip flop per state method.</li>
+      </ol>
+      <p><b>Then the ALU around them</b>, which is where the points that are easy to miss live.</p>
+      <ul>
+        <li><b>All four operations behind one output.</b> <code>OperationSelect[1..0]</code> chooses what reaches <code>MuxOut[7..0]</code>, in the pairing Table 4 of the handout gives.</li>
+        <li><b>Three status outputs.</b> <code>CarryOut</code>, <code>ZeroOut</code> and <code>OverflowOut</code>, all three brought out of the ALU.</li>
+        <li><b>The seven-segment display.</b> All eight digits on the board share one set of cathodes, so a display controller clocked from <code>CLK100MHZ</code> multiplexes them in time, driving <code>seg[6..0]</code> and <code>an[7..0]</code>.</li>
+        <li><b>Four-bit arithmetic, wider registers.</b> Every operation is four bits so the result fits the display, but some registers have to be eight, the product register being the obvious one.</li>
+        <li><b>Signed all the way through.</b> You may not flip a negative operand positive, multiply or divide, and repair the sign afterwards. The handout closes that route in bold.</li>
+      </ul>
+      <p><b>A report that shows a working display and skips the charts loses most of the marks.</b></p>
+    </div>
+  </section>
+
+  <section>
     <h2 id="gist">1. The gist</h2>
     <p>A four-bit arithmetic logic unit for <b>signed</b> numbers. It takes two four-bit operands and a two-bit operation select, performs one of four operations on them, and shows the result on the board&#39;s seven-segment display.</p>
     <div class="scroll">
@@ -175,27 +202,9 @@
     </div>
   </section>
 
-<section>
-    <div class="keyblock">
-      <div class="kb-head">
-        <h2 id="steps">2. What actually has to be done</h2>
-        <span class="keychip">The marks live here</span>
-      </div>
-      <p><b>The same five stages as Laboratory 1, run twice.</b> Once for the signed multiplier and once for the signed divider. Each of the two gets its own pseudocode, its own chart, its own datapath, its own detailed chart and its own control logic.</p>
-      <ol>
-        <li><b>Write the algorithm as pseudocode.</b> Nothing is supplied this time. Laboratory 1 handed you the pseudocode and asked you to close its gaps. Here you write it from the problem, for each of the two units.</li>
-        <li><b>Turn the pseudocode into an ASM chart.</b> Rectangles for states, one clock step each, diamonds for tests. Every register the design needs is decided here.</li>
-        <li><b>Draw the datapath.</b> Registers, the paths between them, a device wherever a value is transformed on the way, and a selector wherever a register is fed from more than one place. This stage produces the control signal names.</li>
-        <li><b>Redraw it as the detailed ASM chart</b>, with every movement of data replaced by the control signals that cause it.</li>
-        <li><b>Design the control logic</b> by the one flip flop per state method.</li>
-      </ol>
-      <p>Then the four units are <b>integrated into one ALU</b>, with the output multiplexer selecting between them and the three status signals brought out.</p>
-      <p><b>A report that shows a working display and skips the charts loses most of the marks.</b></p>
-    </div>
-  </section>
 
   <section>
-    <h2 id="kit">3. The kit</h2>
+    <h2 id="kit">2. The kit</h2>
     <div class="scroll">
       <table>
         <caption>What the laboratory runs on</caption>
@@ -215,7 +224,7 @@
   </section>
 
   <section>
-    <h2 id="inside">4. What is happening inside</h2>
+    <h2 id="inside">3. What is happening inside</h2>
     <p>Four arithmetic units, one output multiplexer and a display controller.</p>
     <ul>
       <li><b>The adder and subtractor</b> are the pre-lab, built around a ripple carry adder. Subtraction is addition of the two&#39;s complement.</li>
@@ -227,13 +236,13 @@
   </section>
 
   <section>
-    <h2 id="reset">5. What the reset does</h2>
+    <h2 id="reset">4. What the reset does</h2>
     <p>GReset forces every flip flop in the design to a known value, so the circuit starts from a defined state. The fabric powers up in an arbitrary one. It reaches every functional block, and section 8 requires that.</p>
     <p>Like GClock it is a push button on the board, so the demonstration starts by pressing reset and then stepping.</p>
   </section>
 
   <section>
-    <h2 id="rules">6. The rules that cost marks</h2>
+    <h2 id="rules">5. The rules that cost marks</h2>
     <ul>
       <li><b>VHDL only.</b> Verilog is refused.</li>
       <li><b>Structural modelling.</b> Behavioural is refused, with one stated exception: the supplied display controller, which is board glue for the multiplexed display.</li>
@@ -251,7 +260,7 @@
   </section>
 
   <section>
-    <h2 id="approach">7. How to approach it</h2>
+    <h2 id="approach">6. How to approach it</h2>
     <p><b>The pre-lab comes first and it is a gate.</b> It has to exist, simulate correctly and be explained before the session begins, so it is the first thing to build, whatever order the report ends up in.</p>
     <p><b>Then the two algorithms, on paper, before any VHDL.</b> Signed multiplication and signed division are where the thinking is, and the ban on converting to positive first is the constraint that shapes both. Work them as pseudocode until you can run them by hand on a negative operand.</p>
     <p><b>Then the ASM stages for each unit, in order.</b> Chart, datapath, detailed chart, control logic. Each reads its input off the one before it, so a wrong chart costs everything after it.</p>
@@ -260,7 +269,7 @@
   </section>
 
   <section>
-    <h2 id="report">8. What goes in the report</h2>
+    <h2 id="report">7. What goes in the report</h2>
     <p>The structure is fixed by the report guidelines: cover page, objectives, problem and solution discussion, verification, lab discussion, conclusion and appendices. The marking scheme puts the weight on the algorithmic solution, the components, the simulation and the demonstration.</p>
     <ul>
       <li>Timing simulations with explanation, for every VHDL source file</li>
@@ -286,9 +295,9 @@
     </div>
     <nav class="col" aria-label="On this page">
       <h2>On this page</h2>
-      <a href="#prelab">Before the session</a>
+      <a href="#prelab">Pre-lab</a>
+      <a href="#lab">Lab</a>
       <a href="#gist">The gist</a>
-      <a href="#steps">What has to be done</a>
       <a href="#kit">The kit</a>
       <a href="#inside">Inside the circuit</a>
       <a href="#reset">What the reset does</a>
