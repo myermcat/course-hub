@@ -53,16 +53,97 @@
   <section>
     <div class="keyblock">
       <div class="kb-head">
-        <h2 id="prelab">Before the session</h2>
+        <h2 id="prelab">Pre-lab</h2>
         <span class="keychip">Due before you arrive</span>
       </div>
-      <p><b>Build the adder and subtractor of figure 6, and bring it working.</b> Four things, all done before you walk in:</p>
+      <p><b>A four-bit signed adder and subtractor, built, simulated and brought with you.</b></p>
       <ol>
+        <li><b>Four bits, signed, two&#39;s complement.</b> Range &minus;8 to +7. Subtraction is addition of the two&#39;s complement, which the circuit forms by inverting every bit of <i>y</i> and setting the carry in to 1, both from the same Add / Sub line.</li>
+        <li><b>Overflow.</b> The unit has to report it. In two&#39;s complement it is the carry into the sign bit against the carry out of it, so <b>OverflowOut = c<sub>4</sub> &oplus; c<sub>3</sub></b>, and it cannot be read off the carry out alone.</li>
         <li><b>Code it</b> in RTL and structural VHDL. Section 3.2 walks the design, section 8 holds the coding rules.</li>
-        <li><b>Simulate it</b>, showing several pairs of numbers added and several subtracted, each giving the right answer.</li>
+        <li><b>Simulate it</b>, showing several pairs added and several subtracted, each giving the right answer, and at least one pair that overflows.</li>
         <li><b>Present and explain it</b> to the teaching assistant at the start of the session. Expect questions.</li>
         <li><b>Keep the signed sheet.</b> It is handed in with the final report.</li>
       </ol>
+      <figure class="fig">
+        <div class="plate">
+        <svg viewBox="0 0 700 300" role="img" aria-labelledby="f6t f6d">
+        <title id="f6t">Four bit adder and subtractor</title>
+        <desc id="f6d">Four full adder cells in a row. Each y input passes through an exclusive OR gate driven by the Add or Subtract control, which also supplies the carry into the least significant cell. Carries pass right to left as c1, c2 and c3, and c4 leaves the most significant cell.</desc>
+        <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="currentColor" stroke="none"/></marker></defs>
+        <path d="M142,78 H676 V196" />
+        <path d="M676,202 H646" marker-end="url(#ar)" />
+        <path d="M676,196 A6,6 0 0 1 676,202" />
+        <rect x="70" y="170" width="90" height="65" rx="6" />
+        <path d="M118,106 Q135,114 152,106 Q148,128 135,138 Q122,128 118,106 Z" />
+        <path d="M118,100 Q135,108 152,100" />
+        <path d="M128,50 V108" />
+        <path d="M142,78 V108" />
+        <circle cx="142" cy="78" r="3" fill="currentColor" stroke="none" />
+        <path d="M135,138 V164" marker-end="url(#ar)" />
+        <path d="M95,50 V164" marker-end="url(#ar)" />
+        <path d="M115,235 V268" marker-end="url(#ar)" />
+        <rect x="230" y="170" width="90" height="65" rx="6" />
+        <path d="M278,106 Q295,114 312,106 Q308,128 295,138 Q282,128 278,106 Z" />
+        <path d="M278,100 Q295,108 312,100" />
+        <path d="M288,50 V108" />
+        <path d="M302,78 V108" />
+        <circle cx="302" cy="78" r="3" fill="currentColor" stroke="none" />
+        <path d="M295,138 V164" marker-end="url(#ar)" />
+        <path d="M255,50 V164" marker-end="url(#ar)" />
+        <path d="M275,235 V268" marker-end="url(#ar)" />
+        <rect x="390" y="170" width="90" height="65" rx="6" />
+        <path d="M438,106 Q455,114 472,106 Q468,128 455,138 Q442,128 438,106 Z" />
+        <path d="M438,100 Q455,108 472,100" />
+        <path d="M448,50 V108" />
+        <path d="M462,78 V108" />
+        <circle cx="462" cy="78" r="3" fill="currentColor" stroke="none" />
+        <path d="M455,138 V164" marker-end="url(#ar)" />
+        <path d="M415,50 V164" marker-end="url(#ar)" />
+        <path d="M435,235 V268" marker-end="url(#ar)" />
+        <rect x="550" y="170" width="90" height="65" rx="6" />
+        <path d="M598,106 Q615,114 632,106 Q628,128 615,138 Q602,128 598,106 Z" />
+        <path d="M598,100 Q615,108 632,100" />
+        <path d="M608,50 V108" />
+        <path d="M622,78 V108" />
+        <circle cx="622" cy="78" r="3" fill="currentColor" stroke="none" />
+        <path d="M615,138 V164" marker-end="url(#ar)" />
+        <path d="M575,50 V164" marker-end="url(#ar)" />
+        <path d="M595,235 V268" marker-end="url(#ar)" />
+        <path d="M550,202 H486" marker-end="url(#ar)" />
+        <path d="M390,202 H326" marker-end="url(#ar)" />
+        <path d="M230,202 H166" marker-end="url(#ar)" />
+        <path d="M70,202 H36" marker-end="url(#ar)" />
+        </g>
+        <g fill="currentColor" stroke="none" font-size="13" text-anchor="middle">
+        <text x="128" y="44">y<tspan font-size="10" dy="3">3</tspan></text>
+        <text x="95" y="44">x<tspan font-size="10" dy="3">3</tspan></text>
+        <text x="115" y="286">s<tspan font-size="10" dy="3">3</tspan></text>
+        <text x="115" y="208" font-size="12">full adder</text>
+        <text x="288" y="44">y<tspan font-size="10" dy="3">2</tspan></text>
+        <text x="255" y="44">x<tspan font-size="10" dy="3">2</tspan></text>
+        <text x="275" y="286">s<tspan font-size="10" dy="3">2</tspan></text>
+        <text x="275" y="208" font-size="12">full adder</text>
+        <text x="448" y="44">y<tspan font-size="10" dy="3">1</tspan></text>
+        <text x="415" y="44">x<tspan font-size="10" dy="3">1</tspan></text>
+        <text x="435" y="286">s<tspan font-size="10" dy="3">1</tspan></text>
+        <text x="435" y="208" font-size="12">full adder</text>
+        <text x="608" y="44">y<tspan font-size="10" dy="3">0</tspan></text>
+        <text x="575" y="44">x<tspan font-size="10" dy="3">0</tspan></text>
+        <text x="595" y="286">s<tspan font-size="10" dy="3">0</tspan></text>
+        <text x="595" y="208" font-size="12">full adder</text>
+        <text x="515" y="194" font-size="12">c<tspan font-size="10" dy="3">1</tspan></text>
+        <text x="355" y="194" font-size="12">c<tspan font-size="10" dy="3">2</tspan></text>
+        <text x="195" y="194" font-size="12">c<tspan font-size="10" dy="3">3</tspan></text>
+        <text x="53" y="194" font-size="12">c<tspan font-size="10" dy="3">4</tspan></text>
+        <text x="663" y="194" font-size="12" text-anchor="end">c<tspan font-size="10" dy="3">0</tspan></text>
+        <text x="676" y="62" font-size="12" text-anchor="end">Add / Sub</text>
+        </g>
+        </svg>
+        </div>
+        <figcaption>Figure 6 of the handout at four bits. Add / Sub low adds, high subtracts: it inverts every bit of <i>y</i> through the exclusive OR gates and supplies the carry in, which together make the two&#39;s complement of <i>y</i>.</figcaption>
+      </figure>
     </div>
   </section>
 
