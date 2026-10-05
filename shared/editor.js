@@ -88,6 +88,24 @@
     el.classList.toggle('is-empty', !el.textContent.trim() && !el.querySelector('hr,img'));
   }
 
+  /* A blank line the writer deliberately left under a line is hers, and a block shortcut was
+     eating it. `insertHTML` over a selected block lets Chrome absorb an empty paragraph sitting
+     directly after it, so turning a line into a bullet, a number, a heading or a quotation
+     removed the gap below it. Take that paragraph into the selection and write it back out as
+     part of the same insert: the gap survives and it is still one undo. */
+  function keepGapAfter(blk, range) {
+    var nxt = blk.nextElementSibling, last = null, n = 0;
+    /* Every blank line in the run, because two deliberate blank lines are as deliberate as one
+       and Chrome absorbs whichever ones it finds touching the replaced block. */
+    while (nxt && (nxt.tagName === 'P' || nxt.tagName === 'DIV')
+           && !nxt.textContent.trim() && !nxt.querySelector('img,hr,table')) {
+      last = nxt; n += 1; nxt = nxt.nextElementSibling;
+    }
+    if (!last) return '';
+    range.setEndAfter(last);
+    return new Array(n + 1).join('<p><br></p>');
+  }
+
   /* Every change goes through execCommand, because the browser's undo stack only records
      those: a raw Range mutation leaves Cmd+Z with nothing to undo. */
   function caretEnd(node) {
@@ -419,11 +437,12 @@
         var item = lineWithout(blk, head.length);
         var lr = document.createRange();
         lr.selectNode(blk);
+        var gap = keepGapAfter(blk, lr);
         sel.removeAllRanges(); sel.addRange(lr);
         /* Marked so the caret goes into the list just made and not into whichever list happens
            to be last in the note. The mark comes straight back off, before anything is saved. */
         document.execCommand('insertHTML', false,
-          '<' + tag + ' data-new="1"><li>' + item + '</li></' + tag + '>');
+          '<' + tag + ' data-new="1"><li>' + item + '</li></' + tag + '>' + gap);
         var made = el.querySelector('[data-new]');
         if (made) made.removeAttribute('data-new');
         var cell = made && made.querySelector('li');
@@ -434,8 +453,9 @@
         var inner = lineWithout(blk, head.length);
         var rr = document.createRange();
         rr.selectNode(blk);
+        var gap2 = keepGapAfter(blk, rr);
         sel.removeAllRanges(); sel.addRange(rr);
-        document.execCommand('insertHTML', false, '<' + arg + '>' + inner + '</' + arg + '>');
+        document.execCommand('insertHTML', false, '<' + arg + '>' + inner + '</' + arg + '>' + gap2);
         var all = el.getElementsByTagName(arg);
         if (all.length) caretStart(all[all.length - 1]);
       } else {

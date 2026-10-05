@@ -144,6 +144,16 @@
   t('heading: ## inside a list item does nothing', function () { reset('<ul><li>item</li></ul>'); caret(0); type('## '); return html(); });
   t('heading: ## on a line that is already a heading', function () { reset('<h4>Head</h4>'); caret(0); type('## '); return html(); });
 
+
+  // ---------- a blank line the writer left on purpose ----------
+  t('gap: bullet keeps the blank line under it', function () { reset('<p>-</p><p><br></p><p>below</p>'); caretIn('p:nth-of-type(1)', 1); type(' '); return html(); });
+  t('gap: numbered list keeps it', function () { reset('<p>1.</p><p><br></p><p>below</p>'); caretIn('p:nth-of-type(1)', 2); type(' '); return html(); });
+  t('gap: heading keeps it', function () { reset('<p>###</p><p><br></p><p>below</p>'); caretIn('p:nth-of-type(1)', 3); type(' '); return html(); });
+  t('gap: quote keeps it', function () { reset('<p>&gt;</p><p><br></p><p>below</p>'); caretIn('p:nth-of-type(1)', 1); type(' '); return html(); });
+  t('gap: two blank lines both survive', function () { reset('<p>-</p><p><br></p><p><br></p><p>below</p>'); caretIn('p:nth-of-type(1)', 1); type(' '); return html(); });
+  t('gap: no blank line, none invented', function () { reset('<p>-</p><p>below</p>'); caretIn('p:nth-of-type(1)', 1); type(' '); return html(); });
+  t('gap: last line of the note is unaffected', function () { reset('<p>-</p>'); caretIn('p:nth-of-type(1)', 1); type(' '); return html(); });
+
   // ---------- quote ----------
   t('quote: > on an empty line', function () { reset(); caret(0); type('> '); return html(); });
   t('quote: > before a word already there', function () { reset('<p>Said</p>'); caret(0); type('> '); return html(); });
@@ -215,6 +225,13 @@
   /* What each case has to produce. A case with no entry here is reported as unchecked, so a
      new case shows up as unchecked, which is louder than a silent pass. */
   var EXPECT = {
+    'gap: bullet keeps the blank line under it': '<ul><li><br></li></ul><p><br></p><p>below</p>',
+    'gap: numbered list keeps it': '<ol><li><br></li></ol><p><br></p><p>below</p>',
+    'gap: heading keeps it': '<h5><br></h5><p><br></p><p>below</p>',
+    'gap: quote keeps it': '<blockquote><br></blockquote><p><br></p><p>below</p>',
+    'gap: two blank lines both survive': '<ul><li><br></li></ul><p><br></p><p><br></p><p>below</p>',
+    'gap: no blank line, none invented': '<ul><li><br></li></ul><p>below</p>',
+    'gap: last line of the note is unaffected': '<ul><li><br></li></ul>',
     'heading: ## on an empty line': '<h4><br></h4>',
     'heading: # on an empty line': '<h3><br></h3>',
     'heading: ### on an empty line': '<h5><br></h5>',
