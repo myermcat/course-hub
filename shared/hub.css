@@ -301,13 +301,15 @@ details.block>summary:hover{background:var(--sunk)}
 details.block>summary:hover .cue{color:var(--accent);border-color:var(--accent)}
 details.block>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
 details.block>summary h2{margin:0}
-details.block>summary .hint{flex:1 1 100%;font-family:var(--body);font-size:14px;
-  line-height:1.5;color:var(--muted)}
+/* a housekeeping line sits beside the thing it explains: small, muted, a thin
+   rule down the side, and no fill, so it never reads as content. */
+.sidenote{font-family:var(--body);font-size:13.5px;line-height:1.55;color:var(--muted);
+  border-left:2px solid var(--rule);padding-left:12px}
+details.block>summary .sidenote{flex:1 1 100%;margin-top:2px}
 details.block .in{display:flex;flex-direction:column;gap:20px;padding:2px 22px 24px}
 
 details.block.keystone{border-color:var(--accent);border-left-width:3px}
 details.block.keystone>summary{background:var(--sunk)}
-details.block.keystone>summary .hint{color:var(--ink)}
 .keychip{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--accent);border:1px solid var(--accent);border-radius:20px;padding:3px 10px;
   white-space:nowrap}
