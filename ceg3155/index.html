@@ -37,7 +37,6 @@
   <header>
     <div class="eyebrow">CEG 3155 A03 &middot; Digital Systems II &middot; uOttawa &middot; Fall 2026</div>
     <h1>Digital Systems II</h1>
-    <p class="standfirst">The laboratories and the assignments first, then every dated piece of work in the term, the weekly schedule, the marking scheme, the topics the course covers, and which parts of the toolchain run on an M1 Mac.</p>
   </header>
 
   <section>
@@ -126,7 +125,6 @@
       <span class="keychip">10 percent</span>
       <span class="meter" data-progress="#assign-rows"></span>
       <span class="cue" aria-hidden="true"></span>
-      <span class="hint">Five of them, and the best four count at 2.5 percent each. Each is posted on a Monday and due two weeks later at 20:00 on Brightspace. Late work loses 5 percent a day, to a maximum of five days.</span>
     </summary>
     <div class="in">
 
@@ -191,25 +189,7 @@
   </section>
 
   <section>
-    <h2>The term at a glance</h2>
-    <div class="facts">
-      <div class="fact"><div class="k">Instructor</div><div class="v">Prof. Rami Abielmona<br>Section A03</div></div>
-      <div class="fact"><div class="k">Lecture</div><div class="v"><b>Thu 19:00 to 21:50</b><br>FSS 1007</div></div>
-      <div class="fact"><div class="k">Tutorial</div><div class="v">Fri 19:00 to 20:20<br>STE A0150</div></div>
-      <div class="fact"><div class="k">Laboratory</div><div class="v"><b>Wed 19:00 to 21:50</b><br>CBY B402</div></div>
-      <div class="fact"><div class="k">Office hours</div><div class="v">Mon 11:30 to 12:30<br>STE 4047</div></div>
-      <div class="fact"><div class="k">Midterm</div><div class="v"><b>Thu 22 Oct 2026</b><br>19:00 to 20:20, FSS 1007</div></div>
-      <div class="fact"><div class="k">Textbook</div><div class="v">Brown and Vranesic, <i>Fundamentals of Digital Logic with VHDL Design</i>, 4th ed.</div></div>
-      <div class="fact"><div class="k">Marks</div><div class="v">Final 40 &middot; Midterm 20<br>Labs 15 &middot; Assignments 10<br>Project 10 &middot; Quizzes 5</div></div>
-    </div>
-    <div class="note">
-      <p><b>The laboratories are in person in CBY B402.</b> The laboratory page on the course site still says they run online and gives room STE 2061. That text was left there from 2020 and the outline from July 2026 replaces it.</p>
-    </div>
-  </section>
-
-  <section>
     <div class="head-row"><h2 id="deadlines">Everything with a date on it</h2><span class="meter" data-progress="#due-rows"></span></div>
-    <p>Fifteen dated items, in the order they fall. Fourteen of them carry a box to tick as the work is handed in or written, and the midterm is the line across the middle.</p>
 
     <div class="scroll">
       <table>
@@ -331,145 +311,7 @@
     </div>
 
     <div class="note">
-      <p><b>Five assignments are set, one every two weeks, and the best four count at 2.5 percent each.</b> Each one is posted on a Monday and is due exactly two weeks later at 20:00 on Brightspace. Assignment 3 has three weeks between posting and due date, because the week of 26 October is reading week. Late work loses 5 percent a day, to a maximum of five days.</p>
-      <p><b>Solutions are posted on the course site.</b> They go into the <code>assignments</code> folder there, which answers 403 Forbidden at the moment, so the copy on Brightspace is the one to open.</p>
-    </div>
-
-    <div class="note">
       <p><b>A tick is stored in this browser on this device.</b> It survives a reload and a restart of the machine, it never travels to another computer, nothing is sent anywhere, and clearing site data for this address erases every tick on the page.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2 id="marks">What carries the marks</h2>
-    <div class="note">
-      <p><b>The midterm cannot be transferred to the final.</b> A missed midterm is a lost 20 percent, so the date is worth protecting. It falls the evening after the Signal and System Analysis midterm.</p>
-    </div>
-    <div class="note">
-      <p><b>Three quizzes run and the best two count</b>, 2.5 percent each, thirty minutes at the start of a Thursday lecture. The laboratories carry 15 percent across four of them, three hours a week in CBY B402. Quizzes, the midterm and the final are all written in person.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2 id="tools">The toolchain, and what runs on the Mac</h2>
-    <p>The laboratories and the project are VHDL on hardware, so where the work happens is decided before any of it starts.</p>
-    <div class="note">
-      <p><b>The board is the Digilent Nexys A7-100T, carrying an Artix-7 XC7A100T-1CSG324C, and the software is Xilinx Vivado.</b> The Lab 1 handout names both, and the pin assignments in its Table 2 are Vivado XDC constraints. The course website describes an older Altera DE-2 flow under Quartus II, and the handout and the Brightspace appendices replace that text.</p>
-      <p><b>Vivado runs on Windows and Linux x86.</b> The macOS route Prof. Abielmona posted is a virtual machine, VMware Fusion with Windows 11 ARM, wanting 16 GB of memory and 250 GB of free disk, and programming the board over JTAG does not work through it on Apple Silicon. The M1 MacBook has 8 GB of memory and about 42 GB free, so synthesis, the bitstream and programming the board happen on a laboratory machine in CBY B402, on the project partner's machine, or over the remote connection to a laboratory machine covered in part 0D of the install guide.</p>
-      <p><b>On the Mac, nvc and surfer run natively on Apple Silicon and are installed.</b> They cover writing VHDL, compiling it, running a testbench and reading the waveform. There is no synthesis and no board behind them. The Lab 1 scaffold is in <code>lab1</code> in the course folder, where <code>make sim</code> runs the testbench and <code>make wave</code> opens the result in surfer.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2 id="topics">What the course covers</h2>
-    <ul>
-      <li><b>Finite state machines</b> of the Mealy and Moore kinds, with state tables and state diagrams</li>
-      <li><b>State reduction and state assignment</b>, and sequential circuits that are incompletely specified</li>
-      <li><b>Implementation with D and JK flip-flops</b></li>
-      <li><b>ASM charts</b>, the algorithmic state machine notation for describing a controller</li>
-      <li><b>VHDL</b>, the hardware description language every laboratory is written in</li>
-      <li><b>Synchronous design</b> with programmable logic devices, ROM and FPGA</li>
-      <li><b>Computer interfaces and controllers</b></li>
-      <li><b>Asynchronous circuits and hazards</b></li>
-      <li><b>SystemC</b></li>
-    </ul>
-  </section>
-
-  <section>
-    <h2 id="people">Who teaches it</h2>
-    <div class="facts">
-      <div class="fact"><div class="k">Professor</div><div class="v">Rami Abielmona<br><a href="mailto:rabielmo@uottawa.ca">rabielmo@uottawa.ca</a><br>STE 4047, Mon 11:30 to 12:30</div></div>
-      <div class="fact"><div class="k">Teaching assistant</div><div class="v">Jean-Damien Marcelin<br><a href="mailto:jmarc134@uottawa.ca">jmarc134@uottawa.ca</a></div></div>
-      <div class="fact"><div class="k">Teaching assistant</div><div class="v">Mathew Oliveira<br><a href="mailto:moliv049@uottawa.ca">moliv049@uottawa.ca</a></div></div>
-      <div class="fact"><div class="k">Teaching assistant</div><div class="v">Mathis Hurens Barrette<br><a href="mailto:mhure037@uottawa.ca">mhure037@uottawa.ca</a></div></div>
-    </div>
-    <div class="note">
-      <p>Mathis Hurens Barrette was posted on 13 September and took over from the third teaching assistant named at the start of term.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2 id="open">Still open</h2>
-    <div class="stack">
-      <div class="task now">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="confirm-lab-section"></div>
-        <div class="b">
-          <div class="h">Confirm the laboratory section number</div>
-          <div class="d">The day is settled. She is in the Wednesday group, so every laboratory on this page is due at midnight on a Wednesday. The number is the part still open: the course section is A03 in both the course README and the notes from the first class, and the laboratory section is recorded as <b>A01, Wednesday 19:00 to 21:50</b> in one part of <code>README.txt</code> and as <b>A00</b> further down the same file. The registration record in uoZone settles it.</div>
-          <span class="tag">Check uoZone</span>
-        </div>
-      </div>
-      <div class="task now">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="email-prof-403"></div>
-        <div class="b">
-          <div class="h">Email Prof. Abielmona about the 403 on the course site</div>
-          <div class="d">Every file inside a subfolder of the course site returns 403 Forbidden with the message <code>Server unable to read htaccess file</code>. Rechecked on 16 September and still failing. The login works, so this is a permissions problem on the server that only he can fix.</div>
-          <span class="tag">Ready now</span>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="vivado-access"></div>
-        <div class="b">
-          <div class="h">Arrange a machine that runs Vivado</div>
-          <div class="d">Synthesis and programming the board need Windows or Linux x86. The three routes are a laboratory machine in CBY B402, the project partner's machine, and the remote connection in part 0D of the install guide. Settling this before Laboratory 2 avoids losing a laboratory night to it.</div>
-          <span class="tag">Before Lab 2</span>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="assignment-table"></div>
-        <div class="b">
-          <div class="h">Record what each assignment covers</div>
-          <div class="d">Assignments 1 and 2 are read in and their rows carry the handouts. Assignments 3 to 5 have a submission folder each on Brightspace and no handout yet, so each of those rows waits for the Monday it is posted on.</div>
-          <span class="tag">Waiting on Brightspace</span>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="lab-schedule"></div>
-        <div class="b">
-          <div class="h">The laboratory schedule</div>
-          <div class="d">Four laboratories with what each one builds and what has to be prepared before it. Lab 1 is worked through in the <code>lab1</code> folder and has a quick guide in the table above. Labs 2, 3 and 4 have a module each on Brightspace holding no document yet, so there is nothing to read until a handout is posted.</div>
-          <span class="tag">Needs Brightspace</span>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="project-details"></div>
-        <div class="b">
-          <div class="h">The project</div>
-          <div class="d">Worth 10 percent, demonstrated and reported by 9 December, and it takes the last three laboratory weeks. The description was promised in class. The regulations and the report guidelines are on Brightspace and the description has not been found yet.</div>
-          <span class="tag">Blocked</span>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="fold-in-readme-txt"></div>
-        <div class="b">
-          <div class="h">Fold the loose notes into the course README</div>
-          <div class="d">The notes from 12 September in <code>README.txt</code> are now on this page. The structured <code>README.md</code> beside them had its lecture time put right on 16 September, so what is left to move across is the rest of the file: the assignment rules, the list of dated work, the board and the toolchain, and the two laboratory section numbers.</div>
-          <span class="tag">Ready now</span>
-        </div>
-      </div>
-      <div class="task">
-        <div class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="ceg-backlog"></div>
-        <div class="b">
-          <div class="h">A backlog</div>
-          <div class="d">Coursework first, then the work on files and tooling that serves it, the way the Signal and System Analysis hub separates the two.</div>
-          <span class="tag">After the rest</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2 id="about">Where the material lives</h2>
-    <div class="note">
-      <p><b><a href="https://uottawa.brightspace.com/d2l/home/605994" target="_blank" rel="noopener">Brightspace organisation unit 605994</a> holds the current course.</b> The lectures, the assignments, all four laboratories, the VHDL sources, sixteen appendices covering the Vivado flow, XDC constraints, clocking, switch debouncing and UART, the marking scheme, the report guidelines, the regulations and the install guides are all there.</p>
-    </div>
-    <div class="note">
-      <p><b>The course site at <a href="https://www.eecs.uottawa.ca/~rabielmo/ceg3155_f26/" target="_blank" rel="noopener">eecs.uottawa.ca/~rabielmo/ceg3155_f26</a> asks for a username and password.</b> Those two strings are written in <code>README.txt</code> in the <code>CEG3155</code> folder on her own disk. This page is public, so they are kept off it.</p>
-      <p><b>Every file inside a subfolder of that site answers 403 Forbidden</b>, with the message <code>Server unable to read htaccess file</code>. Rechecked on 16 September and still failing. That covers <code>labs</code>, which holds the laboratory handouts, the how-to pages and the VHDL sources, <code>lectures</code>, which holds every slide deck, <code>assignments</code>, which holds the assignments and their solutions, and <code>project</code>. The login itself works, so this is a server misconfiguration on the professor's side.</p>
-      <p><b>Two things on that site still download.</b> The course outline is at the top level, and the reference PDFs are one level up in <code>digDesignDocs</code>, which is where the VHDL CookBook and the QuickStart guide are.</p>
-    </div>
-    <div class="note">
-      <p>Source material stays in the <code>CEG3155</code> folder on disk, and this page is published from the <code>course-hub</code> repository. Dates, rooms and weightings come from the course outline dated 17 July 2026, the notes taken in the first class on 12 September, and the Lab 1 handout.</p>
     </div>
   </section>
 
@@ -486,12 +328,6 @@
       <a href="#labs">Laboratories</a>
       <a href="#assignments">Assignments</a>
       <a href="#deadlines">Everything with a date on it</a>
-      <a href="#marks">What carries the marks</a>
-      <a href="#tools">The toolchain</a>
-      <a href="#topics">What the course covers</a>
-      <a href="#people">Who teaches it</a>
-      <a href="#open">Still open</a>
-      <a href="#about">Where the material lives</a>
     </nav>
     <nav class="col" aria-label="This course">
       <h2>This course</h2>
