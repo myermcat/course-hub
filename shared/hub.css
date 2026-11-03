@@ -357,13 +357,15 @@ pre.listing .cm{color:var(--muted)}
 .listing-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:9px}
 .listing-head .where{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--muted)}
-.listing-head .copy{margin-left:auto}
 
 /* The copy button a listing gets from copy.js. It is written by script, so it exists only
-   where it works. */
+   where it works, and it sits over the listing's top right corner. */
 
-button.copy{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted);background:none;border:1px solid var(--rule);border-radius:20px;
+.listing-wrap{position:relative}
+.listing-wrap > pre.listing{padding-top:44px}
+button.copy{position:absolute;top:9px;right:10px;z-index:2;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);background:var(--sunk);border:1px solid var(--rule);border-radius:20px;
   padding:5px 12px;cursor:pointer;transition:color .15s,border-color .15s;min-height:28px}
 button.copy:hover{color:var(--accent);border-color:var(--accent)}
 button.copy:focus-visible{outline:2px solid var(--accent);outline-offset:2px}

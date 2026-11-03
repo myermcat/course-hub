@@ -50,7 +50,7 @@
    $$y[n] - \frac{5}{6}y[n-1] + \frac{1}{6}y[n-2] = x[n]$$
    <p class="task-line">Its output becomes the input of a second system, also initially at rest.</p>
    $$z[n] + \frac{9}{20}z[n-1] + \frac{1}{20}z[n-2] = y[n]$$
-   <p class="task-line">Compute and display the impulse response of the equivalent system between $x[n]$ and $z[n]$. Then, given an input $x[n] = e^{-n}$, observe the output of the two cascaded systems and the output of the equivalent system.</p>
+   <p class="task-line"><b>Slides 10 and 11 ask:</b> compute and display the impulse response of the equivalent system between $x[n]$ and $z[n]$.</p>
 
    <div>
     <div class="listing-head"><span class="where">Slide 11</span></div>
@@ -74,6 +74,8 @@ stem(0:length(h3)-1,h3,'Linewidth',2);   <span class="cm">% conv output is longe
    </div>
 
    <div class="note"><p><b><code>conv</code> returns <code>length(h1)+length(h2)-1</code> samples, 41 here.</b> That is why the stem axis is built as <code>0:length(h3)-1</code>. Passing <code>n</code> errors on a length mismatch.</p></div>
+
+   <p class="task-line"><b>Slide 12 then asks:</b> given an input $x[n] = e^{-n}$, observe the output of the two cascaded systems and the output of the equivalent system.</p>
 
    <div>
     <div class="listing-head"><span class="where">Slide 12</span></div>
