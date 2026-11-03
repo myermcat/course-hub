@@ -1,15 +1,26 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ELG3125 Lab Code</title>
-<meta name="description" content="Every MATLAB listing from the ELG3125 laboratory slides, University of Ottawa, with the task each one answers.">
+<meta name="description" content="Every MATLAB listing from the ELG3125 laboratory slides, University of Ottawa, under the task each one answers.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%231C5D93'/%3E%3Cpath%20d='M9%2032%20Q19%209%2029%2032%20T49%2032'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <link rel="stylesheet" href="../../shared/hub.css">
 <link rel="stylesheet" href="../../shared/nav.css">
 <style>
  :root{--accent:#1C5D93;--lead:#2A5273}
  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#6BB4E8;--lead:#95BFDC}}
  :root[data-theme="dark"]{--accent:#6BB4E8;--lead:#95BFDC}
+ .ex{scroll-margin-top:70px}
+ .ex h3{font-family:var(--display);font-weight:600;font-size:clamp(25px,4.4vw,33px);
+   line-height:1.18;color:var(--accent);letter-spacing:-.015em;margin:0}
+ .ex h3 .num{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+   text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+ .task-line{font-size:16.5px;color:var(--ink-soft);max-width:70ch}
+ .katex{font-size:1.02em}
+ .katex-display{margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+ .labhead{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+   color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:10px}
 </style></head><body data-store="elg-labcode">
 <nav class="topnav" aria-label="Courses">
   <div class="in">
@@ -27,14 +38,19 @@
  <header>
   <div class="eyebrow">Laboratory A02 &middot; Wednesday 17:30 &middot; STE 2052</div>
   <h1>Lab code</h1>
-  <p class="standfirst">Every MATLAB listing from the laboratory slides, with the task it answers.</p>
+  <p class="standfirst">Every MATLAB listing from the laboratory slides, under the task it answers.</p>
  </header>
- <section id="lab4">
-  <h2>Lab 4, Property and Combination of LTI Systems</h2>
 
-  <div class="ex">
-   <h3>Example 1</h3>
-   <p class="task-line"><b>Task.</b> An LTI discrete-time system has input <code>x[n]</code> and output <code>y[n]</code> given by <code>y[n] - (5/6)y[n-1] + (1/6)y[n-2] = x[n]</code>, initially at rest. The output of this first system becomes the input of a second system, also initially at rest, given by <code>z[n] + (9/20)z[n-1] + (1/20)z[n-2] = y[n]</code>. Compute and display the impulse response of the equivalent system between <code>x[n]</code> and <code>z[n]</code>. Then, given an input <code>x[n] = e<sup>-n</sup></code>, observe the output of the two cascaded systems and the output of the equivalent system.</p>
+ <section id="lab4">
+  <div class="labhead">Lab 4 &middot; Property and Combination of LTI Systems</div>
+
+  <div class="ex" id="cascade">
+   <h3><span class="num">Example 1</span>Cascade: combine two systems into one</h3>
+   <p class="task-line">An LTI discrete-time system has input $x[n]$ and output $y[n]$, initially at rest.</p>
+   $$y[n] - \frac{5}{6}y[n-1] + \frac{1}{6}y[n-2] = x[n]$$
+   <p class="task-line">Its output becomes the input of a second system, also initially at rest.</p>
+   $$z[n] + \frac{9}{20}z[n-1] + \frac{1}{20}z[n-2] = y[n]$$
+   <p class="task-line">Compute and display the impulse response of the equivalent system between $x[n]$ and $z[n]$. Then, given an input $x[n] = e^{-n}$, observe the output of the two cascaded systems and the output of the equivalent system.</p>
 
    <div>
     <div class="listing-head"><span class="where">Slide 11</span></div>
@@ -88,11 +104,15 @@ title('Output of the equivalent system');</code></pre>
    <div class="note"><p><b>The bottom two plots come out identical.</b> Two systems in series equal one system whose impulse response is the convolution of theirs.</p></div>
   </div>
 
-  <div class="ex">
-   <h3>Example 2</h3>
-   <p class="task-line"><b>Task.</b> Check whether the following LTI systems are stable, each initially at rest. (1) <code>d&sup2;y/dt&sup2; - 5 dy/dt + 4y(t) = x(t)</code>. (2) <code>d&sup2;y/dt&sup2; + 5 dy/dt + 4y(t) = x(t)</code>. (3) <code>y[n] - (1/4)y[n-2] = x[n]</code>. (4) <code>y[n] + (2/3)y[n-1] - y[n-2] = x[n]</code>.</p>
+  <div class="ex" id="stability">
+   <h3><span class="num">Example 2</span>Stability: check whether the system is stable</h3>
+   <p class="task-line">Check whether these LTI systems are stable. Each is initially at rest.</p>
+   $$\text{(1)}\quad \frac{d^{2}y(t)}{dt^{2}} - 5\frac{dy(t)}{dt} + 4y(t) = x(t)$$
+   $$\text{(2)}\quad \frac{d^{2}y(t)}{dt^{2}} + 5\frac{dy(t)}{dt} + 4y(t) = x(t)$$
+   $$\text{(3)}\quad y[n] - \frac{1}{4}y[n-2] = x[n]$$
+   $$\text{(4)}\quad y[n] + \frac{2}{3}y[n-1] - y[n-2] = x[n]$$
 
-   <div class="note"><p><b>The method, from slide 16.</b> Evaluate the impulse response first. A bounded <code>h</code> integrates or sums to something bounded, so the system is stable. An unbounded <code>h</code> means unstable.</p></div>
+   <div class="note"><p><b>The method, from slide 16.</b> Evaluate the impulse response first. A bounded $h$ integrates or sums to something bounded, so the system is stable. An unbounded $h$ means unstable.</p></div>
 
    <div>
     <div class="listing-head"><span class="where">Slide 17 &middot; system 1 &middot; not stable</span></div>
@@ -144,9 +164,14 @@ stem(n2,h4,'Linewidth',2);</code></pre>
    <div class="note"><p><b>Slide 20 is headed "(3)" in the deck.</b> It is the fourth system. The heading was not renumbered when the slide was copied.</p></div>
   </div>
 
-  <div class="ex">
-   <h3>Example 3</h3>
-   <p class="task-line"><b>Task.</b> Which of the systems listed below is the inverse of <code>y[n] - (5/6)y[n-1] + (1/6)y[n-2] = x[n]</code>? (a) <code>y[n] = (1/6)x[n] - (5/6)x[n-1] + x[n-2]</code>. (b) <code>y[n] = x[n] - (5/6)x[n-1] + (1/6)x[n-2]</code>. (c) <code>(1/6)y[n] - (5/6)y[n-1] + y[n-2] = x[n]</code>. Then, given an input <code>x[n] = e<sup>-n</sup></code>, observe the input and the output of each cascade.</p>
+  <div class="ex" id="invertibility">
+   <h3><span class="num">Example 3</span>Invertibility: find the inverse system</h3>
+   <p class="task-line">Which of the three systems below is the inverse of this one?</p>
+   $$y[n] - \frac{5}{6}y[n-1] + \frac{1}{6}y[n-2] = x[n]$$
+   $$\text{(a)}\quad y[n] = \frac{1}{6}x[n] - \frac{5}{6}x[n-1] + x[n-2]$$
+   $$\text{(b)}\quad y[n] = x[n] - \frac{5}{6}x[n-1] + \frac{1}{6}x[n-2]$$
+   $$\text{(c)}\quad \frac{1}{6}y[n] - \frac{5}{6}y[n-1] + y[n-2] = x[n]$$
+   <p class="task-line">Then, given an input $x[n] = e^{-n}$, observe the input and the output of each cascade.</p>
 
    <div>
     <div class="listing-head"><span class="where">Slide 24 &middot; the four systems</span></div>
@@ -167,7 +192,7 @@ b3 = [1 0 0];
 a3 = [1/6 -5/6 1];</code></pre>
    </div>
 
-   <div class="note"><p><b>Two systems are inverses when their cascade is the identity.</b> So the test is whether <code>h0 * h</code> comes out as <code>&delta;[n]</code>, a single spike at <code>n = 0</code>.</p></div>
+   <div class="note"><p><b>Two systems are inverses when their cascade is the identity.</b> So the test is whether $h_0 * h$ comes out as $\delta[n]$, a single spike at $n = 0$.</p></div>
 
    <div>
     <div class="listing-head"><span class="where">Slide 25 &middot; the test</span></div>
@@ -191,7 +216,7 @@ stem(0:length(h_conv3)-1,h_conv3,'Linewidth',2);
 xlabel('n');</code></pre>
    </div>
 
-   <div class="note"><p><b>Only <code>h_conv2</code> is a delta function, so candidate (b) is the inverse.</b> Candidate (c) reaches 10<sup>10</sup>.</p></div>
+   <div class="note"><p><b>Only <code>h_conv2</code> is a delta function, so candidate (b) is the inverse.</b> Candidate (c) reaches $10^{10}$.</p></div>
 
    <div>
     <div class="listing-head"><span class="where">Slide 26 &middot; confirming with a real input</span></div>
@@ -219,12 +244,18 @@ title('Output of cascade system (h0,h3)');</code></pre>
    <div class="note"><p><b><code>y2</code> comes back identical to the input</b>, which is what an inverse does.</p></div>
   </div>
  </section>
- <section id="lab5">
-  <h2>Lab 5, Fourier Series</h2>
 
-  <div class="ex">
-   <h3>Example</h3>
-   <p class="task-line"><b>Task.</b> A square wave <code>x(t)</code> has period <code>T</code>, with <code>x(t) = 1</code> for <code>|t| &lt; T&#8321;</code> and <code>x(t) = 0</code> for <code>T&#8321; &lt; |t| &lt; T/2</code>, where <code>T&#8321; = 0.5</code> and <code>T = 4</code>. Its Fourier series coefficients are <code>a&#8320; = 2T&#8321;/T</code> and <code>a&#8342; = 2sin(k&omega;&#8320;T&#8321;)/(k&omega;&#8320;T)</code> with <code>&omega;&#8320; = 2&pi;/T</code>. Rebuild <code>x(t)</code> from <code>a&#8320;</code> and <code>a&#8342;</code> using the truncated synthesis <code>x&#770;(t) = a&#8320; + 2&sum;|a&#8342;|cos(k&omega;&#8320;t + &ang;a&#8342;)</code>, and observe the effect of raising the number of terms.</p>
+ <section id="lab5">
+  <div class="labhead">Lab 5 &middot; Fourier Series</div>
+
+  <div class="ex" id="fourier">
+   <h3><span class="num">Example</span>Fourier series: synthesize a square wave</h3>
+   <p class="task-line">A square wave $x(t)$ has period $T$, with $T_1 = 0.5$ and $T = 4$.</p>
+   $$x(t) = \begin{cases} 1, & |t| < T_1 \\ 0, & T_1 < |t| < T/2 \end{cases}$$
+   <p class="task-line">Its Fourier series coefficients are</p>
+   $$a_0 = \frac{2T_1}{T} \qquad a_k = \frac{2\sin(k\omega_0 T_1)}{k\omega_0 T} \qquad \omega_0 = \frac{2\pi}{T}$$
+   <p class="task-line">Rebuild $x(t)$ from $a_0$ and $a_k$ using the truncated synthesis, and observe the effect of raising the number of terms.</p>
+   $$\hat{x}(t) = a_0 + 2\sum_{k=1}^{(N_a-1)/2} |a_k|\cos(k\omega_0 t + \angle a_k)$$
 
    <div>
     <div class="listing-head"><span class="where">Slide 10</span></div>
@@ -251,21 +282,13 @@ plot(t,x2,'Linewidth',2);</code></pre>
    </div>
 
    <div class="note">
-    <p><b>The loop stops at (N_a-1)/2.</b> The sum is symmetric in <code>k</code>, so <code>N_a</code> terms means that many harmonics on each side plus the DC term. That is why slide 6 insists <code>N_a</code> is odd.</p>
-    <p><b><code>abs</code> and <code>angle</code> give the magnitude and phase of <code>a&#8342;</code></b>, which is what the real form on slide 6 needs. Using <code>ak</code> directly leaves complex numbers in the result.</p>
+    <p><b>The loop stops at $(N_a-1)/2$.</b> The sum is symmetric in $k$, so $N_a$ terms means that many harmonics on each side plus the DC term. That is why slide 6 insists $N_a$ is odd.</p>
+    <p><b><code>abs</code> and <code>angle</code> give $|a_k|$ and $\angle a_k$</b>, which is what the real form on slide 6 needs. Using <code>ak</code> directly leaves complex numbers in the result.</p>
     <p><b><code>x_tem</code> is preallocated with <code>zeros(1,N)</code></b> so the loop can accumulate into it.</p>
    </div>
 
-   <div class="note"><p><b>Raising <code>N_a</code> from 21 to 81 sharpens the edges, and the overshoot at each jump never goes away.</b> That is the Gibbs phenomenon, and it is the point of the four panels on the slide.</p></div>
+   <div class="note"><p><b>Raising $N_a$ from 21 to 81 sharpens the edges, and the overshoot at each jump never goes away.</b> That is the Gibbs phenomenon, and it is the point of the four panels on the slide.</p></div>
   </div>
- </section>
- <section id="sources">
-  <h2>Where this comes from</h2>
-  <div class="note">
-    <p><b>The listings are transcribed from the laboratory slides, where they are pasted in as screenshots.</b> Every comment the slides carry is kept and more are added. Slide numbers are the ones printed in the deck footer.</p>
-    <p>Quiz 2 covers Labs 4 and 5, which the teaching assistant stated in the Brightspace announcement of 28 October 2026. Section A02 takes it on Wednesday 4 November.</p>
-    <p>The decks themselves are in the course folder on disk and are not published here.</p>
-   </div>
  </section>
 </div>
 <footer class="sitefoot">
@@ -276,9 +299,10 @@ plot(t,x2,'Linewidth',2);</code></pre>
     </div>
     <nav class="col" aria-label="On this page">
       <h2>On this page</h2>
-      <a href="#lab4">Lab 4</a>
-      <a href="#lab5">Lab 5</a>
-      <a href="#sources">Where this comes from</a>
+      <a href="#cascade">Cascade</a>
+      <a href="#stability">Stability</a>
+      <a href="#invertibility">Invertibility</a>
+      <a href="#fourier">Fourier series</a>
     </nav>
     <nav class="col" aria-label="This course">
       <h2>This course</h2>
@@ -296,5 +320,7 @@ plot(t,x2,'Linewidth',2);</code></pre>
     <span>The slides are course material and are not hosted here.</span>
   </div>
 </footer>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
 <script src="../../shared/tasks.js"></script>
 </body></html>
