@@ -1,6 +1,7 @@
 /* A copy button on every pre.listing.
-   Written by script so a control never appears unless it works. The button goes in the
-   listing's head row, which is created when the page did not write one. */
+   Written by script so a control never appears unless it works. Each listing is wrapped in a
+   positioned container and the button sits in the listing's own top right corner, where the
+   reader is already looking when she wants the code. */
 
 (function () {
   function label(btn, text, state) {
@@ -22,13 +23,14 @@
   }
 
   function wire(pre) {
-    var head = pre.previousElementSibling;
-    if (!head || !head.classList.contains('listing-head')) {
-      head = document.createElement('div');
-      head.className = 'listing-head';
-      pre.parentNode.insertBefore(head, pre);
+    var wrap = pre.parentNode;
+    if (!wrap.classList || !wrap.classList.contains('listing-wrap')) {
+      wrap = document.createElement('div');
+      wrap.className = 'listing-wrap';
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
     }
-    if (head.querySelector('button.copy')) { return; }
+    if (wrap.querySelector('button.copy')) { return; }
 
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -36,7 +38,7 @@
     btn.textContent = 'Copy';
     btn.setAttribute('aria-label', 'Copy this code');
     btn.setAttribute('aria-live', 'polite');
-    head.appendChild(btn);
+    wrap.insertBefore(btn, pre);
 
     var timer = null;
     btn.addEventListener('click', function () {
