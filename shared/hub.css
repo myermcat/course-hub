@@ -345,6 +345,23 @@ details.block.keystone>summary{background:var(--sunk)}
 
 code{font-family:var(--mono);font-size:12.5px;background:var(--sunk);padding:1px 5px;border-radius:4px}
 
+/* ---------- a listing ---------- */
+/* Source code a reader copies out. It scrolls inside itself on a phone rather than widening
+   the page, and a comment is dimmed so the statements read first. */
+
+pre.listing{margin:0;background:var(--sunk);border:1px solid var(--rule);border-radius:10px;
+  padding:17px 19px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.62;
+  color:var(--ink);-webkit-overflow-scrolling:touch}
+pre.listing code{background:none;padding:0;font-size:inherit}
+pre.listing .cm{color:var(--muted)}
+.listing-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:9px}
+.listing-head .where{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted)}
+.ex{display:flex;flex-direction:column;gap:14px}
+.ex h3{margin:0;font-family:var(--display);font-weight:600;font-size:21px;color:var(--ink)}
+.ex .task-line{font-size:16px;color:var(--ink-soft);max-width:68ch}
+.ex .task-line b{color:var(--ink)}
+
 /* Preamble on a page that opens on the work. The explanation a reader needs once goes below
    what she came for, behind a summary line small enough to skip and specific enough to decide
    from. The lecture notes page grew this first and kept its own copy; the laboratory guides are
