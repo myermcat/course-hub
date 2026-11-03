@@ -43,14 +43,12 @@
  <section id="lab4">
   <div class="labhead">Lab 4 &middot; Property and Combination of LTI Systems</div>
 
-  <div class="ex" id="cascade">
-   <h3><span class="num">Example 1</span>Cascade: combine two systems into one</h3>
+  <div class="ex" id="impulse-response">
+   <h3><span class="num">Example 1 &middot; Slides 10 and 11</span>Compute and display the impulse response of the equivalent system between $x[n]$ and $z[n]$</h3>
    <p class="task-line">An LTI discrete-time system has input $x[n]$ and output $y[n]$, initially at rest.</p>
    $$y[n] - \frac{5}{6}y[n-1] + \frac{1}{6}y[n-2] = x[n]$$
    <p class="task-line">Its output becomes the input of a second system, also initially at rest.</p>
    $$z[n] + \frac{9}{20}z[n-1] + \frac{1}{20}z[n-2] = y[n]$$
-   <p class="task-line"><b>Slides 10 and 11 ask:</b> compute and display the impulse response of the equivalent system between $x[n]$ and $z[n]$.</p>
-
    <div>
     <div class="listing-head"><span class="where">Slide 11</span></div>
 <pre class="listing"><code>n = 0:20;                  <span class="cm">% time axis, 21 samples</span>
@@ -74,7 +72,10 @@ stem(0:length(h3)-1,h3,'Linewidth',2);   <span class="cm">% conv output is longe
 
    <div class="note"><p><b><code>conv</code> returns <code>length(h1)+length(h2)-1</code> samples, 41 here.</b> That is why the stem axis is built as <code>0:length(h3)-1</code>. Passing <code>n</code> errors on a length mismatch.</p></div>
 
-   <p class="task-line"><b>Slide 12 then asks:</b> given an input $x[n] = e^{-n}$, observe the output of the two cascaded systems and the output of the equivalent system.</p>
+  </div>
+
+  <div class="ex" id="cascade-output">
+   <h3><span class="num">Example 1 &middot; Slide 12</span>Given an input $x[n] = e^{-n}$, observe the output of two cascaded systems and the output of equivalent system</h3>
 
    <div>
     <div class="listing-head"><span class="where">Slide 12</span></div>
@@ -106,8 +107,8 @@ title('Output of the equivalent system');</code></pre>
   </div>
 
   <div class="ex" id="stability">
-   <h3><span class="num">Example 2</span>Stability: check whether the system is stable</h3>
-   <p class="task-line">Check whether these LTI systems are stable. Each is initially at rest.</p>
+   <h3><span class="num">Example 2 &middot; Slides 17 to 20</span>Check if the following LTI systems are stable or not</h3>
+   <p class="task-line">Each system is initially at rest.</p>
    $$\text{(1)}\quad \frac{d^{2}y(t)}{dt^{2}} - 5\frac{dy(t)}{dt} + 4y(t) = x(t)$$
    $$\text{(2)}\quad \frac{d^{2}y(t)}{dt^{2}} + 5\frac{dy(t)}{dt} + 4y(t) = x(t)$$
    $$\text{(3)}\quad y[n] - \frac{1}{4}y[n-2] = x[n]$$
@@ -166,13 +167,11 @@ stem(n2,h4,'Linewidth',2);</code></pre>
   </div>
 
   <div class="ex" id="invertibility">
-   <h3><span class="num">Example 3</span>Invertibility: find the inverse system</h3>
-   <p class="task-line">Which of the three systems below is the inverse of this one?</p>
+   <h3><span class="num">Example 3 &middot; Slides 24 and 25</span>Which of the systems listed below (a, b, or c) is the inverse of the LTI discrete-time system</h3>
    $$y[n] - \frac{5}{6}y[n-1] + \frac{1}{6}y[n-2] = x[n]$$
    $$\text{(a)}\quad y[n] = \frac{1}{6}x[n] - \frac{5}{6}x[n-1] + x[n-2]$$
    $$\text{(b)}\quad y[n] = x[n] - \frac{5}{6}x[n-1] + \frac{1}{6}x[n-2]$$
    $$\text{(c)}\quad \frac{1}{6}y[n] - \frac{5}{6}y[n-1] + y[n-2] = x[n]$$
-   <p class="task-line">Then, given an input $x[n] = e^{-n}$, observe the input and the output of each cascade.</p>
 
    <div>
     <div class="listing-head"><span class="where">Slide 24 &middot; the four systems</span></div>
@@ -219,8 +218,13 @@ xlabel('n');</code></pre>
 
    <div class="note"><p><b>Only <code>h_conv2</code> is a delta function, so candidate (b) is the inverse.</b> Candidate (c) reaches $10^{10}$.</p></div>
 
+  </div>
+
+  <div class="ex" id="inverse-output">
+   <h3><span class="num">Example 3 &middot; Slide 26</span>Given input $x[n] = e^{-n}$, observe the input and output of cascaded systems</h3>
+
    <div>
-    <div class="listing-head"><span class="where">Slide 26 &middot; confirming with a real input</span></div>
+    <div class="listing-head"><span class="where">Slide 26</span></div>
 <pre class="listing"><code>x  = exp(-n);
 y0 = filter(b0,a0,x);      <span class="cm">% push x through the original system</span>
 y1 = filter(b1,a1,y0);     <span class="cm">% then through each candidate</span>
@@ -250,12 +254,12 @@ title('Output of cascade system (h0,h3)');</code></pre>
   <div class="labhead">Lab 5 &middot; Fourier Series</div>
 
   <div class="ex" id="fourier">
-   <h3><span class="num">Example</span>Fourier series: synthesize a square wave</h3>
+   <h3><span class="num">Example &middot; Slides 9 and 10</span>Rebuild $x(t)$ from $a_0$ and $a_k$</h3>
    <p class="task-line">A square wave $x(t)$ has period $T$, with $T_1 = 0.5$ and $T = 4$.</p>
    $$x(t) = \begin{cases} 1, & |t| < T_1 \\ 0, & T_1 < |t| < T/2 \end{cases}$$
    <p class="task-line">Its Fourier series coefficients are</p>
    $$a_0 = \frac{2T_1}{T} \qquad a_k = \frac{2\sin(k\omega_0 T_1)}{k\omega_0 T} \qquad \omega_0 = \frac{2\pi}{T}$$
-   <p class="task-line">Rebuild $x(t)$ from $a_0$ and $a_k$ using the truncated synthesis, and observe the effect of raising the number of terms.</p>
+   <p class="task-line">The truncated synthesis:</p>
    $$\hat{x}(t) = a_0 + 2\sum_{k=1}^{(N_a-1)/2} |a_k|\cos(k\omega_0 t + \angle a_k)$$
 
    <div>
@@ -300,9 +304,11 @@ plot(t,x2,'Linewidth',2);</code></pre>
     </div>
     <nav class="col" aria-label="On this page">
       <h2>On this page</h2>
-      <a href="#cascade">Cascade</a>
+      <a href="#impulse-response">Impulse response</a>
+      <a href="#cascade-output">Cascade output</a>
       <a href="#stability">Stability</a>
-      <a href="#invertibility">Invertibility</a>
+      <a href="#invertibility">Inverse system</a>
+      <a href="#inverse-output">Inverse output</a>
       <a href="#fourier">Fourier series</a>
     </nav>
     <nav class="col" aria-label="This course">
