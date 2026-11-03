@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELG3125 Lab Code</title>
+<meta name="description" content="Every MATLAB listing from the ELG3125 laboratory slides, University of Ottawa, with the task each one answers.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%231C5D93'/%3E%3Cpath%20d='M9%2032%20Q19%209%2029%2032%20T49%2032'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../shared/hub.css">
+<link rel="stylesheet" href="../../shared/nav.css">
+<style>
+ :root{--accent:#1C5D93;--lead:#2A5273}
+ @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#6BB4E8;--lead:#95BFDC}}
+ :root[data-theme="dark"]{--accent:#6BB4E8;--lead:#95BFDC}
+</style></head><body data-store="elg-labcode">
+<nav class="topnav" aria-label="Courses">
+  <div class="in">
+    <a class="home" href="../../" aria-label="Course hub, the front page"><svg viewBox='0 0 64 64' aria-hidden='true'><rect width='64' height='64' rx='14' fill='#22282E'/><rect x='13' y='13' width='16' height='16' rx='4' fill='#7C5CB8'/><rect x='35' y='13' width='16' height='16' rx='4' fill='#3E9E82'/><rect x='13' y='35' width='16' height='16' rx='4' fill='#4E90C8'/><rect x='35' y='35' width='16' height='16' rx='4' fill='#C08A3E'/></svg><span>Course hub</span></a>
+    <div class="links">
+      <a class="phi" href="https://myermcat.github.io/phi-reading-hub/">PHI2394</a>
+      <a class="elg" href="../../elg3125/" aria-current="true">ELG3125</a>
+      <a class="ceg" href="../../ceg3155/">CEG3155</a>
+      <a class="gng" href="../../gng2101/">GNG2101</a>
+    </div>
+  </div>
+</nav>
+<div class="wrap">
+ <a class="back" href="../index.html">&larr; ELG3125 hub</a>
+ <header>
+  <div class="eyebrow">Laboratory A02 &middot; Wednesday 17:30 &middot; STE 2052</div>
+  <h1>Lab code</h1>
+  <p class="standfirst">Every MATLAB listing from the laboratory slides, with the task it answers.</p>
+ </header>
+ <section id="lab4">
+  <h2>Lab 4, Property and Combination of LTI Systems</h2>
+
+  <div class="ex">
+   <h3>Example 1</h3>
+   <p class="task-line"><b>Task.</b> An LTI discrete-time system has input <code>x[n]</code> and output <code>y[n]</code> given by <code>y[n] - (5/6)y[n-1] + (1/6)y[n-2] = x[n]</code>, initially at rest. The output of this first system becomes the input of a second system, also initially at rest, given by <code>z[n] + (9/20)z[n-1] + (1/20)z[n-2] = y[n]</code>. Compute and display the impulse response of the equivalent system between <code>x[n]</code> and <code>z[n]</code>. Then, given an input <code>x[n] = e<sup>-n</sup></code>, observe the output of the two cascaded systems and the output of the equivalent system.</p>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 11</span></div>
+<pre class="listing"><code>n = 0:20;                  <span class="cm">% time axis, 21 samples</span>
+
+<span class="cm">% system 1:  y[n] - (5/6)y[n-1] + (1/6)y[n-2] = x[n]</span>
+B1 = [1 0 0];              <span class="cm">% x side: only x[n], zeros pad to match A1</span>
+A1 = [1 -5/6 1/6];         <span class="cm">% y side: y[n], y[n-1], y[n-2], signs as written</span>
+
+<span class="cm">% system 2:  z[n] + (9/20)z[n-1] + (1/20)z[n-2] = y[n]</span>
+B2 = [1 0 0];
+A2 = [1 9/20 1/20];
+
+h1 = impz(B1,A1,n);        <span class="cm">% impulse response of system 1</span>
+h2 = impz(B2,A2,n);        <span class="cm">% impulse response of system 2</span>
+
+h3 = conv(h1,h2);          <span class="cm">% impulse response of the combined system</span>
+
+figure;
+stem(0:length(h3)-1,h3,'Linewidth',2);   <span class="cm">% conv output is longer than n, so build its own axis</span></code></pre>
+   </div>
+
+   <div class="note"><p><b><code>conv</code> returns <code>length(h1)+length(h2)-1</code> samples, 41 here.</b> That is why the stem axis is built as <code>0:length(h3)-1</code>. Passing <code>n</code> errors on a length mismatch.</p></div>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 12</span></div>
+<pre class="listing"><code><span class="cm">% given an input exp(-n), observe the output of two cascaded systems</span>
+<span class="cm">% and the output of the equivalent system</span>
+
+x  = exp(-n);              <span class="cm">% elementwise, since n is a vector</span>
+
+y  = filter(B1,A1,x);      <span class="cm">% run system 1 on x</span>
+z  = filter(B2,A2,y);      <span class="cm">% feed y into system 2: the literal cascade</span>
+z2 = filter(h3,1,x);       <span class="cm">% A=1 means no feedback, so this convolves x with h3</span>
+
+figure;
+subplot 311
+stem(n,x,'Linewidth',2);
+title('Input signal');
+
+subplot 312
+stem(n,z,'Linewidth',2);
+title('Output of the two cascaded systems');
+
+subplot 313
+stem(n,z2,'Linewidth',2);
+xlabel('n');
+title('Output of the equivalent system');</code></pre>
+   </div>
+
+   <div class="note"><p><b>The bottom two plots come out identical.</b> Two systems in series equal one system whose impulse response is the convolution of theirs.</p></div>
+  </div>
+
+  <div class="ex">
+   <h3>Example 2</h3>
+   <p class="task-line"><b>Task.</b> Check whether the following LTI systems are stable, each initially at rest. (1) <code>d&sup2;y/dt&sup2; - 5 dy/dt + 4y(t) = x(t)</code>. (2) <code>d&sup2;y/dt&sup2; + 5 dy/dt + 4y(t) = x(t)</code>. (3) <code>y[n] - (1/4)y[n-2] = x[n]</code>. (4) <code>y[n] + (2/3)y[n-1] - y[n-2] = x[n]</code>.</p>
+
+   <div class="note"><p><b>The method, from slide 16.</b> Evaluate the impulse response first. A bounded <code>h</code> integrates or sums to something bounded, so the system is stable. An unbounded <code>h</code> means unstable.</p></div>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 17 &middot; system 1 &middot; not stable</span></div>
+<pre class="listing"><code>t  = 0:0.01:1;             <span class="cm">% time axis, continuous so a fine grid</span>
+b1 = [0 0 1];              <span class="cm">% x side: only x(t), so the 1 goes LAST</span>
+a1 = [1 -5 4];             <span class="cm">% y side: highest derivative FIRST</span>
+h1 = impulse(b1,a1,t);     <span class="cm">% continuous-time impulse response</span>
+
+figure;
+plot(t,h1,'Linewidth',2);  <span class="cm">% continuous signal, so plot</span></code></pre>
+   </div>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 18 &middot; system 2 &middot; stable</span></div>
+<pre class="listing"><code><span class="cm">% system 2</span>
+t2 = 0:0.01:5;
+b2 = [0 0 1];
+a2 = [1 5 4];              <span class="cm">% only the middle sign changed</span>
+h2 = impulse(b2,a2,t2);
+
+figure;
+plot(t2,h2,'Linewidth',2);</code></pre>
+   </div>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 19 &middot; system 3 &middot; stable</span></div>
+<pre class="listing"><code><span class="cm">% system 3</span>
+n1 = 0:1:30;
+b3 = [1 0 0];
+a3 = [1 0 -1/4];           <span class="cm">% the 0 holds the empty y[n-1] slot</span>
+h3 = impz(b3,a3,n1);
+
+figure;
+stem(n1,h3,'Linewidth',2); <span class="cm">% discrete signal, so stem</span></code></pre>
+   </div>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 20 &middot; system 4 &middot; not stable</span></div>
+<pre class="listing"><code><span class="cm">% system 4</span>
+n2 = 0:30;
+b4 = [1 0 0];
+a4 = [1 2/3 -1];
+h4 = impz(b4,a4,n2);
+
+figure;
+stem(n2,h4,'Linewidth',2);</code></pre>
+   </div>
+
+   <div class="note"><p><b>Slide 20 is headed "(3)" in the deck.</b> It is the fourth system. The heading was not renumbered when the slide was copied.</p></div>
+  </div>
+
+  <div class="ex">
+   <h3>Example 3</h3>
+   <p class="task-line"><b>Task.</b> Which of the systems listed below is the inverse of <code>y[n] - (5/6)y[n-1] + (1/6)y[n-2] = x[n]</code>? (a) <code>y[n] = (1/6)x[n] - (5/6)x[n-1] + x[n-2]</code>. (b) <code>y[n] = x[n] - (5/6)x[n-1] + (1/6)x[n-2]</code>. (c) <code>(1/6)y[n] - (5/6)y[n-1] + y[n-2] = x[n]</code>. Then, given an input <code>x[n] = e<sup>-n</sup></code>, observe the input and the output of each cascade.</p>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 24 &middot; the four systems</span></div>
+<pre class="listing"><code><span class="cm">% original system:  y[n] - (5/6)y[n-1] + (1/6)y[n-2] = x[n]</span>
+b0 = [1 0 0];
+a0 = [1 -5/6 1/6];
+
+<span class="cm">% candidate (a):  y[n] = (1/6)x[n] - (5/6)x[n-1] + x[n-2]</span>
+b1 = [1/6 -5/6 1];
+a1 = [1 0 0];
+
+<span class="cm">% candidate (b):  y[n] = x[n] - (5/6)x[n-1] + (1/6)x[n-2]</span>
+b2 = [1 -5/6 1/6];
+a2 = [1 0 0];
+
+<span class="cm">% candidate (c):  (1/6)y[n] - (5/6)y[n-1] + y[n-2] = x[n]</span>
+b3 = [1 0 0];
+a3 = [1/6 -5/6 1];</code></pre>
+   </div>
+
+   <div class="note"><p><b>Two systems are inverses when their cascade is the identity.</b> So the test is whether <code>h0 * h</code> comes out as <code>&delta;[n]</code>, a single spike at <code>n = 0</code>.</p></div>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 25 &middot; the test</span></div>
+<pre class="listing"><code>n = 0:20;
+h0 = impz(b0,a0,n);
+h1 = impz(b1,a1,n);
+h2 = impz(b2,a2,n);
+h3 = impz(b3,a3,n);
+
+h_conv1 = conv(h0,h1);     <span class="cm">% cascade of original with candidate (a)</span>
+h_conv2 = conv(h0,h2);     <span class="cm">% with candidate (b)</span>
+h_conv3 = conv(h0,h3);     <span class="cm">% with candidate (c)</span>
+
+figure;
+subplot 311
+stem(0:length(h_conv1)-1,h_conv1,'Linewidth',2);
+subplot 312
+stem(0:length(h_conv2)-1,h_conv2,'Linewidth',2);
+subplot 313
+stem(0:length(h_conv3)-1,h_conv3,'Linewidth',2);
+xlabel('n');</code></pre>
+   </div>
+
+   <div class="note"><p><b>Only <code>h_conv2</code> is a delta function, so candidate (b) is the inverse.</b> Candidate (c) reaches 10<sup>10</sup>.</p></div>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 26 &middot; confirming with a real input</span></div>
+<pre class="listing"><code>x  = exp(-n);
+y0 = filter(b0,a0,x);      <span class="cm">% push x through the original system</span>
+y1 = filter(b1,a1,y0);     <span class="cm">% then through each candidate</span>
+y2 = filter(b2,a2,y0);
+y3 = filter(b3,a3,y0);
+
+figure;
+subplot 411
+stem(n,x,'Linewidth',2);
+title('x[n]');
+subplot 412
+stem(n,y1,'Linewidth',2);
+title('Output of cascade system (h0,h1)');
+subplot 413
+stem(n,y2,'Linewidth',2);
+title('Output of cascade system (h0,h2)');
+subplot 414
+stem(n,y3,'Linewidth',2);
+title('Output of cascade system (h0,h3)');</code></pre>
+   </div>
+
+   <div class="note"><p><b><code>y2</code> comes back identical to the input</b>, which is what an inverse does.</p></div>
+  </div>
+ </section>
+ <section id="lab5">
+  <h2>Lab 5, Fourier Series</h2>
+
+  <div class="ex">
+   <h3>Example</h3>
+   <p class="task-line"><b>Task.</b> A square wave <code>x(t)</code> has period <code>T</code>, with <code>x(t) = 1</code> for <code>|t| &lt; T&#8321;</code> and <code>x(t) = 0</code> for <code>T&#8321; &lt; |t| &lt; T/2</code>, where <code>T&#8321; = 0.5</code> and <code>T = 4</code>. Its Fourier series coefficients are <code>a&#8320; = 2T&#8321;/T</code> and <code>a&#8342; = 2sin(k&omega;&#8320;T&#8321;)/(k&omega;&#8320;T)</code> with <code>&omega;&#8320; = 2&pi;/T</code>. Rebuild <code>x(t)</code> from <code>a&#8320;</code> and <code>a&#8342;</code> using the truncated synthesis <code>x&#770;(t) = a&#8320; + 2&sum;|a&#8342;|cos(k&omega;&#8320;t + &ang;a&#8342;)</code>, and observe the effect of raising the number of terms.</p>
+
+   <div>
+    <div class="listing-head"><span class="where">Slide 10</span></div>
+<pre class="listing"><code>clear; close all
+t  = -4:0.01:4;
+N  = length(t);
+T  = 4;        <span class="cm">% period of the square wave</span>
+T1 = 0.5;      <span class="cm">% duty cycle of the square wave</span>
+
+<span class="cm">% synthesize the signal in the frequency domain</span>
+N_a = 81;      <span class="cm">% the number of frequencies to synthesize the signal</span>
+a0     = 2*T1/T;
+omega0 = 2*pi/T;
+
+x_tem = zeros(1,N);                <span class="cm">% running sum, same length as t</span>
+for k = 1:1:(N_a-1)/2              <span class="cm">% N_a is odd, so this is a whole number</span>
+    ak    = 2*sin(k*omega0*T1)/(k*omega0*T);              <span class="cm">% Fourier series coefficient</span>
+    x_tem = 2*abs(ak)*cos(k*omega0*t+angle(ak)) + x_tem;  <span class="cm">% add this harmonic</span>
+end
+
+x2 = a0 + x_tem;   <span class="cm">% synthesized signal (with DC component)</span>
+figure;
+plot(t,x2,'Linewidth',2);</code></pre>
+   </div>
+
+   <div class="note">
+    <p><b>The loop stops at (N_a-1)/2.</b> The sum is symmetric in <code>k</code>, so <code>N_a</code> terms means that many harmonics on each side plus the DC term. That is why slide 6 insists <code>N_a</code> is odd.</p>
+    <p><b><code>abs</code> and <code>angle</code> give the magnitude and phase of <code>a&#8342;</code></b>, which is what the real form on slide 6 needs. Using <code>ak</code> directly leaves complex numbers in the result.</p>
+    <p><b><code>x_tem</code> is preallocated with <code>zeros(1,N)</code></b> so the loop can accumulate into it.</p>
+   </div>
+
+   <div class="note"><p><b>Raising <code>N_a</code> from 21 to 81 sharpens the edges, and the overshoot at each jump never goes away.</b> That is the Gibbs phenomenon, and it is the point of the four panels on the slide.</p></div>
+  </div>
+ </section>
+ <section id="sources">
+  <h2>Where this comes from</h2>
+  <div class="note">
+    <p><b>The listings are transcribed from the laboratory slides, where they are pasted in as screenshots.</b> Every comment the slides carry is kept and more are added. Slide numbers are the ones printed in the deck footer.</p>
+    <p>Quiz 2 covers Labs 4 and 5, which the teaching assistant stated in the Brightspace announcement of 28 October 2026. Section A02 takes it on Wednesday 4 November.</p>
+    <p>The decks themselves are in the course folder on disk and are not published here.</p>
+   </div>
+ </section>
+</div>
+<footer class="sitefoot">
+  <div class="in">
+    <div class="col brand">
+      <a href="../">ELG3125 Hub</a>
+      <p>Signal and System Analysis, University of Ottawa, Fall 2026.</p>
+    </div>
+    <nav class="col" aria-label="On this page">
+      <h2>On this page</h2>
+      <a href="#lab4">Lab 4</a>
+      <a href="#lab5">Lab 5</a>
+      <a href="#sources">Where this comes from</a>
+    </nav>
+    <nav class="col" aria-label="This course">
+      <h2>This course</h2>
+      <a href="../">Course hub</a>
+      <a href="lab-code.html" aria-current="page">Lab code</a>
+    </nav>
+    <nav class="col" aria-label="Elsewhere">
+      <h2>Elsewhere</h2>
+      <a href="../../">All four courses</a>
+      <a href="https://uottawa.brightspace.com/d2l/le/content/611416/Home" target="_blank" rel="noopener">Brightspace course content</a>
+    </nav>
+  </div>
+  <div class="colophon">
+    <span>Code transcribed from the laboratory slides for private study.</span>
+    <span>The slides are course material and are not hosted here.</span>
+  </div>
+</footer>
+<script src="../../shared/tasks.js"></script>
+</body></html>
