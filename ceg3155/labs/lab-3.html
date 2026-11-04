@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CEG3155 Lab 3 quick guide</title>
-<meta name="description" content="Laboratory 3 of CEG3155, Digital Systems II, University of Ottawa. The handout has not been posted yet, so this page carries the date, the Brightspace module and the shape the guide takes.">
+<meta name="description" content="Laboratory 3 of CEG3155, Digital Systems II, University of Ottawa. A traffic light controller designed by the finite state machine method, on the Nexys A7-100T.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%238A5A1E'/%3E%3Cpath%20d='M8%2045%20L8%2022%20L24%2022%20L24%2045%20L40%2045%20L40%2022%20L56%2022'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../../shared/hub.css">
@@ -19,10 +19,9 @@
   h1{font-size:clamp(31px,5.4vw,46px);margin:10px 0 0}
   header{display:flex;flex-direction:column;gap:0}
   header .also{margin-top:18px}
-  /* A heading with no handout behind it yet says what will go under it, in the tone of a
-     caption, so the page reads as unfinished work with a shape to it. */
-  section.empty{gap:12px}
-  section.empty p{color:var(--muted)}
+  .gloss{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:4px 0 0}
+  .gloss dt{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:.92em;font-weight:500}
+  .gloss dd{margin:0}
 </style>
 </head>
 <body data-store="ceg3155">
@@ -45,102 +44,154 @@
   <header>
     <div class="eyebrow">CEG 3155 &middot; Digital Systems II &middot; uOttawa &middot; Fall 2026</div>
     <h1>Laboratory 3</h1>
-    <p class="standfirst">Due Wednesday 11 November 2026 at midnight on Brightspace. The handout has not been posted, so what this page carries is the date, the module to watch, and the shape the guide takes once there is something to read.</p>
+    <p class="standfirst">A traffic light controller for an intersection, designed by the finite state machine method. Due Wednesday 11 November 2026 at midnight on Brightspace.</p>
     <div class="also">
-      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651173">Laboratory 3 on Brightspace</a>
-      <a href="lab-1.html">Laboratory 1 quick guide</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7880070/View">Laboratory 3 handout</a>
+      <a href="lab-2.html">Laboratory 2 quick guide</a>
     </div>
   </header>
 
-  <div class="banner">
-    <div class="n">Waiting on the handout</div>
-    <p><b>The Laboratory 3 module on Brightspace was opened on 17 September 2026 and holds no document.</b> The date above comes from the course outline dated 17 July 2026. The eight headings below are the shape a finished guide takes, kept here so the page says what it will have to answer. Turning a posted handout into the guide takes about an hour.</p>
-  </div>
-
   <section>
-    <h2 id="known">What is known already</h2>
-    <div class="facts">
-      <div class="fact"><div class="k">Due</div><div class="v"><b>Wednesday 11 November 2026</b><br>Midnight, on Brightspace</div></div>
-      <div class="fact"><div class="k">Laboratory</div><div class="v">Wed 19:00 to 21:50<br>CBY B402</div></div>
-      <div class="fact"><div class="k">Board</div><div class="v">Digilent Nexys A7-100T<br>Xilinx Artix-7 FPGA</div></div>
-      <div class="fact"><div class="k">Software</div><div class="v">Xilinx Vivado<br>Windows or Linux x86 only</div></div>
-    </div>
-    <div class="note">
-      <p><b>The date is the Wednesday one.</b> The course runs a Monday laboratory group and a Wednesday one, and a laboratory is due at midnight on the day its group meets. Yours is the Wednesday group.</p>
-      <p><b>The board and the software belong to the course.</b> Both are named in the Laboratory 1 handout and run through the term, and whether Laboratory 3 needs the board at all is answered by its own handout.</p>
+    <div class="keyblock">
+      <div class="kb-head">
+        <h2 id="prelab">Pre-lab</h2>
+        <span class="keychip">Shown to the TA at the start</span>
+      </div>
+      <p><b>The first six FSM steps for this controller, worked on paper and explained to the teaching assistant.</b></p>
+      <ol>
+        <li><b>State diagram.</b> A bubble for each situation the intersection can be in, arrows for what moves it between them, each arrow labelled with the condition that causes the move.</li>
+        <li><b>State table.</b> The same thing as a table, one row per state, with the next state and the outputs.</li>
+        <li><b>State minimisation.</b> Merge any two states that behave identically, meaning the same outputs and the same next state for every input. Section 3.4 works an example.</li>
+        <li><b>State assignment.</b> Choose the bit pattern for each state. Section 3.5 covers why the choice changes how much logic comes out.</li>
+        <li><b>Transition table.</b> The state table with those bit patterns in place of the letters.</li>
+        <li>Then the design equations and the circuit, which come after the session.</li>
+      </ol>
+      <p><b>The handout never says how many states the answer has.</b> Working that out is the exercise.</p>
     </div>
   </section>
 
-  <section class="empty">
+  <section>
     <h2 id="gist">1. The gist</h2>
-    <p>What the circuit has to do, described the way you would describe it to somebody who will never open the handout: what the board shows, what the switches do, and how the display behaves as you change them.</p>
+    <p>Two roads cross. The <b>main street</b> has priority and keeps the green by default. The <b>side street</b> gets a green only when a car is waiting on it, which a sensor reports.</p>
+    <ul>
+      <li>Main green with side red is the resting state.</li>
+      <li>Main holds green for <code>MSC</code>, set on the switches. After that, if a car is on the side street, main goes yellow for the fixed <code>MT</code>, then red.</li>
+      <li>Side goes green for <code>SSC</code>, also on the switches, then yellow on its own for the fixed <code>SST</code>, cars or not, then red. Main goes green again.</li>
+      <li>If no car is waiting when <code>MSC</code> runs out, main holds green until one arrives, and then changes with no further wait.</li>
+    </ul>
+    <div class="note">
+      <p><b>The last two rules are one condition, and the handout spells them as two sentences.</b> Waiting past <code>MSC</code> for a car and leaving the moment the car comes are the same transition. <code>MSC</code> is a minimum green for the main street, counted from the moment the light turns green, so a car arriving early waits and a car arriving late costs nothing.</p>
+      <p><b>One typo worth knowing.</b> Section 4.1 reads "If after <code>MST</code>, there are no cars on the SS". <code>MST</code> is the main street yellow timer, which has nothing to do with that sentence. It means <code>MSC</code>, and reading it literally is what makes the two sentences look contradictory.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="names">2. The names</h2>
+    <dl class="gloss">
+      <dt>MS, SS</dt><dd>main street, side street</dd>
+      <dt>MSTL, SSTL</dt><dd>the two light outputs, three bits each, one hot over red, yellow and green</dd>
+      <dt>SSCS</dt><dd>side street car sensor, 1 while a car waits</dd>
+      <dt>MSC</dt><dd>how long main stays green, set on the switches</dd>
+      <dt>SSC</dt><dd>how long side stays green, set on the switches</dd>
+      <dt>MT</dt><dd>how long main stays yellow, fixed in the design</dd>
+      <dt>SST</dt><dd>how long side stays yellow, fixed in the design</dd>
+      <dt>ISP</dt><dd>in system programmable, meaning changed from the board while it runs</dd>
+    </dl>
+    <p><b>The two greens are on switches and the two yellows are written into the design.</b> That split is the only difference between what the handout calls a counter and what it calls a timer.</p>
+  </section>
+
+  <section>
+    <h2 id="inside">3. What is happening inside</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Block</th><th>Job</th></tr></thead>
+        <tbody>
+          <tr><td class="topic">FSM controller</td><td>the states, driving every output and every set line</td></tr>
+          <tr><td class="topic">Counters</td><td>the two programmable green times</td></tr>
+          <tr><td class="topic">Comparator</td><td>reports back that a maximum has been reached</td></tr>
+          <tr><td class="topic">Timer</td><td>the fixed yellow times</td></tr>
+          <tr><td class="topic">Debouncer</td><td>cleans the car sensor button</td></tr>
+          <tr><td class="topic">Clock divider</td><td>slows the 100 MHz oscillator</td></tr>
+          <tr><td class="topic">BCD decoder</td><td>the bonus, the count on the display</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <p><b>Figure 9 is captioned "A potential system diagram" and section 4.2 calls it "a possible solution".</b> None of it binds you. Section 6 holds the rules that do. Following the figure is the low risk choice, since the teaching assistant will recognise it.</p>
+      <p><b>The FSM never sees a count.</b> It drives one signal to start a block and reads one bit back saying the block finished. If the count reached the state machine, a programmable period would need a different machine for every switch setting, which is the reason the counting lives outside.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="ports">4. Ports and pins</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Handout name</th><th>Top level</th><th>Board</th></tr></thead>
+        <tbody>
+          <tr><td class="topic">GClock</td><td><code>CLOCK</code></td><td>100 MHz oscillator, E3</td></tr>
+          <tr><td class="topic">GReset</td><td><code>RESETBAR</code></td><td>CPU RESETN, C12, active low</td></tr>
+          <tr><td class="topic">MSC[3..0]</td><td><code>MSC_MAX</code></td><td>SW1 to SW4</td></tr>
+          <tr><td class="topic">SSC[3..0]</td><td><code>SSC_MAX</code></td><td>SW5 to SW8</td></tr>
+          <tr><td class="topic">SSCS</td><td><code>CAPTEUR</code></td><td>BTNU, M18</td></tr>
+          <tr><td class="topic">MSTL[2..0]</td><td><code>MSTL</code></td><td>LD16, one hot</td></tr>
+          <tr><td class="topic">SSTL[2..0]</td><td><code>SSTL</code></td><td>LD17, one hot</td></tr>
+          <tr><td class="topic">BCD1, BCD2</td><td><code>SEG</code>, <code>AN</code></td><td>multiplexed display</td></tr>
+          <tr><td class="topic">enable</td><td><code>LOAD_FSM</code></td><td>SW0, J15</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>One hot on the lights is bit 2 red, bit 1 yellow, bit 0 green. Section 5.4 lists every bit.</p>
+    <div class="note">
+      <p><b>The yellow bit drives the blue channel of the RGB LED</b>, so the yellow phase lights the blue diode unless red and green are mixed in the top level.</p>
+      <p><b><code>SSC_MAX[3]</code> is on SW8 at pin T8, which sits on a 1.8 V bank</b> while everything else is LVCMOS33. It may read unreliably. Move it to another switch or set that one port to LVCMOS18.</p>
+      <p><b>The LEDs are positive logic and the display is active low</b> on both the segment bus and the anode bus.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="reset">5. What the reset does</h2>
+    <p><code>RESETBAR</code> is the dedicated CPU RESETN button, so it needs no debouncer. Section 4.2.2 says it reaches the other blocks as well as the FSM and "will cause the other blocks to enter their reset condition", which is how the counters and the timer start from a known value without the state machine driving anything.</p>
   </section>
 
   <section>
     <div class="keyblock">
       <div class="kb-head">
-        <h2 id="steps">2. What actually has to be done</h2>
-        <span class="keychip">The marks live here</span>
+        <h2 id="rules">6. The rules that cost marks</h2>
+        <span class="keychip">Section 6</span>
       </div>
-      <p>The behaviour above is the easy part. The marks are for following a fixed design method, called ASM, and showing your working at every stage. Five stages, in this order, and each one reads its input off the one before it.</p>
-      <ol>
-        <li><b>Write the algorithm as pseudocode.</b> Plain register transfers, one line each, with the branches written as if and else. No hardware named yet. Laboratory 1 was given a draft in its handout, so expect the same here.</li>
-        <li><b>Turn the pseudocode into an ASM chart.</b> A flowchart with two shapes: a rectangle for a state, which takes exactly one clock step, and a diamond for a test, which takes no time at all. Every register the design needs is decided here.</li>
-        <li><b>Draw the datapath.</b> Read the hardware off the chart. Every register named in the chart becomes real storage, every value moved becomes a wire, anything transformed on the way gets a device in the path, and a register fed from more than one place gets a selector. This stage produces the list of control signal names.</li>
-        <li><b>Redraw it as the detailed ASM chart.</b> The same chart again, with every movement of data replaced by the names of the control signals that cause it.</li>
-        <li><b>Design the control logic.</b> Build the state machine that produces those signals, using the one flip flop per state method, which gives every state in your chart its own flip flop.</li>
-      </ol>
-      <p>Only after all five do you write any VHDL. Simulating the result and running it on the board come after that, and neither is one of the five stages: they are how you check that stage 5 agrees with stage 1.</p>
-      <p><b>A report that shows working LEDs and skips the charts loses most of the marks.</b></p>
+      <ul>
+        <li><b>VHDL only</b>, structural only, RTL mandatory. Behavioural is accepted for the clock divider and nothing else.</li>
+        <li><b>Every atomic module is the group&#39;s own</b>, the D flip flop, the one bit comparator and so on.</li>
+        <li><b>No IP cores of any kind.</b> Course provided cores are allowed and have to be cited.</li>
+        <li><b>Graphical design for the top level entity.</b></li>
+        <li><b>Synchronous and globally resettable</b>, so clock and reset reach every block.</li>
+        <li><b>Simulate every design</b> against the theoretical result.</li>
+      </ul>
     </div>
-  </section>
-
-  <section class="empty">
-    <h2 id="kit">3. The kit</h2>
-    <p>The board, the software, the room, the evening, and how many people are in a group. Laboratory 1 ran on the Nexys A7-100T under Vivado 2022.1 in CBY B402, and this handout says whether any of that changes.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="inside">4. What is happening inside the circuit</h2>
-    <p>The registers the design holds, what each one carries, and the two or three decisions that settle whether the circuit works at all.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="reset">5. What the reset does</h2>
-    <p>Which flip flops the reset forces, the value each one takes, and what the demonstration to the teaching assistant opens with.</p>
-  </section>
-
-  
-
-  <section class="empty">
-    <h2 id="rules">6. The rules that cost marks</h2>
-    <p>The restrictions the marker applies. Laboratory 1 refused Verilog, refused behavioural modelling and refused ready made blocks, and it wanted a synchronous, globally resettable design stepped by an enable pulse.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="approach">7. How to approach it</h2>
-    <p>What to do in the first session, what to agree before the building is split between two people, and what to leave until the two halves come back together.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="report">8. What goes in the report</h2>
-    <p>The handout's own list of what the report has to contain, and the parts of it worth planning for while the work is still going on.</p>
   </section>
 
   <section>
-    <h2 id="meanwhile">What to do in the meantime</h2>
+    <h2 id="approach">7. How to approach it</h2>
     <div class="note">
-      <p><b>Read the <a href="lab-1.html">Laboratory 1 guide</a>.</b> The design method the marks are for, the restrictions on the VHDL and the shape of the report are set out there, and the marking in this course has followed the same pattern so far. Read it as the pattern to expect, and take this laboratory's own requirements from its handout once it appears.</p>
-      <p><b>Settle the machine that runs Vivado before this laboratory starts.</b> Synthesis and programming the board need Windows or Linux on x86, and an install started on the laboratory evening costs most of that evening.</p>
-      <p><b>Open <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651173">the module on Brightspace</a> in the week before the laboratory.</b> The other place a handout could appear is the <code>labs</code> folder of the course site, which has answered 403 Forbidden since term started.</p>
+      <p><b>The teaching assistant&#39;s advice, given on 4 November.</b> Use one counting block for all four periods and pick between them with the select, the same way one comparator already serves two counters. Make both yellows the same length, since there is no reason for them to differ, which removes one period entirely. The greens can still differ.</p>
+      <p><b>Write each input as its own column in the state table.</b> A single condition column is quicker to write and cannot be fed into a K-map, which is what the minimisation and the design equations need. Fewer inputs means narrower maps, which is the other reason to share the counting block.</p>
     </div>
+    <div class="note">
+      <p><b>Settle the machine that runs Vivado before the session.</b> Synthesis and programming need Windows or Linux on x86, and an install started on the evening costs most of the evening.</p>
+      <p><b>Section 5.5 names the scenarios to simulate.</b> Main green with no car, a car arriving before the programmable green time, a car arriving after it, the automatic side street yield, and debouncer integrity.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="bonus">8. Bonus</h2>
+    <p><b>Five marks</b> for showing the current count on the seven segment display in decimal. It must not go past the programmable <code>MSC</code> maximum, and must hold there until a car arrives. All eight digits share one cathode bus, so it needs the multiplexed display controller as well as the decoder, and it has to be demonstrated to the teaching assistant.</p>
   </section>
 
   <details class="about">
     <summary>What this page is, and where it comes from</summary>
     <div class="in">
-      <p><b>This page is a placeholder and says so.</b> Each laboratory gets a guide in plain words once its handout is read. Laboratory 1 has one. This laboratory has no handout to read yet.</p>
-      <p>The date comes from the course outline dated 17 July 2026 and the notes from the first class on 12 September. The room, the board and the software come from the outline and the Laboratory 1 handout. Nothing here describes what Laboratory 3 asks for, because that is not known.</p>
+      <p>Everything here comes from the Laboratory 3 handout, read on 21 October 2026, except the paragraph in section 7 marked as the teaching assistant&#39;s, which comes from a conversation on 4 November. The due date comes from the course outline dated 17 July 2026.</p>
+      <p>The state diagram, the state table and the design are deliberately absent. Working them out is what the laboratory marks.</p>
       <p>The handouts and the lecture slides are the professor's, so no copy of either is kept here.</p>
     </div>
   </details>
@@ -155,16 +206,15 @@
     </div>
     <nav class="col" aria-label="On this page">
       <h2>On this page</h2>
-      <a href="#known">What is known already</a>
+      <a href="#prelab">Pre-lab</a>
       <a href="#gist">The gist</a>
-      <a href="#steps">What has to be done</a>
-      <a href="#kit">The kit</a>
-      <a href="#inside">Inside the circuit</a>
+      <a href="#names">The names</a>
+      <a href="#inside">What is happening inside</a>
+      <a href="#ports">Ports and pins</a>
       <a href="#reset">What the reset does</a>
       <a href="#rules">The rules that cost marks</a>
       <a href="#approach">How to approach it</a>
-      <a href="#report">What goes in the report</a>
-      <a href="#meanwhile">What to do in the meantime</a>
+      <a href="#bonus">Bonus</a>
     </nav>
     <nav class="col" aria-label="This course">
       <h2>This course</h2>
@@ -178,7 +228,7 @@
     <nav class="col" aria-label="Elsewhere">
       <h2>Elsewhere</h2>
       <a href="../../">All four courses</a>
-      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651173">Laboratory 3 on Brightspace</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7880070/View">Laboratory 3 handout</a>
     </nav>
   </div>
   <div class="colophon">
