@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CEG3155 Lab 4 quick guide</title>
-<meta name="description" content="Laboratory 4 of CEG3155, Digital Systems II, University of Ottawa. The handout has not been posted yet, so this page carries the date, the Brightspace module and the shape the guide takes.">
+<meta name="description" content="Laboratory 4 of CEG3155, Digital Systems II, University of Ottawa. What the keyboard controller asks for, the PS/2 frame, the six blocks, the digital filter and its synthesis error, the pins, and what goes in the report.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%238A5A1E'/%3E%3Cpath%20d='M8%2045%20L8%2022%20L24%2022%20L24%2045%20L40%2045%20L40%2022%20L56%2022'%20stroke='%23fff'%20stroke-width='5.5'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../../shared/hub.css">
@@ -19,10 +19,6 @@
   h1{font-size:clamp(31px,5.4vw,46px);margin:10px 0 0}
   header{display:flex;flex-direction:column;gap:0}
   header .also{margin-top:18px}
-  /* A heading with no handout behind it yet says what will go under it, in the tone of a
-     caption, so the page reads as unfinished work with a shape to it. */
-  section.empty{gap:12px}
-  section.empty p{color:var(--muted)}
 </style>
 </head>
 <body data-store="ceg3155">
@@ -45,102 +41,170 @@
   <header>
     <div class="eyebrow">CEG 3155 &middot; Digital Systems II &middot; uOttawa &middot; Fall 2026</div>
     <h1>Laboratory 4</h1>
-    <p class="standfirst">Due Wednesday 25 November 2026 at midnight on Brightspace. The handout has not been posted, so what this page carries is the date, the module to watch, and the shape the guide takes once there is something to read.</p>
+    <p class="standfirst">A keyboard controller that reads the scan codes a USB keyboard sends and shows the last byte in hexadecimal. Due Wednesday 25 November 2026 at midnight on Brightspace.</p>
     <div class="also">
-      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651174">Laboratory 4 on Brightspace</a>
-      <a href="lab-1.html">Laboratory 1 quick guide</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7920065/View">Laboratory 4 handout</a>
+      <a href="lab-3.html">Laboratory 3 quick guide</a>
     </div>
   </header>
 
-  <div class="banner">
-    <div class="n">Waiting on the handout</div>
-    <p><b>The Laboratory 4 module on Brightspace was opened on 17 September 2026 and holds no document.</b> The date above comes from the course outline dated 17 July 2026. The eight headings below are the shape a finished guide takes, kept here so the page says what it will have to answer. Turning a posted handout into the guide takes about an hour.</p>
-  </div>
-
   <section>
-    <h2 id="known">What is known already</h2>
-    <div class="facts">
-      <div class="fact"><div class="k">Due</div><div class="v"><b>Wednesday 25 November 2026</b><br>Midnight, on Brightspace</div></div>
-      <div class="fact"><div class="k">Laboratory</div><div class="v">Wed 19:00 to 21:50<br>CBY B402</div></div>
-      <div class="fact"><div class="k">Board</div><div class="v">Digilent Nexys A7-100T<br>Xilinx Artix-7 FPGA</div></div>
-      <div class="fact"><div class="k">Software</div><div class="v">Xilinx Vivado<br>Windows or Linux x86 only</div></div>
-    </div>
-    <div class="note">
-      <p><b>The date is the Wednesday one.</b> The course runs a Monday laboratory group and a Wednesday one, and a laboratory is due at midnight on the day its group meets. Yours is the Wednesday group.</p>
-      <p><b>The board and the software belong to the course.</b> Both are named in the Laboratory 1 handout and run through the term, and whether Laboratory 4 needs the board at all is answered by its own handout.</p>
+    <div class="keyblock">
+      <div class="kb-head">
+        <h2 id="prelab">Pre-lab</h2>
+        <span class="keychip">Shown at the start of the session</span>
+      </div>
+      <p><b>The keyboard controller of section 7.1, taken through the same FSM steps as Laboratory 3, on paper, and presented to the professor or the teaching assistant.</b></p>
+      <ol>
+        <li>State diagram</li>
+        <li>State table</li>
+        <li>State minimisation</li>
+        <li>State assignment</li>
+        <li>Transition table</li>
+      </ol>
+      <p><b>Going for the bonus changes what you bring.</b> The asynchronous version replaces the list above with a flow table and an excitation table.</p>
     </div>
   </section>
 
-  <section class="empty">
+  <section>
     <h2 id="gist">1. The gist</h2>
-    <p>What the circuit has to do, described the way you would describe it to somebody who will never open the handout: what the board shows, what the switches do, and how the display behaves as you change them.</p>
+    <p>A keyboard reports every key press and every key release as a short burst of bits on two wires. You build the circuit that catches those bits, assembles them into a byte, and puts that byte on two hexadecimal digits.</p>
+    <p>The Nexys has no keyboard socket of the old kind. A USB keyboard plugs into connector <b>J5</b>, and a small processor already on the board turns it into the two wire protocol the FPGA expects, so what arrives at your pins is a clock and a data line.</p>
+    <p>The demonstration asks for the <b>last byte of the break code</b>, meaning the byte that goes out when a key is let go.</p>
   </section>
 
   <section>
     <div class="keyblock">
       <div class="kb-head">
-        <h2 id="steps">2. What actually has to be done</h2>
-        <span class="keychip">The marks live here</span>
+        <h2 id="sync">2. The handout teaches one thing and marks another</h2>
+        <span class="keychip">Costs the whole laboratory</span>
       </div>
-      <p>The behaviour above is the easy part. The marks are for following a fixed design method, called ASM, and showing your working at every stage. Five stages, in this order, and each one reads its input off the one before it.</p>
-      <ol>
-        <li><b>Write the algorithm as pseudocode.</b> Plain register transfers, one line each, with the branches written as if and else. No hardware named yet. Laboratory 1 was given a draft in its handout, so expect the same here.</li>
-        <li><b>Turn the pseudocode into an ASM chart.</b> A flowchart with two shapes: a rectangle for a state, which takes exactly one clock step, and a diamond for a test, which takes no time at all. Every register the design needs is decided here.</li>
-        <li><b>Draw the datapath.</b> Read the hardware off the chart. Every register named in the chart becomes real storage, every value moved becomes a wire, anything transformed on the way gets a device in the path, and a register fed from more than one place gets a selector. This stage produces the list of control signal names.</li>
-        <li><b>Redraw it as the detailed ASM chart.</b> The same chart again, with every movement of data replaced by the names of the control signals that cause it.</li>
-        <li><b>Design the control logic.</b> Build the state machine that produces those signals, using the one flip flop per state method, which gives every state in your chart its own flip flop.</li>
-      </ol>
-      <p>Only after all five do you write any VHDL. Simulating the result and running it on the board come after that, and neither is one of the five stages: they are how you check that stage 5 agrees with stage 1.</p>
-      <p><b>A report that shows working LEDs and skips the charts loses most of the marks.</b></p>
+      <p>Sections 3 to 6 are fifteen pages on asynchronous sequential design: fundamental mode, flow tables, races, hazards, the material of Assignment 4. Then section 7 says in bold that <b>the solution handed in must be synchronous</b>.</p>
+      <p><b>The asynchronous version is worth 10 bonus marks and nothing more.</b> Build the synchronous circuit first, complete, working and demonstrated. Only then consider section 7.4.</p>
     </div>
-  </section>
-
-  <section class="empty">
-    <h2 id="kit">3. The kit</h2>
-    <p>The board, the software, the room, the evening, and how many people are in a group. Laboratory 1 ran on the Nexys A7-100T under Vivado 2022.1 in CBY B402, and this handout says whether any of that changes.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="inside">4. What is happening inside the circuit</h2>
-    <p>The registers the design holds, what each one carries, and the two or three decisions that settle whether the circuit works at all.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="reset">5. What the reset does</h2>
-    <p>Which flip flops the reset forces, the value each one takes, and what the demonstration to the teaching assistant opens with.</p>
-  </section>
-
-  
-
-  <section class="empty">
-    <h2 id="rules">6. The rules that cost marks</h2>
-    <p>The restrictions the marker applies. Laboratory 1 refused Verilog, refused behavioural modelling and refused ready made blocks, and it wanted a synchronous, globally resettable design stepped by an enable pulse.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="approach">7. How to approach it</h2>
-    <p>What to do in the first session, what to agree before the building is split between two people, and what to leave until the two halves come back together.</p>
-  </section>
-
-  <section class="empty">
-    <h2 id="report">8. What goes in the report</h2>
-    <p>The handout's own list of what the report has to contain, and the parts of it worth planning for while the work is still going on.</p>
   </section>
 
   <section>
-    <h2 id="meanwhile">What to do in the meantime</h2>
+    <h2 id="frame">3. What the keyboard actually sends</h2>
+    <p>Eleven bits per key event, least significant bit first.</p>
+    <ol>
+      <li>One start bit</li>
+      <li>Eight data bits, the scan code</li>
+      <li>One odd parity bit, so the nine bits together hold an odd number of ones</li>
+      <li>One stop bit</li>
+    </ol>
+    <p>Pressing <code>a</code> sends the code <code>1C</code>, which travels as <code>0 00011100 0</code>. Between frames the line stays idle for as long as nobody types.</p>
     <div class="note">
-      <p><b>Read the <a href="lab-1.html">Laboratory 1 guide</a>.</b> The design method the marks are for, the restrictions on the VHDL and the shape of the report are set out there, and the marking in this course has followed the same pattern so far. Read it as the pattern to expect, and take this laboratory's own requirements from its handout once it appears.</p>
-      <p><b>Settle the machine that runs Vivado before this laboratory starts.</b> Synthesis and programming the board need Windows or Linux on x86, and an install started on the laboratory evening costs most of that evening.</p>
-      <p><b>Open <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651174">the module on Brightspace</a> in the week before the laboratory.</b> The other place a handout could appear is the <code>labs</code> folder of the course site, which has answered 403 Forbidden since term started.</p>
+      <p><b>Press and release send different things.</b> A press sends a make code. A release sends a break code, which for most keys is <code>F0</code> followed by that same make code. Holding a key down repeats the make code until it is released.</p>
+      <p><b>So a single tap on one key puts three bytes on the wire.</b> Your circuit shows whichever byte arrived most recently, which after a release is the make code again, and that is what the demonstration wants.</p>
     </div>
+    <p>The code chart for every key is figure 14, the last page of the handout.</p>
+  </section>
+
+  <section>
+    <h2 id="blocks">4. The six blocks</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Block</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td class="topic">FSM controller</td><td>Decides everything and drives the other five</td></tr>
+          <tr><td class="topic">4-bit counter</td><td>Counts how many bits have come in, so the machine knows when a frame is finished</td></tr>
+          <tr><td class="topic">Digital filter</td><td>Cleans the keyboard clock before anything samples on it</td></tr>
+          <tr><td class="topic">D flip-flop</td><td>Holds the start bit at the end of a frame</td></tr>
+          <tr><td class="topic">Shift register</td><td>Collects the scan code off the data line, one bit per filtered clock edge</td></tr>
+          <tr><td class="topic">BCD decoder</td><td>Turns the assembled byte into the two hexadecimal digits</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The lines between them in figure 12 are <code>Set Compteur</code> and <code>Enable</code> going out to the counter, <code>Compte[3..0]</code> coming back, <code>Décale</code> going to the shift register, and <code>Scan Code[7..0]</code> going to the decoders.</p>
+    <p><b>The shift register and the flip-flop take their clock from the filter.</b> <code>clk_filtrée</code> is what moves data in; the 100 MHz global clock runs the filter itself and the rest of the design.</p>
+  </section>
+
+  <section>
+    <h2 id="filter">5. The filter, and the error Vivado will give you</h2>
+    <p>The keyboard clock is slow next to the FPGA, and a signal coming down a cable reflects off the far end, which can put extra edges on it. One false edge shifts one false bit and the whole byte is wrong.</p>
+    <p><b>The filter refuses to believe an edge until the line has held still for eight global clock periods.</b> The raw keyboard clock goes into an 8-bit shift register clocked at 100 MHz. All eight bits feed two AND gates, one asking whether they are all ones and one whether they are all zeros, and those two set and reset a latch. The latch output is <code>clk_filtrée</code>, and it changes only after 80 ns of agreement.</p>
+    <div class="note">
+      <p><b>That latch is a loop of gates feeding each other, so Vivado stops at synthesis and reports a combinational loop.</b> It is deliberate, and the waiver goes in the constraints file:</p>
+      <p><code>set_property ALLOW_COMBINATORIAL_LOOPS TRUE</code> on the net <code>clk_filtree</code>.</p>
+      <p><b>The handout notes the older 50 MHz board gave a 160 ns window</b> and says the filter can be taken to 16 stages to get that back, which is a sentence worth quoting in the report if the circuit misreads bits.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="ports">6. Ports and pins</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Handout name</th><th>What it carries</th><th>Pin</th></tr></thead>
+        <tbody>
+          <tr><td class="topic">HorlogeG</td><td>Global clock, 100 MHz</td><td>E3</td></tr>
+          <tr><td class="topic">ResetG</td><td>Global reset, active low</td><td>C12</td></tr>
+          <tr><td class="topic">HorlogeClavier</td><td>Clock from the keyboard</td><td>F4</td></tr>
+          <tr><td class="topic">InfoClavier</td><td>Data from the keyboard</td><td>B2</td></tr>
+          <tr><td class="topic">BCD1[3..0]</td><td>Left hexadecimal digit</td><td>LD15 to LD12</td></tr>
+          <tr><td class="topic">BCD2[3..0]</td><td>Right hexadecimal digit</td><td>LD7 to LD4</td></tr>
+          <tr><td class="topic">ModeSwitch</td><td>SW0</td><td>J15</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Part <code>XC7A100T-1CSG324C</code>, top module <code>controleurClavier</code>, everything LVCMOS33. Start from <code>Nexys-A7-100T-Master.xdc</code> and uncomment only the lines you use.</p>
+    <div class="note">
+      <p><b>The reset pin is active low and is inverted once, at the top level.</b> Every block below it then sees an ordinary reset.</p>
+      <p><b>No MMCM and no PLL.</b> Anything slower than the system clock comes from a counter producing an enable. The clock itself is constrained with <code>create_clock -period 10.00</code>, and the file also needs <code>set_property CFGBVS VCCO</code> and <code>set_property CONFIG_VOLTAGE 3.3</code>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="keyblock">
+      <div class="kb-head">
+        <h2 id="rules">7. The rules that cost marks</h2>
+        <span class="keychip">Section 9</span>
+      </div>
+      <ul>
+        <li><b>VHDL only.</b> Verilog is refused.</li>
+        <li><b>Structural style.</b> Behavioral modeling is not accepted, with one exception made for a clock divider.</li>
+        <li><b>The top level entity is structural VHDL.</b> Vivado has no graphical block entry, so the wiring is written out by hand, and every atomic module is yours.</li>
+        <li><b>No cores from the vendor catalogue or the internet.</b> Cores given out by the course are allowed, and have to be referenced.</li>
+        <li><b>Mealy or Moore is your choice.</b></li>
+        <li><b>Synchronous and globally resettable.</b> Clock and reset reach every functional block.</li>
+        <li><b>Demonstrate it to the professor before the report is due</b>, with a USB keyboard in J5 and the byte on the two outputs.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="approach">8. How to approach it</h2>
+    <p><b>Do the pre-lab before the session and do it together.</b> The five steps are the same ones Laboratory 3 used, and the counter plus the filter plus the shift register are all small once the state machine is settled. Getting the machine wrong costs the session.</p>
+    <p><b>Agree the signal list before splitting up.</b> Name and width of every wire crossing from the controller into the other blocks, written down. One person then takes the filter, the counter and the shift register, the other the controller and the decoders.</p>
+    <p><b>Simulate the filter on its own first.</b> Feed it a clean clock, then a clock with a spike on it, and watch <code>clk_filtrée</code> ignore the spike. If that is wrong nothing downstream can be debugged.</p>
+    <p><b>Then the whole thing in simulation</b>, with a testbench that drives eleven bits for <code>1C</code>, before the board is touched.</p>
+  </section>
+
+  <section>
+    <h2 id="bonus">9. Bonus</h2>
+    <p><b>Ten marks</b> for building every block except the digital filter asynchronously: controller, counter, flip-flop, shift register, decoder. No global clock, and fundamental mode has to hold throughout. The controller follows chapter 9 of the textbook and section 3 of the handout. The report explains what changed, and the new design is demonstrated too.</p>
+  </section>
+
+  <section>
+    <h2 id="report">10. What goes in the report</h2>
+    <ul>
+      <li>Timing simulations, with an explanation, for every source file</li>
+      <li>Every file described and commented</li>
+      <li>A flowchart and a block diagram of the solution</li>
+      <li>The full FSM diagrams, tables and circuit implementations</li>
+      <li>The solution in your own words</li>
+      <li>The obstacles and how you got past them</li>
+      <li>All the <code>.vhd</code> files, the structural top level included</li>
+      <li>An archive holding the VHDL and the Vivado project with its constraints file</li>
+    </ul>
+    <p><b>The obstacles section has an obvious occupant.</b> The combinational loop error in section 5 is a problem the handout plants on purpose, and writing up how it was found and waived is free marks.</p>
   </section>
 
   <details class="about">
     <summary>What this page is, and where it comes from</summary>
     <div class="in">
-      <p><b>This page is a placeholder and says so.</b> Each laboratory gets a guide in plain words once its handout is read. Laboratory 1 has one. This laboratory has no handout to read yet.</p>
-      <p>The date comes from the course outline dated 17 July 2026 and the notes from the first class on 12 September. The room, the board and the software come from the outline and the Laboratory 1 handout. Nothing here describes what Laboratory 4 asks for, because that is not known.</p>
+      <p>Everything here comes from the Laboratory 4 handout, read on 17 November 2026. The due date comes from the course outline dated 17 July 2026.</p>
+      <p>The state diagram, the state table and the design are deliberately absent. Working them out is what the laboratory marks.</p>
       <p>The handouts and the lecture slides are the professor's, so no copy of either is kept here.</p>
     </div>
   </details>
@@ -155,16 +219,17 @@
     </div>
     <nav class="col" aria-label="On this page">
       <h2>On this page</h2>
-      <a href="#known">What is known already</a>
+      <a href="#prelab">Pre-lab</a>
       <a href="#gist">The gist</a>
-      <a href="#steps">What has to be done</a>
-      <a href="#kit">The kit</a>
-      <a href="#inside">Inside the circuit</a>
-      <a href="#reset">What the reset does</a>
+      <a href="#sync">What gets marked</a>
+      <a href="#frame">What the keyboard sends</a>
+      <a href="#blocks">The six blocks</a>
+      <a href="#filter">The filter and the error</a>
+      <a href="#ports">Ports and pins</a>
       <a href="#rules">The rules that cost marks</a>
       <a href="#approach">How to approach it</a>
+      <a href="#bonus">Bonus</a>
       <a href="#report">What goes in the report</a>
-      <a href="#meanwhile">What to do in the meantime</a>
     </nav>
     <nav class="col" aria-label="This course">
       <h2>This course</h2>
@@ -178,11 +243,11 @@
     <nav class="col" aria-label="Elsewhere">
       <h2>Elsewhere</h2>
       <a href="../../">All four courses</a>
-      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/Home?itemIdentifier=D2L.LE.Content.ContentObject.ModuleCO-7651174">Laboratory 4 on Brightspace</a>
+      <a target="_blank" rel="noopener" href="https://uottawa.brightspace.com/d2l/le/content/605994/viewContent/7920065/View">Laboratory 4 handout</a>
     </nav>
   </div>
   <div class="colophon">
-    <span>Built with Claude from the course outline and Brightspace. AI can make mistakes, so check anything that decides an answer.</span>
+    <span>Built with Claude from the Laboratory 4 handout on Brightspace. AI can make mistakes, so check anything that decides an answer.</span>
     <span>The handouts and the course material are copyright and are not hosted here.</span>
   </div>
 </footer>
