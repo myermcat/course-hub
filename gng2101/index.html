@@ -16,6 +16,9 @@
   td.pd{font-family:var(--mono);font-weight:500;color:var(--accent);white-space:nowrap}
   td.when{font-family:var(--mono);font-size:13.5px;white-space:nowrap;min-width:130px}
   td.wt{font-family:var(--mono);color:var(--muted);text-align:center}
+  tr.cal td{color:var(--muted)}
+  td.src{font-size:13px;color:var(--muted)}
+  td.done{font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body data-store="gng2101">
@@ -54,7 +57,7 @@
       <div class="fact"><div class="k">Marks</div><div class="v">Project and client 50 &middot; Economics test 10<br>Lab test 10 &middot; Labs 7 &middot; Participation 7<br>Economics assignments 6 &middot; Design tests 5 and 5</div></div>
     </div>
     <div class="note">
-      <p><b>Only PD A has a date set by the course.</b> The team writes its own dates for PD B through J inside PD A, against the milestone table below, and is then held to the plan it wrote. The teaching team can impose dates later if that stops working.</p>
+      <p><b>Four deliverables have a date set by the course: A, E, H and I.</b> B, C, D, F, G and J return no due date from the Brightspace assignments API, the course calendar or any announcement, checked 11 October 2026. For those the team writes its own dates inside PD A and is held to the plan it wrote. The teaching team can impose dates later if that stops working.</p>
     </div>
   </section>
 
@@ -64,19 +67,21 @@
 
     <div class="scroll">
       <table>
-        <caption>Ten deliverables against the milestone that carries them</caption>
+        <caption>Ten deliverables, with which dates the course actually sets</caption>
         <thead>
-          <tr><th class="tick"><span class="sr-only">Done</span></th><th>PD</th><th>Milestone</th><th>When</th><th>Weight</th></tr>
+          <tr><th class="tick"><span class="sr-only">Done</span></th><th>PD</th><th>Milestone</th><th>When</th><th>Source</th><th>Weight</th><th>Status</th></tr>
         </thead>
         <tbody id="del-rows">
-          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-a"></span></td><td class="pd">A</td><td>Project plan, and the team's own dates for everything below</td><td class="when"><b>Fri 18 Sept</b><br>Client meeting 1, lab 2</td><td class="wt">5</td></tr>
-          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-bc"></span></td><td class="pd">B and C</td><td>Client meeting 2</td><td class="when">Lab 4</td><td class="wt">10 and 5</td></tr>
-          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-d"></span></td><td class="pd">D</td><td>Design review in class</td><td class="when">Lecture 10 or 11</td><td class="wt">13</td></tr>
-          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-e"></span></td><td class="pd">E</td><td>Project progress presentation</td><td class="when">Lab 6</td><td class="wt">5</td></tr>
-          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-f"></span></td><td class="pd">F</td><td>Client meeting 3</td><td class="when">Lab 7</td><td class="wt">10</td></tr>
-          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-g"></span></td><td class="pd">G</td><td>Project work in class</td><td class="when">Lecture 19</td><td class="wt">7</td></tr>
-          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-h"></span></td><td class="pd">H</td><td>Design day and client meeting 4</td><td class="when">Around lab 11</td><td class="wt">15</td></tr>
-          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-ij"></span></td><td class="pd">I and J</td><td>End of course</td><td class="when">End of course</td><td class="wt">5 and 10</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-a"></span></td><td class="pd">A</td><td>Project plan, and the team's own dates for everything below</td><td class="when"><b>Fri 18 Sept</b></td><td class="src">Brightspace</td><td class="wt">5</td><td class="done">Submitted 20 Sept</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-b"></span></td><td class="pd">B</td><td>Sustainability report and DFX</td><td class="when">Team sets it</td><td class="src">No date on Brightspace</td><td class="wt">10</td><td class="done">Submitted 6 Oct</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-c"></span></td><td class="pd">C</td><td>Problem definition, concepts, project plan</td><td class="when">Team sets it</td><td class="src">No date on Brightspace</td><td class="wt">5</td><td class="done">Submitted 10 Oct</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-d"></span></td><td class="pd">D</td><td>Detailed design and bill of materials</td><td class="when">Team sets it<br>Review Fri 16 Oct</td><td class="src">No date on Brightspace</td><td class="wt">13</td><td class="done">Review is fixed</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-e"></span></td><td class="pd">E</td><td>Prototype 1 and progress presentation</td><td class="when"><b>Sun 18 Oct, 23:59</b><br>Presented Sat 24 Oct</td><td class="src">Brightspace</td><td class="wt">5</td><td class="done">ITP report same day</td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-f"></span></td><td class="pd">F</td><td>Design constraints and prototype 2</td><td class="when">Team sets it<br>Client meeting 3, Sat 14 Nov</td><td class="src">No date on Brightspace</td><td class="wt">10</td><td class="done"></td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-g"></span></td><td class="pd">G</td><td>Economic and IP considerations</td><td class="when">Team sets it</td><td class="src">No date on Brightspace</td><td class="wt">7</td><td class="done"></td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-h"></span></td><td class="pd">H</td><td>Design Day pitch and final prototype</td><td class="when"><b>Tue 1 Dec, 23:59</b></td><td class="src">Brightspace</td><td class="wt">15</td><td class="done"></td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-i"></span></td><td class="pd">I</td><td>Video and user manual</td><td class="when"><b>Wed 9 Dec, 23:59</b></td><td class="src">Brightspace</td><td class="wt">5</td><td class="done"></td></tr>
+          <tr><td class="tick"><span class="box" role="checkbox" tabindex="0" aria-checked="false" data-k="del-j"></span></td><td class="pd">J</td><td>Final presentation</td><td class="when">Team sets it</td><td class="src">No date on Brightspace</td><td class="wt">10</td><td class="done">ITP report Sun 22 Nov</td></tr>
         </tbody>
       </table>
     </div>
@@ -127,6 +132,25 @@
       <div class="fact"><div class="k">Design Test 2 &middot; 5%</div><div class="v"><b>Tue 10 Nov</b><br>In class, lecture 16</div></div>
       <div class="fact"><div class="k">Lab Test &middot; 10%</div><div class="v"><b>Tue 17 or Fri 20 Nov</b><br>Hands-on skills labs</div></div>
       <div class="fact"><div class="k">Economics Test &middot; 10%</div><div class="v"><b>Tue 24 Nov</b><br>In class, lecture 20</div></div>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <caption>Fixed course events, nothing to submit. These are already in the calendar</caption>
+        <thead><tr><th>Date</th><th>What</th></tr></thead>
+        <tbody>
+          <tr class="cal"><td class="when">Fri 9 Oct</td><td>Design Test 1, 5 percent</td></tr>
+          <tr class="cal"><td class="when">Fri 16 Oct</td><td>PD D design review, in the lecture slot. B2, B4 and B5 on Friday, B1 and B3 on Tuesday</td></tr>
+          <tr class="cal"><td class="when">Sat 24 Oct</td><td>Project progress presentation, lab 6</td></tr>
+          <tr class="cal"><td class="when">25 to 31 Oct</td><td>Reading week</td></tr>
+          <tr class="cal"><td class="when">Tue 10 Nov</td><td>Design Test 2, 5 percent</td></tr>
+          <tr class="cal"><td class="when">Sat 14 Nov</td><td>Client meeting 3, lab 8</td></tr>
+          <tr class="cal"><td class="when">Tue 17 or Fri 20 Nov</td><td>Lab Test, 10 percent. Day still unconfirmed</td></tr>
+          <tr class="cal"><td class="when">Tue 24 Nov</td><td>Economics Test, 10 percent</td></tr>
+          <tr class="cal"><td class="when">27 Nov, 1, 4 and 8 Dec</td><td>Final presentations</td></tr>
+          <tr class="cal"><td class="when">Thu 3 Dec</td><td>Design Day and client meeting 4</td></tr>
+        </tbody>
+      </table>
     </div>
     <div class="note">
       <p><b>The Lab Test day is still unconfirmed.</b> It appears on both 17 and 20 November in the material published so far, and the answer comes from the teaching team.</p>
